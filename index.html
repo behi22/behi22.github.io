@@ -5,378 +5,329 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Behbod Babai</title>
 <meta name="description" content="Full-stack engineer in Vancouver. AI agents, voice systems, and the infrastructure that keeps them standing.">
-<meta name="theme-color" content="#080d16">
-<!-- pomegranate, inline so there is no extra request -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='19.5' r='10.5' fill='%23c9304f'/%3E%3Cpath d='M16 9c5 2 8 5.5 8 10.5 0 3-1.5 5.5-4 7 1-2.5 1.2-5.5.4-8.5C19.6 15 18 11.5 16 9z' fill='%23e2506b'/%3E%3Cpath d='M16 10.5c-1.6-2-2.2-4-2-6.5 1.2 1.4 2 2.2 3.2 2.6.5-1 1.4-1.8 2.6-2.3-.4 1.5-.3 2.6.2 3.6-1.3.4-2.6 1.2-4 2.6z' fill='%233f7d55'/%3E%3Ccircle cx='13' cy='18' r='1.5' fill='%23f6d0d8' opacity='.55'/%3E%3Ccircle cx='17.5' cy='22' r='1.3' fill='%23f6d0d8' opacity='.4'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0a1017">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='19.5' r='10.5' fill='%23c9304f'/%3E%3Cpath d='M16 9c5 2 8 5.5 8 10.5 0 3-1.5 5.5-4 7 1-2.5 1.2-5.5.4-8.5C19.6 15 18 11.5 16 9z' fill='%23e2506b'/%3E%3Cpath d='M16 10.5c-1.6-2-2.2-4-2-6.5 1.2 1.4 2 2.2 3.2 2.6.5-1 1.4-1.8 2.6-2.3-.4 1.5-.3 2.6.2 3.6-1.3.4-2.6 1.2-4 2.6z' fill='%233f7d55'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --night:#080d16;
-  --night2:#0c1320;
-  --ink:#eef2f7;
-  --muted:#8593a6;
-  --faint:#59677c;
-  --turq:#5ad3c6;
-  --indigo:#5b7cf5;
-  --pom:#e0455f;
-  --sand:#e9d6b8;
-  --line:rgba(255,255,255,.07);
-  --glass:rgba(255,255,255,.025);
-  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
-  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --bg:#0a1017; --ink:#edf1f6; --muted:#8b98a9; --faint:#4e5c6e;
+  --turq:#5ad3c6; --pom:#e0455f; --line:rgba(255,255,255,.08);
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{
-  background:var(--night);color:var(--ink);font-family:var(--sans);
-  font-weight:300;line-height:1.7;overflow-x:hidden;position:relative;
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;
+  line-height:1.75;text-align:center;overflow-x:hidden}
+::selection{background:var(--turq);color:var(--bg)}
+::-webkit-scrollbar{width:0}
+
+/* ---------- side rail: scroll progress, native scroll-driven ---------- */
+.rail{position:fixed;top:0;right:26px;width:1px;height:100vh;background:var(--line);z-index:5}
+.rail span{display:block;width:100%;height:100%;transform-origin:top;transform:scaleY(0);
+  background:linear-gradient(var(--turq),var(--pom))}
+@supports (animation-timeline: scroll()){
+  .rail span{animation:fill linear;animation-timeline:scroll(root block)}
+  @keyframes fill{to{transform:scaleY(1)}}
 }
-::selection{background:var(--turq);color:var(--night)}
-::-webkit-scrollbar{width:9px}
-::-webkit-scrollbar-track{background:var(--night)}
-::-webkit-scrollbar-thumb{background:#1c2636;border-radius:9px}
-::-webkit-scrollbar-thumb:hover{background:#28374d}
 
-/* ---------- aurora ---------- */
-.aurora{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5}
-.b1{width:52vw;height:52vw;background:radial-gradient(circle,var(--turq),transparent 68%);
-    top:-16vw;left:-10vw;animation:drift1 26s ease-in-out infinite}
-.b2{width:46vw;height:46vw;background:radial-gradient(circle,var(--indigo),transparent 68%);
-    top:22vh;right:-14vw;animation:drift2 32s ease-in-out infinite}
-.b3{width:34vw;height:34vw;background:radial-gradient(circle,var(--pom),transparent 70%);
-    bottom:-10vw;left:24vw;opacity:.32;animation:drift3 38s ease-in-out infinite}
-@keyframes drift1{50%{transform:translate3d(8vw,6vh,0) scale(1.12)}}
-@keyframes drift2{50%{transform:translate3d(-7vw,-5vh,0) scale(.9)}}
-@keyframes drift3{50%{transform:translate3d(5vw,-7vh,0) scale(1.15)}}
-.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.4;
-  background-image:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1px);
-  background-size:3px 3px}
+/* ---------- side marks: decoration off to the sides ---------- */
+.mark{position:absolute;top:146px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+  color:var(--faint);opacity:.6;user-select:none}
+.mark.l{left:-72px}
+.mark.r{right:-72px}
 
-/* ---------- cursor glow ---------- */
-.glow{position:fixed;width:520px;height:520px;border-radius:50%;z-index:1;
-  pointer-events:none;transform:translate(-50%,-50%);
-  background:radial-gradient(circle,rgba(90,211,198,.09),transparent 62%);
-  transition:opacity .5s;opacity:0}
+/* ---------- layout: one centred column ---------- */
+.wrap{max-width:600px;margin:0 auto;padding:0 24px;position:relative}
+section{position:relative;padding:132px 0}
+.hero{padding:0;min-height:100svh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center}
+.label{font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:34px}
 
-/* ---------- layout ---------- */
-.page{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:0 26px}
-section{padding:104px 0}
-.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);
-  font-weight:500;margin-bottom:26px;display:flex;align-items:center;gap:12px}
-.eyebrow::after{content:"";height:1px;flex:1;background:var(--line)}
-
-/* ---------- hero ---------- */
-.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:80px 0 60px}
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(58px,12vw,116px);
-  line-height:.92;letter-spacing:-.022em;margin-bottom:26px}
-h1 .ltr{display:inline-block;opacity:0;transform:translateY(.42em);filter:blur(9px);
-  animation:letterIn .95s cubic-bezier(.22,1,.36,1) forwards;will-change:transform,filter}
-h1 .ltr:hover{color:var(--turq);transform:translateY(-6px);transition:.3s}
-@keyframes letterIn{to{opacity:1;transform:translateY(0);filter:blur(0)}}
+/* ---------- type ---------- */
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(52px,11vw,96px);line-height:1;
+  letter-spacing:-.02em;margin-bottom:22px}
 h1 em{font-style:italic;color:var(--turq)}
-.lede{font-size:clamp(17px,2.1vw,20px);color:var(--muted);max-width:29em;
-  opacity:0;animation:fadeUp .9s .95s cubic-bezier(.22,1,.36,1) forwards}
-.lede b{color:var(--ink);font-weight:400}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-
-/* ---------- waveform ---------- */
-.wave{display:flex;align-items:flex-end;gap:4px;height:38px;margin:38px 0 34px;
-  opacity:0;animation:fadeUp .9s 1.25s cubic-bezier(.22,1,.36,1) forwards}
-.wave i{width:3px;border-radius:3px;background:linear-gradient(to top,var(--turq),var(--indigo));
-  height:20%;animation:eq 1.5s ease-in-out infinite;transform-origin:bottom}
-@keyframes eq{0%,100%{height:16%;opacity:.5}50%{height:100%;opacity:1}}
-.wavecap{font-size:12px;color:var(--faint);letter-spacing:.05em;margin-left:14px;
-  align-self:flex-end;margin-bottom:1px;font-weight:400;white-space:nowrap}
-
-/* ---------- buttons ---------- */
-.cta{display:flex;flex-wrap:wrap;gap:11px;
-  opacity:0;animation:fadeUp .9s 1.45s cubic-bezier(.22,1,.36,1) forwards}
-.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;
-  padding:12px 20px;border-radius:999px;border:1px solid var(--line);
-  background:var(--glass);color:var(--ink);text-decoration:none;font-size:14px;
-  font-weight:400;transition:border-color .3s,transform .3s,color .3s}
-.btn:hover{border-color:var(--turq);color:var(--turq);transform:translateY(-2px)}
-.btn::after{content:"";position:absolute;inset:0;border-radius:999px;opacity:0;
-  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(90,211,198,.18),transparent 60%);
-  transition:opacity .35s}
-.btn:hover::after{opacity:1}
-.btn.solid{background:var(--turq);color:#04121a;border-color:var(--turq);font-weight:500}
-.btn.solid:hover{background:#74e0d4;color:#04121a;transform:translateY(-2px)}
-
-/* ---------- reveal ---------- */
-.rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
-.rv.in{opacity:1;transform:none}
-
-/* ---------- about ---------- */
-.about p{font-size:17px;color:var(--muted);margin-bottom:20px;max-width:34em}
-.about p:last-child{margin-bottom:0}
-.about strong{color:var(--ink);font-weight:400}
+h1 .l{display:inline-block;will-change:transform}
+.tag{font-size:clamp(16px,2vw,18.5px);color:var(--muted);max-width:30em;margin:0 auto}
+.tag b{color:var(--ink);font-weight:400}
+h2{font-family:var(--serif);font-weight:400;font-size:30px;letter-spacing:-.01em;margin-bottom:26px}
+p.body{font-size:16.5px;color:var(--muted);max-width:33em;margin:0 auto 18px}
+p.body:last-child{margin-bottom:0}
+p.body strong{color:var(--ink);font-weight:400}
 .pom{color:var(--pom)}
 
-/* ---------- skills ---------- */
-.skills{display:grid;gap:26px}
-.srow{display:grid;grid-template-columns:118px 1fr;gap:18px;align-items:start}
-.slabel{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
-  padding-top:7px;font-weight:500}
-.chips{display:flex;flex-wrap:wrap;gap:7px}
-.chip{font-size:13px;padding:5px 12px;border-radius:7px;border:1px solid var(--line);
-  background:var(--glass);color:var(--muted);transition:.28s;cursor:default}
-.chip:hover{color:var(--turq);border-color:rgba(90,211,198,.4);transform:translateY(-2px)}
+/* ---------- links, spring magnetised ---------- */
+.links{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;margin-top:46px}
+.lk{position:relative;font-size:14px;color:var(--muted);text-decoration:none;padding:3px 1px;
+  will-change:transform;transition:color .35s}
+.lk::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
+  background:var(--turq);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.lk:hover{color:var(--turq)}
+.lk:hover::after{transform:scaleX(1)}
 
-/* ---------- work ---------- */
-.cards{display:grid;gap:16px}
-.card{position:relative;display:block;text-decoration:none;color:inherit;
-  padding:26px;border-radius:16px;border:1px solid var(--line);background:var(--glass);
-  overflow:hidden;transform-style:preserve-3d;
-  transition:border-color .4s,box-shadow .4s}
-.card::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .4s;
-  background:radial-gradient(560px circle at var(--mx,50%) var(--my,50%),rgba(90,211,198,.07),transparent 42%)}
-.card:hover{border-color:rgba(90,211,198,.32);box-shadow:0 22px 50px -28px rgba(0,0,0,.85)}
-.card:hover::before{opacity:1}
-.card h3{font-family:var(--serif);font-weight:400;font-size:23px;letter-spacing:-.01em;
-  margin-bottom:9px;display:flex;align-items:baseline;gap:9px}
-.card h3 span{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--faint);font-weight:500}
-.card p{font-size:14.5px;color:var(--muted);margin-bottom:15px}
-.stack{display:flex;flex-wrap:wrap;gap:6px}
-.stack i{font-style:normal;font-size:11.5px;letter-spacing:.03em;color:var(--faint);
-  padding:3px 9px;border-radius:5px;background:rgba(255,255,255,.03)}
-.arrow{position:absolute;top:26px;right:26px;color:var(--faint);transition:.35s;font-size:15px}
-.card:hover .arrow{color:var(--turq);transform:translate(4px,-4px)}
+/* ---------- work rows ---------- */
+.row{display:block;text-decoration:none;color:inherit;padding:30px 0;border-top:1px solid var(--line)}
+.row:last-child{border-bottom:1px solid var(--line)}
+.row .t{font-family:var(--serif);font-size:24px;letter-spacing:-.01em;
+  display:inline-flex;align-items:center;gap:10px;transition:color .35s}
+.row .t i{font-style:normal;font-size:16px;color:var(--faint);
+  transform:translateX(-6px);opacity:0;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .45s}
+.row:hover .t{color:var(--turq)}
+.row:hover .t i{transform:translateX(0);opacity:1;color:var(--turq)}
+.row .k{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--faint);margin-top:9px}
+.row .d{font-size:15px;color:var(--muted);max-width:31em;margin:12px auto 0}
+.row .s{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:13px;letter-spacing:.03em}
 
-/* ---------- footer ---------- */
-footer{padding:70px 0 54px;border-top:1px solid var(--line);
-  display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;
-  font-size:13px;color:var(--faint)}
-footer a{color:var(--muted);text-decoration:none;transition:.3s}
+/* ---------- toolkit ---------- */
+.kit{font-size:15px;color:var(--muted);max-width:31em;margin:0 auto}
+.kit div{padding:11px 0;border-top:1px solid var(--line)}
+.kit div:last-child{border-bottom:1px solid var(--line)}
+.kit b{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--faint);font-weight:400;display:block;margin-bottom:4px}
+
+footer{padding:96px 0 72px;font-size:13px;color:var(--faint)}
+footer a{color:var(--muted);text-decoration:none;transition:color .3s}
 footer a:hover{color:var(--turq)}
-.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--turq);
-  margin-right:8px;animation:pulse 2.6s ease-in-out infinite;vertical-align:middle}
-@keyframes pulse{50%{opacity:.25;transform:scale(.7)}}
 
-@media (max-width:620px){
-  section{padding:76px 0}
-  .srow{grid-template-columns:1fr;gap:9px}
-  .slabel{padding-top:0}
-  footer{flex-direction:column}
+/* ---------- scroll-driven reveal, native where available ---------- */
+.rise{opacity:0;transform:translateY(22px)}
+@supports (animation-timeline: view()){
+  .rise{animation:rise .01s linear both;animation-timeline:view();animation-range:entry 8% cover 26%}
+  @keyframes rise{to{opacity:1;transform:none}}
+}
+.rise.seen{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+
+/* hero recedes as you leave it */
+@supports (animation-timeline: view()){
+  .hero .fade{animation:recede .01s linear both;animation-timeline:view();animation-range:exit 0% exit 90%}
+  @keyframes recede{to{opacity:.12;transform:translateY(-26px)}}
+}
+
+@media (max-width:760px){
+  .mark{display:none}
+  .rail{right:12px}
+  section{padding:104px 0}
+  .links{gap:20px}
 }
 @media (prefers-reduced-motion:reduce){
-  *{animation-duration:.001s!important;transition-duration:.001s!important}
-  .blob,.wave i,.dot{animation:none!important}
-  h1 .ltr,.lede,.wave,.cta{opacity:1!important;transform:none!important;filter:none!important}
-  .rv{opacity:1!important;transform:none!important}
+  *{animation:none!important;transition:none!important}
+  .rise{opacity:1!important;transform:none!important}
+  .hero .fade{opacity:1!important;transform:none!important}
+  .rail span{transform:scaleY(0)!important}
   html{scroll-behavior:auto}
 }
 </style>
 </head>
 <body>
 
-<div class="aurora"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
-<div class="grain"></div>
-<div class="glow" id="glow"></div>
+<div class="rail"><span></span></div>
 
-<div class="page">
+<div class="wrap">
 
-  <section class="hero">
-    <h1 id="name">Behbod <em>Babai</em></h1>
+  <header class="hero">
+    <div class="fade">
+      <div class="label">Vancouver, BC</div>
+      <h1 id="name">Behbod <em>Babai</em></h1>
+      <p class="tag">
+        Full-stack engineer. I build <b>AI agents and voice systems</b>, and the
+        infrastructure that keeps them standing once real people start calling.
+      </p>
+      <nav class="links">
+        <a class="lk mag" href="Behbod_Babai_Resume.pdf">Resume</a>
+        <a class="lk mag" href="https://github.com/behi22">GitHub</a>
+        <a class="lk mag" href="https://www.linkedin.com/in/behbod-babai">LinkedIn</a>
+        <a class="lk mag" href="mailto:behibabai@gmail.com">Email</a>
+      </nav>
+    </div>
+  </header>
 
-    <p class="lede">
-      Full-stack engineer in Vancouver. I build <b>AI agents and voice systems</b>,
-      and the infrastructure that keeps them standing once real people start calling.
-    </p>
-
-    <div class="wave" id="wave"><span class="wavecap">voice, mostly</span></div>
-
-    <div class="cta">
-      <a class="btn solid" href="Behbod_Babai_Resume.pdf">Résumé</a>
-      <a class="btn" href="https://github.com/behi22">GitHub</a>
-      <a class="btn" href="https://www.linkedin.com/in/behbod-babai">LinkedIn</a>
-      <a class="btn" href="mailto:behibabai@gmail.com">Email</a>
+  <section>
+    <span class="mark l">01</span>
+    <div class="rise">
+      <h2>What I do</h2>
+      <p class="body">
+        Most of my week goes into AI agents and voice: prompt work, RAG pipelines, and the
+        <strong>guardrails that stop an agent wandering off script</strong> halfway through a call.
+        The rest goes into the parts nobody demos, like the deploy pipeline my team ships through.
+      </p>
+      <p class="body">
+        I like problems that cross the whole stack, where the bug could be in a React component
+        or in a Twilio webhook and you genuinely do not know which yet.
+      </p>
+      <p class="body">
+        Away from the keyboard: FPS games, more music than is reasonable, and an ongoing
+        <span class="pom">pomegranate juice</span> habit.
+      </p>
     </div>
   </section>
 
-  <section class="about rv">
-    <div class="eyebrow">About</div>
-    <p>
-      Most of my week goes into AI agents and voice: prompt work, RAG pipelines, and the
-      <strong>guardrails that stop an agent wandering off script</strong> halfway through a call.
-      The rest goes into the unglamorous parts that make it survive contact with real users,
-      like the deploy pipeline my team ships through.
-    </p>
-    <p>
-      I like problems that cross the whole stack, where the bug could be in a React component
-      or in a Twilio webhook and you genuinely do not know which yet.
-    </p>
-    <p>
-      Away from the keyboard: FPS games, more music than is reasonable, and an ongoing
-      <span class="pom">pomegranate juice</span> habit.
-    </p>
-  </section>
+  <section>
+    <span class="mark r">02</span>
+    <div class="rise">
+      <h2>Selected work</h2>
 
-  <section class="rv">
-    <div class="eyebrow">Toolkit</div>
-    <div class="skills">
-      <div class="srow"><div class="slabel">Front end</div><div class="chips">
-        <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Next.js</span>
-        <span class="chip">Redux</span><span class="chip">Tailwind</span><span class="chip">Framer Motion</span>
-      </div></div>
-      <div class="srow"><div class="slabel">Back end</div><div class="chips">
-        <span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">Python</span>
-        <span class="chip">PostgreSQL</span><span class="chip">Redis</span><span class="chip">REST</span>
-        <span class="chip">Webhooks</span>
-      </div></div>
-      <div class="srow"><div class="slabel">AI</div><div class="chips">
-        <span class="chip">Agents</span><span class="chip">RAG</span><span class="chip">Prompt engineering</span>
-        <span class="chip">Guardrails</span><span class="chip">OpenAI</span><span class="chip">Claude</span>
-        <span class="chip">Vapi</span><span class="chip">ElevenLabs</span><span class="chip">Twilio</span>
-      </div></div>
-      <div class="srow"><div class="slabel">Infra</div><div class="chips">
-        <span class="chip">AWS</span><span class="chip">Linux</span><span class="chip">Docker</span>
-        <span class="chip">GitHub Actions</span><span class="chip">CI/CD</span><span class="chip">Cloudflare</span>
-      </div></div>
-    </div>
-  </section>
-
-  <section class="rv">
-    <div class="eyebrow">Selected work</div>
-    <div class="cards">
-
-      <a class="card tilt" href="https://github.com/behi22/aic-voice-microsite">
-        <span class="arrow">↗</span>
-        <h3>Voice Agent Microsite <span>system design</span></h3>
-        <p>An interactive proposal for a restaurant voice agent: AI IVR, conversational ordering
-        and reservations, and the handoff to a human when it stops going well. Call flows, data
-        model, API surface and DevOps plan all written down.</p>
-        <div class="stack"><i>Next.js</i><i>TypeScript</i><i>Tailwind</i><i>Framer Motion</i><i>Recharts</i></div>
+      <a class="row" href="https://github.com/behi22/aic-voice-microsite">
+        <span class="t">Voice Agent Microsite <i>&#8599;</i></span>
+        <div class="k">System design</div>
+        <div class="d">An interactive proposal for a restaurant voice agent: AI IVR, conversational
+          ordering, and the handoff to a human when it stops going well.</div>
+        <div class="s">Next.js &middot; TypeScript &middot; Tailwind &middot; Recharts</div>
       </a>
 
-      <a class="card tilt" href="https://github.com/behi22/PettyAF">
-        <span class="arrow">↗</span>
-        <h3>Outbound Voice Agent <span>hackathon</span></h3>
-        <p>AI voice agents that place real outbound calls, with live monitoring and transcripts.
-        Built in a weekend, wrapped in a deliberately over serious fintech UI.</p>
-        <div class="stack"><i>React</i><i>Vite</i><i>Express</i><i>TypeScript</i><i>Vercel</i></div>
+      <a class="row" href="https://github.com/behi22/PettyAF">
+        <span class="t">Outbound Voice Agent <i>&#8599;</i></span>
+        <div class="k">Hackathon</div>
+        <div class="d">AI voice agents that place real outbound calls, with live monitoring and
+          transcripts. Built in a weekend.</div>
+        <div class="s">React &middot; Vite &middot; Express &middot; TypeScript</div>
       </a>
 
-      <a class="card tilt" href="https://github.com/behi22/visitor-classifier">
-        <span class="arrow">↗</span>
-        <h3>Visitor Classifier <span>python api</span></h3>
-        <p>Scrapes a site, then works out who is visiting it and why. Python service behind a
-        Redis cache and Postgres, with a React front end on top.</p>
-        <div class="stack"><i>Python</i><i>Redis</i><i>PostgreSQL</i><i>React</i><i>Render</i></div>
+      <a class="row" href="https://github.com/behi22/visitor-classifier">
+        <span class="t">Visitor Classifier <i>&#8599;</i></span>
+        <div class="k">Python API</div>
+        <div class="d">Scrapes a site, then works out who is visiting it and why. Python service
+          behind a Redis cache and Postgres.</div>
+        <div class="s">Python &middot; Redis &middot; PostgreSQL &middot; React</div>
       </a>
-
     </div>
   </section>
 
-  <footer>
-    <div><span class="dot"></span>Vancouver, BC</div>
-    <div>
-      <a href="https://github.com/behi22">github.com/behi22</a> &nbsp;·&nbsp;
-      <a href="mailto:behibabai@gmail.com">behibabai@gmail.com</a>
+  <section>
+    <span class="mark l">03</span>
+    <div class="rise">
+      <h2>Toolkit</h2>
+      <div class="kit">
+        <div><b>Front end</b>React &middot; TypeScript &middot; Next.js &middot; Redux &middot; Tailwind</div>
+        <div><b>Back end</b>Node.js &middot; Express &middot; Python &middot; PostgreSQL &middot; Redis</div>
+        <div><b>AI</b>Agents &middot; RAG &middot; Prompt engineering &middot; Guardrails &middot; OpenAI &middot; Claude &middot; Vapi &middot; ElevenLabs &middot; Twilio</div>
+        <div><b>Infra</b>AWS &middot; Linux &middot; Docker &middot; GitHub Actions &middot; CI/CD &middot; Cloudflare</div>
+      </div>
     </div>
+  </section>
+
+  <footer class="rise">
+    <a href="mailto:behibabai@gmail.com">behibabai@gmail.com</a>
   </footer>
 
 </div>
 
 <script>
 (function(){
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = matchMedia('(pointer:fine)').matches;
 
-  /* split the name into letters so each can animate on its own */
+  /* ---- shared spring integrator: stiffness / damping, not an easing curve ---- */
+  function Spring(k, d, m){
+    this.k=k; this.d=d; this.m=m||1; this.x=0; this.v=0; this.target=0;
+  }
+  Spring.prototype.step = function(dt){
+    var f = -this.k*(this.x-this.target) - this.d*this.v;
+    this.v += (f/this.m)*dt;
+    this.x += this.v*dt;
+    return this.x;
+  };
+
+  /* ---- 1. name letters drop in on a spring (overshoot, then settle) ---- */
   var h1 = document.getElementById('name');
-  (function split(node){
-    var out = '';
-    var walk = function(el){
-      Array.prototype.forEach.call(el.childNodes, function(n){
-        if(n.nodeType === 3){
-          /* one pass only: a second replace would mangle the spaces inside the
-             markup this pass just produced */
-          out += n.textContent.replace(/[\s\S]/g, function(c){
-            return c === ' '
-              ? '<span class="ltr">&nbsp;</span>'
-              : '<span class="ltr">'+c+'</span>';
-          });
-        } else {
-          out += '<em>'; walk(n); out += '</em>';
-        }
+  (function(){
+    var out='';
+    Array.prototype.forEach.call(h1.childNodes, function(n){
+      if(n.nodeType===3){
+        out += n.textContent.replace(/[\s\S]/g,function(c){
+          return c===' ' ? '<span class="l">&nbsp;</span>' : '<span class="l">'+c+'</span>';
+        });
+      } else {
+        out += '<em>';
+        out += n.textContent.replace(/[\s\S]/g,function(c){
+          return c===' ' ? '<span class="l">&nbsp;</span>' : '<span class="l">'+c+'</span>';
+        });
+        out += '</em>';
+      }
+    });
+    h1.innerHTML = out;
+  })();
+
+  var letters = [].slice.call(h1.querySelectorAll('.l'));
+  if(reduce){
+    letters.forEach(function(l){ l.style.opacity=1; });
+  } else {
+    var springs = letters.map(function(l,i){
+      var s = new Spring(150, 15);
+      s.x = -46; s.delay = 0.055*i; s.el = l; s.t = 0;
+      l.style.opacity = 0;
+      return s;
+    });
+    var last = performance.now();
+    (function anim(now){
+      var dt = Math.min((now-last)/1000, 0.032);
+      last = now;
+      var moving = false;
+      springs.forEach(function(s){
+        s.t += dt;
+        if(s.t < s.delay) { moving = true; return; }
+        s.step(dt);
+        s.el.style.opacity = 1;
+        s.el.style.transform = 'translateY('+s.x.toFixed(2)+'px)';
+        if(Math.abs(s.x) > 0.05 || Math.abs(s.v) > 0.05) moving = true;
       });
-    };
-    walk(node);
-    node.innerHTML = out;
-  })(h1);
-  var ltrs = h1.querySelectorAll('.ltr');
-  Array.prototype.forEach.call(ltrs, function(l,i){ l.style.animationDelay = (0.16 + i*0.045)+'s'; });
-
-  /* waveform bars */
-  var wave = document.getElementById('wave');
-  var cap = wave.firstElementChild;
-  /* bar count follows available width: 34 bars plus the caption overflows a 360px
-     phone, so derive it instead of hard coding */
-  var capW = cap.getBoundingClientRect().width || 88;
-  var avail = wave.clientWidth - capW - 18;
-  var bars = Math.max(10, Math.min(34, Math.floor(avail / 7)));
-  for(var i=0;i<bars;i++){
-    var b = document.createElement('i');
-    /* static fallback height: the running animation overrides this, but with
-       reduced motion it is what shows, so it must still read as a waveform */
-    b.style.height = (18 + Math.abs(Math.sin(i*0.9))*62).toFixed(0)+'%';
-    b.style.animationDelay = (i*0.07)+'s';
-    b.style.animationDuration = (1.15 + (i%5)*0.18)+'s';
-    wave.insertBefore(b, cap);
+      if(moving) requestAnimationFrame(anim);
+      else springs.forEach(function(s){ s.el.style.transform=''; });
+    })(last);
   }
 
-  /* cursor glow, only for real pointers */
-  var glow = document.getElementById('glow');
-  if(!reduce && window.matchMedia('(pointer:fine)').matches){
-    var gx=0, gy=0, cx=0, cy=0, on=false;
-    window.addEventListener('mousemove', function(e){
-      gx=e.clientX; gy=e.clientY;
-      if(!on){ on=true; glow.style.opacity=1; }
+  /* ---- 2. links magnetise toward the cursor on a spring ---- */
+  if(fine && !reduce){
+    var mags = [].slice.call(document.querySelectorAll('.mag')).map(function(el){
+      return {el:el, sx:new Spring(220,18), sy:new Spring(220,18)};
     });
-    (function loop(){
-      cx += (gx-cx)*0.1; cy += (gy-cy)*0.1;
-      glow.style.left=cx+'px'; glow.style.top=cy+'px';
-      requestAnimationFrame(loop);
-    })();
-  }
-
-  /* pointer position for card and button sheen */
-  document.addEventListener('mousemove', function(e){
-    var t = e.target.closest ? e.target.closest('.card,.btn') : null;
-    if(!t) return;
-    var r = t.getBoundingClientRect();
-    t.style.setProperty('--mx', (e.clientX-r.left)+'px');
-    t.style.setProperty('--my', (e.clientY-r.top)+'px');
-  });
-
-  /* subtle tilt toward the cursor */
-  if(!reduce && window.matchMedia('(pointer:fine)').matches){
-    Array.prototype.forEach.call(document.querySelectorAll('.tilt'), function(card){
-      card.addEventListener('mousemove', function(e){
-        var r = card.getBoundingClientRect();
-        var px = (e.clientX-r.left)/r.width - .5;
-        var py = (e.clientY-r.top)/r.height - .5;
-        card.style.transform = 'perspective(900px) rotateY('+(px*3.4)+'deg) rotateX('+(-py*3.4)+'deg) translateY(-3px)';
+    var mx=0, my=0, running=false;
+    addEventListener('mousemove', function(e){
+      mx=e.clientX; my=e.clientY;
+      if(!running){ running=true; requestAnimationFrame(tick); }
+    });
+    var prev = performance.now();
+    function tick(now){
+      var dt = Math.min((now-prev)/1000, 0.032); prev=now;
+      var active=false;
+      mags.forEach(function(m){
+        var r = m.el.getBoundingClientRect();
+        var cx = r.left+r.width/2, cy = r.top+r.height/2;
+        var dx = mx-cx, dy = my-cy;
+        var dist = Math.hypot(dx,dy);
+        var pull = dist < 130 ? (1 - dist/130) : 0;
+        m.sx.target = dx*pull*0.34;
+        m.sy.target = dy*pull*0.34;
+        m.sx.step(dt); m.sy.step(dt);
+        m.el.style.transform = 'translate('+m.sx.x.toFixed(2)+'px,'+m.sy.x.toFixed(2)+'px)';
+        if(Math.abs(m.sx.x)>0.05||Math.abs(m.sy.x)>0.05||pull>0) active=true;
       });
-      card.addEventListener('mouseleave', function(){ card.style.transform=''; });
-    });
+      if(active) requestAnimationFrame(tick); else running=false;
+    }
   }
 
-  /* scroll reveals, staggered per child */
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
-    });
-  },{threshold:.14, rootMargin:'0px 0px -8% 0px'});
-  Array.prototype.forEach.call(document.querySelectorAll('.rv'), function(el,i){
-    el.style.transitionDelay = (i*0.06)+'s';
-    io.observe(el);
-  });
+  /* ---- 3. scroll reveal fallback where scroll-driven CSS is unsupported ---- */
+  if(!CSS.supports('animation-timeline: view()')){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); io.unobserve(e.target); } });
+    },{threshold:.12, rootMargin:'0px 0px -6% 0px'});
+    document.querySelectorAll('.rise').forEach(function(el){ io.observe(el); });
+  }
+
+  /* rail fallback */
+  if(!CSS.supports('animation-timeline: scroll(root block)')){
+    var bar = document.querySelector('.rail span');
+    addEventListener('scroll', function(){
+      var h = document.documentElement.scrollHeight - innerHeight;
+      bar.style.transform = 'scaleY('+(h>0 ? scrollY/h : 0)+')';
+    }, {passive:true});
+  }
 })();
 </script>
 </body>
-</html>
+               </html>
