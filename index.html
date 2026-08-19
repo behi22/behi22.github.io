@@ -1,9 +1,92 @@
-<html>
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Behbod Babai | Full-Stack Engineer</title>
+<meta name="description" content="Full-Stack Engineer in Vancouver, BC. AI systems, agents, and voice AI. React, TypeScript, Node.js, AWS.">
+<style>
+  :root{
+    --bg:#fbfbfa; --fg:#1a1a1a; --muted:#5c5c5c; --line:#e3e3e0; --accent:#1f6feb; --card:#ffffff;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --bg:#0f1115; --fg:#eceef2; --muted:#9aa1ad; --line:#242833; --accent:#6ea8fe; --card:#161922; }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--fg);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding:64px 20px; display:flex; justify-content:center;
+  }
+  .wrap{width:100%;max-width:640px}
+  h1{font-size:32px;letter-spacing:-.02em;line-height:1.2}
+  .tag{color:var(--accent);font-weight:600;margin-top:6px}
+  .loc{color:var(--muted);font-size:14px;margin-top:4px}
+  p.intro{margin-top:22px;color:var(--fg)}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);
+     margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  ul{list-style:none}
+  .links li{margin-bottom:10px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .links .what{color:var(--muted);font-size:14px}
+  .proj{background:var(--card);border:1px solid var(--line);border-radius:10px;
+        padding:16px 18px;margin-bottom:12px}
+  .proj .name{font-weight:600}
+  .proj .desc{color:var(--muted);font-size:14px;margin-top:5px}
+  .proj .stack{color:var(--muted);font-size:12.5px;margin-top:8px}
+  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);
+         color:var(--muted);font-size:13px}
+</style>
+</head>
 <body>
+<div class="wrap">
+
   <h1>Behbod Babai</h1>
-  <p>Welcome to my website!</p>
-  <img src="https://content.codecademy.com/articles/github-pages-via-web-app/happy-ice-cream.gif" />
+  <div class="tag">Full-Stack Engineer | AI systems, agents, and voice AI</div>
+  <div class="loc">Vancouver, BC, Canada</div>
+
+  <p class="intro">
+    I build AI systems end to end: agents, RAG pipelines, and voice AI, plus the
+    React and TypeScript front ends, Node.js services, and AWS infrastructure around them.
+    Currently at Alexander Innovation Centre, where I own architecture across AI platforms,
+    integrations, and the CI/CD my team deploys through.
+  </p>
+
+  <h2>Links</h2>
+  <ul class="links">
+    <li><a href="https://github.com/behi22">github.com/behi22</a> <span class="what">personal projects</span></li>
+    <li><a href="https://github.com/behbod-babai">github.com/behbod-babai</a> <span class="what">work account, private repos</span></li>
+    <li><a href="https://www.linkedin.com/in/behbod-babai">linkedin.com/in/behbod-babai</a></li>
+    <li><a href="mailto:behibabai@gmail.com">behibabai@gmail.com</a></li>
+  </ul>
+
+  <h2>Selected work</h2>
+
+  <div class="proj">
+    <div class="name"><a href="https://github.com/behi22/aic-voice-microsite">AI Voice Agent Microsite</a></div>
+    <div class="desc">Interactive system-design proposal for a restaurant voice agent: AI IVR,
+      conversational ordering and reservations, and human handoff, with call flows,
+      data model, API surface, and a DevOps plan documented.</div>
+    <div class="stack">Next.js, TypeScript, Tailwind, Framer Motion, Recharts</div>
+  </div>
+
+  <div class="proj">
+    <div class="name"><a href="https://github.com/behi22/PettyAF">AI Outbound Voice Agent</a></div>
+    <div class="desc">Hackathon project. AI voice agents that place real outbound calls,
+      with live call monitoring and transcripts.</div>
+    <div class="stack">React, Vite, Express, TypeScript, Vercel</div>
+  </div>
+
+  <div class="proj">
+    <div class="name"><a href="https://github.com/behi22/visitor-classifier">Visitor Classifier</a></div>
+    <div class="desc">Web scraping and visitor classification service with a Python API,
+      Redis caching, and PostgreSQL, plus a React front end.</div>
+    <div class="stack">Python, Redis, PostgreSQL, React, Render</div>
+  </div>
+
+  <footer>Built and hosted on GitHub Pages.</footer>
+
+</div>
 </body>
- 
 </html>
