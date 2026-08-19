@@ -5,15 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Behbod Babai</title>
 <meta name="description" content="Full-stack engineer in Vancouver. AI agents, voice systems, and the infrastructure that keeps them standing.">
-<meta name="theme-color" content="#0a1017">
+<meta name="theme-color" content="#080e18">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='19.5' r='10.5' fill='%23c9304f'/%3E%3Cpath d='M16 9c5 2 8 5.5 8 10.5 0 3-1.5 5.5-4 7 1-2.5 1.2-5.5.4-8.5C19.6 15 18 11.5 16 9z' fill='%23e2506b'/%3E%3Cpath d='M16 10.5c-1.6-2-2.2-4-2-6.5 1.2 1.4 2 2.2 3.2 2.6.5-1 1.4-1.8 2.6-2.3-.4 1.5-.3 2.6.2 3.6-1.3.4-2.6 1.2-4 2.6z' fill='%233f7d55'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0a1017; --ink:#edf1f6; --muted:#8b98a9; --faint:#4e5c6e;
-  --turq:#5ad3c6; --pom:#e0455f; --line:rgba(255,255,255,.08);
+  --bg:#080e18; --bg2:#0c1422;
+  --ink:#f2f6fb; --muted:#a2b0c4; --faint:#5d6d84;
+  --turq:#3ee6d0; --turq2:#7af3e2; --pom:#ff4f6d; --gold:#f5c470;
+  --line:rgba(255,255,255,.10); --glass:rgba(255,255,255,.035);
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -21,104 +23,149 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;
-  line-height:1.75;text-align:center;overflow-x:hidden}
-::selection{background:var(--turq);color:var(--bg)}
+  font-size:17px;line-height:1.7;text-align:center;overflow-x:hidden}
+::selection{background:var(--turq);color:#04121a}
 ::-webkit-scrollbar{width:0}
 
-/* ---------- side rail: scroll progress, native scroll-driven ---------- */
-.rail{position:fixed;top:0;right:26px;width:1px;height:100vh;background:var(--line);z-index:5}
-.rail span{display:block;width:100%;height:100%;transform-origin:top;transform:scaleY(0);
+/* soft ground so it is not flat black */
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(60vw 50vh at 18% 8%, rgba(62,230,208,.10), transparent 70%),
+    radial-gradient(55vw 45vh at 85% 42%, rgba(91,124,245,.10), transparent 72%),
+    radial-gradient(50vw 40vh at 45% 92%, rgba(255,79,109,.08), transparent 72%)}
+
+/* ---------- scroll rail ---------- */
+.rail{position:fixed;top:0;right:22px;width:2px;height:100vh;background:var(--line);z-index:6;border-radius:2px}
+.rail span{display:block;width:100%;height:100%;transform-origin:top;transform:scaleY(0);border-radius:2px;
   background:linear-gradient(var(--turq),var(--pom))}
 @supports (animation-timeline: scroll()){
   .rail span{animation:fill linear;animation-timeline:scroll(root block)}
   @keyframes fill{to{transform:scaleY(1)}}
 }
 
-/* ---------- side marks: decoration off to the sides ---------- */
-.mark{position:absolute;top:146px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
-  color:var(--faint);opacity:.6;user-select:none}
-.mark.l{left:-72px}
-.mark.r{right:-72px}
+.wrap{max-width:720px;margin:0 auto;padding:0 22px;position:relative;z-index:2}
+section{position:relative;padding:88px 0}
 
-/* ---------- layout: one centred column ---------- */
-.wrap{max-width:600px;margin:0 auto;padding:0 24px;position:relative}
-section{position:relative;padding:132px 0}
-.hero{padding:0;min-height:100svh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center}
-.label{font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--faint);margin-bottom:34px}
-
-/* ---------- type ---------- */
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(52px,11vw,96px);line-height:1;
-  letter-spacing:-.02em;margin-bottom:22px}
-h1 em{font-style:italic;color:var(--turq)}
-h1 .l{display:inline-block;will-change:transform}
-.tag{font-size:clamp(16px,2vw,18.5px);color:var(--muted);max-width:30em;margin:0 auto}
+/* ---------- hero ---------- */
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--turq);margin-bottom:28px;opacity:0;animation:kick 1s 1.5s both}
+@keyframes kick{from{opacity:0;letter-spacing:.5em}to{opacity:.9;letter-spacing:.3em}}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(60px,13.5vw,124px);line-height:.95;
+  letter-spacing:-.025em;margin-bottom:24px;position:relative}
+h1 .l{display:inline-block;will-change:transform,filter;opacity:0}
+h1 em{font-style:italic}
+h1 em .l{background-image:linear-gradient(100deg,var(--turq),var(--turq2) 45%,var(--gold));
+  background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:var(--turq2)}
+h1.lit em .l{filter:drop-shadow(0 0 22px rgba(62,230,208,.34))}
+h1 em .l{transition:filter 1.2s ease}
+.tag{font-size:clamp(18px,2.3vw,22px);color:var(--muted);max-width:26em;margin:0 auto;
+  opacity:0;animation:up 1s 1.75s cubic-bezier(.2,1,.3,1) both}
 .tag b{color:var(--ink);font-weight:400}
-h2{font-family:var(--serif);font-weight:400;font-size:30px;letter-spacing:-.01em;margin-bottom:26px}
-p.body{font-size:16.5px;color:var(--muted);max-width:33em;margin:0 auto 18px}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.scrollcue{margin-top:52px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--faint);opacity:0;animation:up 1s 2.1s both}
+.scrollcue span{display:block;width:1px;height:34px;margin:12px auto 0;
+  background:linear-gradient(var(--turq),transparent);animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+
+/* ---------- numbers ---------- */
+.stats{display:flex;justify-content:center;gap:0;flex-wrap:wrap;margin:0 auto;max-width:620px}
+.stat{flex:1 1 30%;min-width:150px;padding:20px 10px}
+.stat b{display:block;font-family:var(--serif);font-size:clamp(38px,6vw,54px);line-height:1;
+  color:var(--turq);letter-spacing:-.02em}
+.stat i{font-style:normal;display:block;font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--faint);margin-top:10px}
+
+/* ---------- scroll stages: a prop slides in, tied to scroll ---------- */
+.stage{min-height:74svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 0;position:relative}
+.prop{width:min(330px,74vw);height:auto;display:block;margin-bottom:26px;overflow:visible}
+.stage h3{font-family:var(--serif);font-size:clamp(30px,5vw,42px);font-weight:400;letter-spacing:-.015em;margin-bottom:10px}
+.stage p{color:var(--muted);font-size:16.5px;max-width:24em;margin:0 auto 24px}
+.go{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-decoration:none;
+  padding:14px 26px;border-radius:999px;border:1px solid var(--line);background:var(--glass);
+  will-change:transform;transition:border-color .35s,color .35s,background .35s}
+.go:hover{border-color:var(--turq);color:var(--turq);background:rgba(62,230,208,.07)}
+.go svg{width:14px;height:14px;transition:transform .35s cubic-bezier(.2,1,.3,1)}
+.go:hover svg{transform:translate(3px,-3px)}
+
+/* scroll-linked entries. transform is scrubbed by scroll position. */
+.from-r{transform:translateX(115%) rotate(9deg);opacity:0}
+.from-l{transform:translateX(-115%) rotate(-9deg);opacity:0}
+.from-b{transform:translateY(85%);opacity:0}
+@supports (animation-timeline: view()){
+  .from-r{animation:inR linear both;animation-timeline:view();animation-range:entry 4% cover 42%}
+  .from-l{animation:inL linear both;animation-timeline:view();animation-range:entry 4% cover 42%}
+  .from-b{animation:inB linear both;animation-timeline:view();animation-range:entry 4% cover 42%}
+  @keyframes inR{to{transform:none;opacity:1}}
+  @keyframes inL{to{transform:none;opacity:1}}
+  @keyframes inB{to{transform:none;opacity:1}}
+}
+.from-r.in,.from-l.in,.from-b.in{transform:none;opacity:1;
+  transition:transform 1s cubic-bezier(.16,1.1,.3,1),opacity .8s}
+
+/* prop hover life */
+.propwrap{cursor:pointer;display:inline-block;will-change:transform;color:inherit;text-decoration:none}
+.propwrap h3,.propwrap p{color:inherit}
+.propwrap:hover .sheet{transform:translateY(-7px) rotate(-1.5deg)}
+.sheet{transition:transform .5s cubic-bezier(.2,1,.3,1)}
+.propwrap:hover .glowdot{opacity:1}
+.glowdot{opacity:0;transition:opacity .5s}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(26px)}
+@supports (animation-timeline: view()){
+  .rv{animation:rise .01s linear both;animation-timeline:view();animation-range:entry 6% cover 24%}
+  @keyframes rise{to{opacity:1;transform:none}}
+}
+.rv.in{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.2,1,.3,1),transform .8s cubic-bezier(.2,1,.3,1)}
+
+/* ---------- content ---------- */
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,5.5vw,44px);letter-spacing:-.02em;margin-bottom:14px}
+.sub{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--turq);margin-bottom:22px;opacity:.85}
+p.body{font-size:18px;color:var(--muted);max-width:31em;margin:0 auto 20px}
 p.body:last-child{margin-bottom:0}
 p.body strong{color:var(--ink);font-weight:400}
 .pom{color:var(--pom)}
 
-/* ---------- links, spring magnetised ---------- */
-.links{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;margin-top:46px}
-.lk{position:relative;font-size:14px;color:var(--muted);text-decoration:none;padding:3px 1px;
-  will-change:transform;transition:color .35s}
-.lk::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
-  background:var(--turq);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.22,1,.36,1)}
-.lk:hover{color:var(--turq)}
-.lk:hover::after{transform:scaleX(1)}
-
-/* ---------- work rows ---------- */
-.row{display:block;text-decoration:none;color:inherit;padding:30px 0;border-top:1px solid var(--line)}
-.row:last-child{border-bottom:1px solid var(--line)}
-.row .t{font-family:var(--serif);font-size:24px;letter-spacing:-.01em;
-  display:inline-flex;align-items:center;gap:10px;transition:color .35s}
-.row .t i{font-style:normal;font-size:16px;color:var(--faint);
-  transform:translateX(-6px);opacity:0;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .45s}
+.row{display:block;text-decoration:none;color:inherit;padding:26px 22px;border-radius:16px;
+  border:1px solid var(--line);background:var(--glass);margin-bottom:14px;
+  will-change:transform;transition:border-color .4s,background .4s}
+.row:hover{border-color:rgba(62,230,208,.4);background:rgba(62,230,208,.05)}
+.row .t{font-family:var(--serif);font-size:26px;letter-spacing:-.01em;transition:color .35s}
 .row:hover .t{color:var(--turq)}
-.row:hover .t i{transform:translateX(0);opacity:1;color:var(--turq)}
-.row .k{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--faint);margin-top:9px}
-.row .d{font-size:15px;color:var(--muted);max-width:31em;margin:12px auto 0}
-.row .s{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:13px;letter-spacing:.03em}
+.row .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-top:8px}
+.row .d{font-size:16px;color:var(--muted);max-width:30em;margin:12px auto 0}
+.row .s{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-top:13px}
 
-/* ---------- toolkit ---------- */
-.kit{font-size:15px;color:var(--muted);max-width:31em;margin:0 auto}
-.kit div{padding:11px 0;border-top:1px solid var(--line)}
+.kit{max-width:32em;margin:0 auto;font-size:16.5px;color:var(--muted)}
+.kit div{padding:14px 0;border-top:1px solid var(--line)}
 .kit div:last-child{border-bottom:1px solid var(--line)}
-.kit b{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--faint);font-weight:400;display:block;margin-bottom:4px}
+.kit b{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--turq);font-weight:400;display:block;margin-bottom:6px;opacity:.85}
 
-footer{padding:96px 0 72px;font-size:13px;color:var(--faint)}
-footer a{color:var(--muted);text-decoration:none;transition:color .3s}
-footer a:hover{color:var(--turq)}
+footer{padding:80px 0 64px;font-size:14px;color:var(--faint)}
+footer a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:.3s}
+footer a:hover{color:var(--turq);border-color:var(--turq)}
 
-/* ---------- scroll-driven reveal, native where available ---------- */
-.rise{opacity:0;transform:translateY(22px)}
-@supports (animation-timeline: view()){
-  .rise{animation:rise .01s linear both;animation-timeline:view();animation-range:entry 8% cover 26%}
-  @keyframes rise{to{opacity:1;transform:none}}
-}
-.rise.seen{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
-
-/* hero recedes as you leave it */
-@supports (animation-timeline: view()){
-  .hero .fade{animation:recede .01s linear both;animation-timeline:view();animation-range:exit 0% exit 90%}
-  @keyframes recede{to{opacity:.12;transform:translateY(-26px)}}
-}
-
-@media (max-width:760px){
-  .mark{display:none}
-  .rail{right:12px}
-  section{padding:104px 0}
-  .links{gap:20px}
+@media (max-width:720px){
+  body{font-size:16px}
+  section{padding:66px 0}
+  .stage{min-height:auto;padding:54px 0}
+  .prop{width:min(260px,72vw);margin-bottom:20px}
+  .rail{right:10px}
+  .stat{flex:1 1 0;min-width:0;padding:14px 3px}
+  .stat b{font-size:clamp(29px,8.5vw,40px)}
+  .stat i{font-size:9px;letter-spacing:.04em;margin-top:8px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
-  .rise{opacity:1!important;transform:none!important}
-  .hero .fade{opacity:1!important;transform:none!important}
+  .rv,.from-r,.from-l,.from-b{opacity:1!important;transform:none!important}
+  h1 .l,.tag,.kicker,.scrollcue{opacity:1!important;transform:none!important}
   .rail span{transform:scaleY(0)!important}
   html{scroll-behavior:auto}
 }
@@ -131,87 +178,213 @@ footer a:hover{color:var(--turq)}
 <div class="wrap">
 
   <header class="hero">
-    <div class="fade">
-      <div class="label">Vancouver, BC</div>
-      <h1 id="name">Behbod <em>Babai</em></h1>
-      <p class="tag">
-        Full-stack engineer. I build <b>AI agents and voice systems</b>, and the
-        infrastructure that keeps them standing once real people start calling.
-      </p>
-      <nav class="links">
-        <a class="lk mag" href="Behbod_Babai_Resume.pdf">Resume</a>
-        <a class="lk mag" href="https://github.com/behi22">GitHub</a>
-        <a class="lk mag" href="https://www.linkedin.com/in/behbod-babai">LinkedIn</a>
-        <a class="lk mag" href="mailto:behibabai@gmail.com">Email</a>
-      </nav>
-    </div>
+    <div class="kicker">Vancouver, BC</div>
+    <h1 id="name">Behbod <em>Babai</em></h1>
+    <p class="tag">Full-stack engineer. I build <b>AI agents and voice systems</b>, and the
+      infrastructure that keeps them standing once real people start calling.</p>
+    <div class="scrollcue">Scroll<span></span></div>
   </header>
 
-  <section>
-    <span class="mark l">01</span>
-    <div class="rise">
-      <h2>What I do</h2>
-      <p class="body">
-        Most of my week goes into AI agents and voice: prompt work, RAG pipelines, and the
-        <strong>guardrails that stop an agent wandering off script</strong> halfway through a call.
-        The rest goes into the parts nobody demos, like the deploy pipeline my team ships through.
-      </p>
-      <p class="body">
-        I like problems that cross the whole stack, where the bug could be in a React component
-        or in a Twilio webhook and you genuinely do not know which yet.
-      </p>
-      <p class="body">
-        Away from the keyboard: FPS games, more music than is reasonable, and an ongoing
-        <span class="pom">pomegranate juice</span> habit.
-      </p>
+  <!-- ============ numbers ============ -->
+  <section class="rv" style="padding-top:34px">
+    <div class="stats">
+      <div class="stat"><b data-count="25" data-suffix="+">0</b><i>agents live</i></div>
+      <div class="stat"><b data-count="5">0</b><i>pilot deployments</i></div>
+      <div class="stat"><b>1000s</b><i>calls a week</i></div>
     </div>
   </section>
 
-  <section>
-    <span class="mark r">02</span>
-    <div class="rise">
-      <h2>Selected work</h2>
+  <!-- ============ stage 1: resume, hand from the right ============ -->
+  <section class="stage">
+    <a class="propwrap mag from-r" href="Behbod_Babai_Resume.pdf" aria-label="Open resume">
+      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
+        <!-- sheet -->
+        <g class="sheet">
+          <rect x="52" y="16" width="150" height="158" rx="8" fill="#f2f6fb" opacity=".97"/>
+          <rect x="68" y="36" width="66" height="8" rx="4" fill="#0c1422" opacity=".8"/>
+          <rect x="68" y="56" width="110" height="4" rx="2" fill="#0c1422" opacity=".3"/>
+          <rect x="68" y="68" width="94" height="4" rx="2" fill="#0c1422" opacity=".3"/>
+          <rect x="68" y="88" width="46" height="4.5" rx="2.2" fill="#3ee6d0" opacity=".9"/>
+          <rect x="68" y="100" width="110" height="4" rx="2" fill="#0c1422" opacity=".2"/>
+          <rect x="68" y="112" width="98" height="4" rx="2" fill="#0c1422" opacity=".2"/>
+          <rect x="68" y="132" width="46" height="4.5" rx="2.2" fill="#ff4f6d" opacity=".85"/>
+          <rect x="68" y="144" width="104" height="4" rx="2" fill="#0c1422" opacity=".2"/>
+          <rect x="68" y="156" width="76" height="4" rx="2" fill="#0c1422" opacity=".2"/>
+        </g>
+        <!-- hand offering the sheet, entering from the right -->
+        <g fill="#c3cfdd">
+          <rect x="240" y="86" width="66" height="74" rx="28"/>
+          <rect x="196" y="92" width="56" height="14" rx="7"/>
+          <rect x="190" y="110" width="62" height="14" rx="7"/>
+          <rect x="194" y="128" width="58" height="14" rx="7"/>
+          <rect x="202" y="146" width="50" height="13" rx="6.5"/>
+          <rect x="184" y="74" width="54" height="13" rx="6.5" transform="rotate(-12 211 80)" fill="#d3dde9"/>
+        </g>
+        <circle class="glowdot" cx="94" cy="94" r="72" fill="#3ee6d0" opacity="0" style="filter:blur(34px)"/>
+      </svg>
+      <h3>Resume</h3>
+      <p>One page. Everything I actually do, with the numbers attached.</p>
+      <span class="go">Open PDF
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M17 7H9M17 7v8"/></svg>
+      </span>
+    </a>
+  </section>
 
-      <a class="row" href="https://github.com/behi22/aic-voice-microsite">
-        <span class="t">Voice Agent Microsite <i>&#8599;</i></span>
-        <div class="k">System design</div>
-        <div class="d">An interactive proposal for a restaurant voice agent: AI IVR, conversational
-          ordering, and the handoff to a human when it stops going well.</div>
-        <div class="s">Next.js &middot; TypeScript &middot; Tailwind &middot; Recharts</div>
-      </a>
+  <!-- ============ stage 2: github, branch card from the left ============ -->
+  <section class="stage">
+    <a class="propwrap mag from-l" href="https://github.com/behi22" aria-label="Open GitHub">
+      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
+        <g class="sheet">
+          <rect x="112" y="20" width="150" height="150" rx="12" fill="#101a2b" stroke="#3ee6d0" stroke-opacity=".5" stroke-width="1.8"/>
+          <g fill="none" stroke="#3ee6d0" stroke-width="3.2" stroke-linecap="round">
+            <path d="M142 54 L142 138"/>
+            <path d="M142 86 q34 0 34 28 l0 24"/>
+          </g>
+          <circle cx="142" cy="54" r="8" fill="#101a2b" stroke="#3ee6d0" stroke-width="3.2"/>
+          <circle cx="142" cy="96" r="8" fill="#101a2b" stroke="#3ee6d0" stroke-width="3.2"/>
+          <circle cx="142" cy="138" r="8" fill="#101a2b" stroke="#3ee6d0" stroke-width="3.2"/>
+          <circle cx="176" cy="138" r="8" fill="#101a2b" stroke="#ff4f6d" stroke-width="3.2"/>
+          <rect x="196" y="48" width="48" height="5.5" rx="2.7" fill="#a2b0c4" opacity=".55"/>
+          <rect x="196" y="90" width="36" height="5.5" rx="2.7" fill="#a2b0c4" opacity=".38"/>
+          <rect x="196" y="132" width="42" height="5.5" rx="2.7" fill="#a2b0c4" opacity=".38"/>
+        </g>
+        <g fill="#c3cfdd">
+          <rect x="-6" y="86" width="66" height="74" rx="28"/>
+          <rect x="52" y="92" width="56" height="14" rx="7"/>
+          <rect x="52" y="110" width="62" height="14" rx="7"/>
+          <rect x="52" y="128" width="58" height="14" rx="7"/>
+          <rect x="52" y="146" width="50" height="13" rx="6.5"/>
+          <rect x="66" y="74" width="54" height="13" rx="6.5" transform="rotate(12 93 80)" fill="#d3dde9"/>
+        </g>
+        <circle class="glowdot" cx="208" cy="94" r="72" fill="#3ee6d0" opacity="0" style="filter:blur(34px)"/>
+      </svg>
+      <h3>GitHub</h3>
+      <p>Voice agents, a Python classifier, an in-browser JS notebook. Plus ~900 commits a year in private repos at work.</p>
+      <span class="go">Open profile
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M17 7H9M17 7v8"/></svg>
+      </span>
+    </a>
+  </section>
 
-      <a class="row" href="https://github.com/behi22/PettyAF">
-        <span class="t">Outbound Voice Agent <i>&#8599;</i></span>
-        <div class="k">Hackathon</div>
-        <div class="d">AI voice agents that place real outbound calls, with live monitoring and
-          transcripts. Built in a weekend.</div>
-        <div class="s">React &middot; Vite &middot; Express &middot; TypeScript</div>
-      </a>
+  <!-- ============ stage 3: linkedin, card from the right ============ -->
+  <section class="stage">
+    <a class="propwrap mag from-r" href="https://www.linkedin.com/in/behbod-babai" aria-label="Open LinkedIn">
+      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
+        <g class="sheet">
+          <rect x="52" y="48" width="150" height="100" rx="10" fill="#f2f6fb" opacity=".97"/>
+          <rect x="68" y="64" width="34" height="34" rx="8" fill="#0a66c2"/>
+          <text x="85" y="88" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="600"
+                fill="#f2f6fb" text-anchor="middle">in</text>
+          <rect x="112" y="66" width="74" height="7" rx="3.5" fill="#0c1422" opacity=".82"/>
+          <rect x="112" y="82" width="54" height="4.5" rx="2.2" fill="#0c1422" opacity=".3"/>
+          <rect x="68" y="112" width="118" height="4.5" rx="2.2" fill="#0c1422" opacity=".2"/>
+          <rect x="68" y="126" width="92" height="4.5" rx="2.2" fill="#0c1422" opacity=".2"/>
+        </g>
+        <g fill="#c3cfdd">
+          <rect x="240" y="86" width="66" height="74" rx="28"/>
+          <rect x="196" y="92" width="56" height="14" rx="7"/>
+          <rect x="190" y="110" width="62" height="14" rx="7"/>
+          <rect x="194" y="128" width="58" height="14" rx="7"/>
+          <rect x="202" y="146" width="50" height="13" rx="6.5"/>
+          <rect x="184" y="74" width="54" height="13" rx="6.5" transform="rotate(-12 211 80)" fill="#d3dde9"/>
+        </g>
+        <circle class="glowdot" cx="96" cy="94" r="68" fill="#5b7cf5" opacity="0" style="filter:blur(34px)"/>
+      </svg>
+      <h3>LinkedIn</h3>
+      <p>The longer version, with the full history and the people I have worked with.</p>
+      <span class="go">Open profile
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M17 7H9M17 7v8"/></svg>
+      </span>
+    </a>
+  </section>
 
-      <a class="row" href="https://github.com/behi22/visitor-classifier">
-        <span class="t">Visitor Classifier <i>&#8599;</i></span>
-        <div class="k">Python API</div>
-        <div class="d">Scrapes a site, then works out who is visiting it and why. Python service
-          behind a Redis cache and Postgres.</div>
-        <div class="s">Python &middot; Redis &middot; PostgreSQL &middot; React</div>
-      </a>
+  <!-- ============ stage 4: email, inbox from the bottom ============ -->
+  <section class="stage">
+    <a class="propwrap mag from-b" href="mailto:behibabai@gmail.com" aria-label="Send email">
+      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
+        <!-- envelope dropping in -->
+        <g class="sheet">
+          <rect x="98" y="30" width="104" height="70" rx="7" fill="#f2f6fb" opacity=".96"/>
+          <path d="M98 38 L150 74 L202 38" fill="none" stroke="#0c1422" stroke-opacity=".45" stroke-width="3.4" stroke-linejoin="round"/>
+          <rect x="112" y="84" width="40" height="4" rx="2" fill="#3ee6d0" opacity=".8"/>
+        </g>
+        <!-- inbox tray -->
+        <g>
+          <path d="M56 118 L244 118 L226 168 L74 168 Z" fill="#0c1422" stroke="#3ee6d0" stroke-opacity=".5" stroke-width="2"/>
+          <path d="M56 118 L244 118" stroke="#3ee6d0" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/>
+          <path d="M84 140 L216 140" stroke="#a2b0c4" stroke-opacity=".28" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M96 154 L204 154" stroke="#a2b0c4" stroke-opacity=".18" stroke-width="2.4" stroke-linecap="round"/>
+        </g>
+        <circle class="glowdot" cx="150" cy="118" r="70" fill="#ff4f6d" opacity="0" style="filter:blur(36px)"/>
+      </svg>
+      <h3>Email</h3>
+      <p>Fastest way to reach me. I answer.</p>
+      <span class="go">behibabai@gmail.com
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M17 7H9M17 7v8"/></svg>
+      </span>
+    </a>
+  </section>
+
+  <!-- ============ about ============ -->
+  <section class="rv">
+    <div class="sub">01 / What I do</div>
+    <h2>Agents that answer the phone</h2>
+    <p class="body">Most of my week goes into AI agents and voice: prompt work, RAG pipelines, and the
+      <strong>guardrails that stop an agent wandering off script</strong> halfway through a call.
+      There are <strong>25+ agents live in production</strong> handling thousands of calls a week.</p>
+    <p class="body">The rest goes into the parts nobody demos. I own the architecture across our AI
+      platforms and integrations, built the webhook and lead-ingestion pipelines from scratch, and
+      <strong>maintain the CI/CD my team of five ships through</strong>.</p>
+    <p class="body">I like problems that cross the whole stack, where the bug could be in a React
+      component or in a Twilio webhook and you genuinely do not know which yet. Before this I
+      freelanced for three years and studied computer science at Langara.</p>
+    <p class="body">Away from the keyboard: FPS games, more music than is reasonable, and an ongoing
+      <span class="pom">pomegranate juice</span> habit.</p>
+  </section>
+
+  <!-- ============ work ============ -->
+  <section class="rv">
+    <div class="sub">02 / Selected work</div>
+    <h2>Things I built</h2>
+
+    <a class="row mag" href="https://github.com/behi22/aic-voice-microsite">
+      <div class="t">Voice Agent Microsite</div>
+      <div class="k">System design</div>
+      <div class="d">An interactive proposal for a restaurant voice agent: AI IVR, conversational
+        ordering, and the handoff to a human when it stops going well.</div>
+      <div class="s">Next.js &middot; TypeScript &middot; Tailwind &middot; Recharts</div>
+    </a>
+
+    <a class="row mag" href="https://github.com/behi22/PettyAF">
+      <div class="t">Outbound Voice Agent</div>
+      <div class="k">Hackathon</div>
+      <div class="d">AI voice agents that place real outbound calls, with live monitoring and
+        transcripts. Built in a weekend.</div>
+      <div class="s">React &middot; Vite &middot; Express &middot; TypeScript</div>
+    </a>
+
+    <a class="row mag" href="https://github.com/behi22/visitor-classifier">
+      <div class="t">Visitor Classifier</div>
+      <div class="k">Python API</div>
+      <div class="d">Scrapes a site, then works out who is visiting it and why. Python service behind
+        a Redis cache and Postgres.</div>
+      <div class="s">Python &middot; Redis &middot; PostgreSQL &middot; React</div>
+    </a>
+  </section>
+
+  <!-- ============ toolkit ============ -->
+  <section class="rv">
+    <div class="sub">03 / Toolkit</div>
+    <h2>What I reach for</h2>
+    <div class="kit">
+      <div><b>Front end</b>React &middot; TypeScript &middot; Next.js &middot; Redux &middot; Tailwind</div>
+      <div><b>Back end</b>Node.js &middot; Express &middot; Python &middot; PostgreSQL &middot; Redis &middot; WebSockets</div>
+      <div><b>AI</b>Agents &middot; RAG &middot; Prompt engineering &middot; Guardrails &middot; OpenAI &middot; Claude &middot; Vapi &middot; ElevenLabs &middot; Twilio</div>
+      <div><b>Infra</b>AWS &middot; Linux &middot; Docker &middot; GitHub Actions &middot; CI/CD &middot; Cloudflare</div>
     </div>
   </section>
 
-  <section>
-    <span class="mark l">03</span>
-    <div class="rise">
-      <h2>Toolkit</h2>
-      <div class="kit">
-        <div><b>Front end</b>React &middot; TypeScript &middot; Next.js &middot; Redux &middot; Tailwind</div>
-        <div><b>Back end</b>Node.js &middot; Express &middot; Python &middot; PostgreSQL &middot; Redis</div>
-        <div><b>AI</b>Agents &middot; RAG &middot; Prompt engineering &middot; Guardrails &middot; OpenAI &middot; Claude &middot; Vapi &middot; ElevenLabs &middot; Twilio</div>
-        <div><b>Infra</b>AWS &middot; Linux &middot; Docker &middot; GitHub Actions &middot; CI/CD &middot; Cloudflare</div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="rise">
+  <footer class="rv">
     <a href="mailto:behibabai@gmail.com">behibabai@gmail.com</a>
   </footer>
 
@@ -222,112 +395,154 @@ footer a:hover{color:var(--turq)}
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = matchMedia('(pointer:fine)').matches;
 
-  /* ---- shared spring integrator: stiffness / damping, not an easing curve ---- */
-  function Spring(k, d, m){
-    this.k=k; this.d=d; this.m=m||1; this.x=0; this.v=0; this.target=0;
-  }
-  Spring.prototype.step = function(dt){
-    var f = -this.k*(this.x-this.target) - this.d*this.v;
-    this.v += (f/this.m)*dt;
-    this.x += this.v*dt;
-    return this.x;
+  /* ---------- spring integrator ---------- */
+  function Spring(k,d,m){this.k=k;this.d=d;this.m=m||1;this.x=0;this.v=0;this.target=0}
+  Spring.prototype.step=function(dt){
+    var f=-this.k*(this.x-this.target)-this.d*this.v;
+    this.v+=(f/this.m)*dt; this.x+=this.v*dt; return this.x;
   };
 
-  /* ---- 1. name letters drop in on a spring (overshoot, then settle) ---- */
-  var h1 = document.getElementById('name');
+  /* ---------- 1. name: letters fly in from scattered offsets, spring to rest ---------- */
+  var h1=document.getElementById('name');
   (function(){
     var out='';
-    Array.prototype.forEach.call(h1.childNodes, function(n){
+    Array.prototype.forEach.call(h1.childNodes,function(n){
       if(n.nodeType===3){
-        out += n.textContent.replace(/[\s\S]/g,function(c){
-          return c===' ' ? '<span class="l">&nbsp;</span>' : '<span class="l">'+c+'</span>';
+        out+=n.textContent.replace(/[\s\S]/g,function(c){
+          return c===' '?'<span class="l">&nbsp;</span>':'<span class="l">'+c+'</span>';
         });
-      } else {
-        out += '<em>';
-        out += n.textContent.replace(/[\s\S]/g,function(c){
-          return c===' ' ? '<span class="l">&nbsp;</span>' : '<span class="l">'+c+'</span>';
-        });
-        out += '</em>';
-      }
+      } else if(n.nodeName==='EM'){
+        out+='<em>'+n.textContent.replace(/[\s\S]/g,function(c){
+          return c===' '?'<span class="l">&nbsp;</span>':'<span class="l">'+c+'</span>';
+        })+'</em>';
+      } else { out+=n.outerHTML; }
     });
-    h1.innerHTML = out;
+    h1.innerHTML=out;
   })();
 
-  var letters = [].slice.call(h1.querySelectorAll('.l'));
-  if(reduce){
-    letters.forEach(function(l){ l.style.opacity=1; });
-  } else {
-    var springs = letters.map(function(l,i){
-      var s = new Spring(150, 15);
-      s.x = -46; s.delay = 0.055*i; s.el = l; s.t = 0;
-      l.style.opacity = 0;
+  var ltrs=[].slice.call(h1.querySelectorAll('.l'));
+  var emLtrs=[].slice.call(h1.querySelectorAll('em .l'));
+
+  /* stitch the per-letter gradients back into one continuous ramp across the word */
+  function paintGradient(){
+    var em=h1.querySelector('em'); if(!em||!emLtrs.length) return;
+    var w=em.getBoundingClientRect().width; if(!w) return;
+    var base=emLtrs[0].getBoundingClientRect().left;
+    emLtrs.forEach(function(l){
+      var off=l.getBoundingClientRect().left-base;
+      l.style.backgroundSize=w+'px 100%';
+      l.style.backgroundPosition=(-off)+'px 0';
+    });
+  }
+  paintGradient();
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(paintGradient);}
+  window.addEventListener('resize',paintGradient);
+  setTimeout(function(){h1.classList.add('lit')},reduce?0:2100);
+
+  if(reduce){ ltrs.forEach(function(l){l.style.opacity=1}); }
+  else {
+    /* deterministic scatter so it looks composed, not random noise */
+    var sp=ltrs.map(function(l,i){
+      var s={x:new Spring(190,17),y:new Spring(190,17),r:new Spring(170,16),el:l,t:0,delay:0.05*i};
+      var dir=(i%2?1:-1), swing=(i%3)+1;
+      s.x.x=dir*(40+swing*26); s.y.x=-70-swing*24; s.r.x=dir*(16+swing*7);
+      l.style.opacity=0;
       return s;
     });
-    var last = performance.now();
-    (function anim(now){
-      var dt = Math.min((now-last)/1000, 0.032);
-      last = now;
-      var moving = false;
-      springs.forEach(function(s){
-        s.t += dt;
-        if(s.t < s.delay) { moving = true; return; }
-        s.step(dt);
-        s.el.style.opacity = 1;
-        s.el.style.transform = 'translateY('+s.x.toFixed(2)+'px)';
-        if(Math.abs(s.x) > 0.05 || Math.abs(s.v) > 0.05) moving = true;
+    var last=performance.now();
+    (function step(now){
+      var dt=Math.min((now-last)/1000,.032); last=now;
+      var busy=false;
+      sp.forEach(function(s){
+        s.t+=dt;
+        if(s.t<s.delay){busy=true;return}
+        s.x.step(dt); s.y.step(dt); s.r.step(dt);
+        var settled=Math.abs(s.x.x)<.06&&Math.abs(s.y.x)<.06&&Math.abs(s.r.x)<.06
+                 && Math.abs(s.x.v)<.1&&Math.abs(s.y.v)<.1;
+        s.el.style.opacity=1;
+        if(settled){ s.el.style.transform=''; s.el.style.filter=''; }
+        else{
+          busy=true;
+          s.el.style.transform='translate('+s.x.x.toFixed(2)+'px,'+s.y.x.toFixed(2)+'px) rotate('+s.r.x.toFixed(2)+'deg)';
+          var b=Math.min(9,Math.abs(s.y.x)*.12);
+          s.el.style.filter=b>.35?'blur('+b.toFixed(2)+'px)':'';
+        }
       });
-      if(moving) requestAnimationFrame(anim);
-      else springs.forEach(function(s){ s.el.style.transform=''; });
+      if(busy) requestAnimationFrame(step);
     })(last);
   }
 
-  /* ---- 2. links magnetise toward the cursor on a spring ---- */
+  /* ---------- 2. magnetic springs on props, buttons, rows ---------- */
   if(fine && !reduce){
-    var mags = [].slice.call(document.querySelectorAll('.mag')).map(function(el){
-      return {el:el, sx:new Spring(220,18), sy:new Spring(220,18)};
+    var mags=[].slice.call(document.querySelectorAll('.mag')).map(function(el){
+      return {el:el,sx:new Spring(200,19),sy:new Spring(200,19),reach:el.classList.contains('row')?150:210,pull:el.classList.contains('row')?.10:.16};
     });
-    var mx=0, my=0, running=false;
-    addEventListener('mousemove', function(e){
-      mx=e.clientX; my=e.clientY;
-      if(!running){ running=true; requestAnimationFrame(tick); }
-    });
-    var prev = performance.now();
+    var mx=-9999,my=-9999,run=false,prev=performance.now();
+    addEventListener('mousemove',function(e){
+      mx=e.clientX;my=e.clientY;
+      if(!run){run=true;prev=performance.now();requestAnimationFrame(tick)}
+    },{passive:true});
     function tick(now){
-      var dt = Math.min((now-prev)/1000, 0.032); prev=now;
-      var active=false;
+      var dt=Math.min((now-prev)/1000,.032); prev=now;
+      var busy=false;
       mags.forEach(function(m){
-        var r = m.el.getBoundingClientRect();
-        var cx = r.left+r.width/2, cy = r.top+r.height/2;
-        var dx = mx-cx, dy = my-cy;
-        var dist = Math.hypot(dx,dy);
-        var pull = dist < 130 ? (1 - dist/130) : 0;
-        m.sx.target = dx*pull*0.34;
-        m.sy.target = dy*pull*0.34;
+        var r=m.el.getBoundingClientRect();
+        if(r.bottom<-200||r.top>innerHeight+200){ m.sx.target=0;m.sy.target=0; }
+        else{
+          var dx=mx-(r.left+r.width/2), dy=my-(r.top+r.height/2);
+          var dist=Math.hypot(dx,dy);
+          var f=dist<m.reach?(1-dist/m.reach):0;
+          m.sx.target=dx*f*m.pull; m.sy.target=dy*f*m.pull;
+          if(f>0) busy=true;
+        }
         m.sx.step(dt); m.sy.step(dt);
-        m.el.style.transform = 'translate('+m.sx.x.toFixed(2)+'px,'+m.sy.x.toFixed(2)+'px)';
-        if(Math.abs(m.sx.x)>0.05||Math.abs(m.sy.x)>0.05||pull>0) active=true;
+        if(Math.abs(m.sx.x)>.05||Math.abs(m.sy.x)>.05){busy=true;
+          m.el.style.transform='translate('+m.sx.x.toFixed(2)+'px,'+m.sy.x.toFixed(2)+'px)';
+        } else { m.el.style.transform=''; }
       });
-      if(active) requestAnimationFrame(tick); else running=false;
+      if(busy) requestAnimationFrame(tick); else run=false;
     }
   }
 
-  /* ---- 3. scroll reveal fallback where scroll-driven CSS is unsupported ---- */
-  if(!CSS.supports('animation-timeline: view()')){
-    var io = new IntersectionObserver(function(es){
-      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); io.unobserve(e.target); } });
-    },{threshold:.12, rootMargin:'0px 0px -6% 0px'});
-    document.querySelectorAll('.rise').forEach(function(el){ io.observe(el); });
+  /* ---------- 3. counters ---------- */
+  var counted=false;
+  function runCounters(){
+    if(counted) return; counted=true;
+    document.querySelectorAll('[data-count]').forEach(function(el){
+      var to=+el.getAttribute('data-count'), sfx=el.getAttribute('data-suffix')||'';
+      if(reduce){ el.textContent=to+sfx; return; }
+      var t0=null;
+      (function f(ts){
+        if(!t0) t0=ts;
+        var p=Math.min((ts-t0)/1100,1);
+        var e=1-Math.pow(1-p,3);
+        el.textContent=Math.round(to*e)+(p===1?sfx:'');
+        if(p<1) requestAnimationFrame(f);
+      })(performance.now());
+    });
   }
 
-  /* rail fallback */
+  /* ---------- 4. fallbacks where scroll-driven CSS is missing ---------- */
+  var hasView = CSS.supports('animation-timeline: view()');
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      if(!hasView) e.target.classList.add('in');
+      if(e.target.querySelector&&e.target.querySelector('[data-count]')) runCounters();
+      if(e.target.hasAttribute&&e.target.hasAttribute('data-count')) runCounters();
+      io.unobserve(e.target);
+    });
+  },{threshold:.15,rootMargin:'0px 0px -5% 0px'});
+  document.querySelectorAll('.rv,.from-r,.from-l,.from-b,.stats').forEach(function(el){io.observe(el)});
+
   if(!CSS.supports('animation-timeline: scroll(root block)')){
-    var bar = document.querySelector('.rail span');
-    addEventListener('scroll', function(){
-      var h = document.documentElement.scrollHeight - innerHeight;
-      bar.style.transform = 'scaleY('+(h>0 ? scrollY/h : 0)+')';
-    }, {passive:true});
+    var bar=document.querySelector('.rail span');
+    addEventListener('scroll',function(){
+      var h=document.documentElement.scrollHeight-innerHeight;
+      bar.style.transform='scaleY('+(h>0?scrollY/h:0)+')';
+    },{passive:true});
   }
 })();
 </script>
 </body>
-               </html>
+</html>
