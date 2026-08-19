@@ -4,38 +4,81 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Behbod Babai</title>
-<meta name="description" content="Full-stack engineer in Vancouver. AI agents, voice systems, and the infrastructure that keeps them standing.">
+<meta name="description" content="Full-stack engineer in Vancouver. AI systems end to end: interfaces, services, and the infrastructure they run on.">
 <meta name="theme-color" content="#080e18">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='19.5' r='10.5' fill='%23c9304f'/%3E%3Cpath d='M16 9c5 2 8 5.5 8 10.5 0 3-1.5 5.5-4 7 1-2.5 1.2-5.5.4-8.5C19.6 15 18 11.5 16 9z' fill='%23e2506b'/%3E%3Cpath d='M16 10.5c-1.6-2-2.2-4-2-6.5 1.2 1.4 2 2.2 3.2 2.6.5-1 1.4-1.8 2.6-2.3-.4 1.5-.3 2.6.2 3.6-1.3.4-2.6 1.2-4 2.6z' fill='%233f7d55'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  /* set the theme before first paint so there is no flash of the wrong palette */
+  (function(){
+    try{
+      var s=localStorage.getItem('theme');
+      if(!s) s=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+      document.documentElement.setAttribute('data-theme',s);
+    }catch(e){ document.documentElement.setAttribute('data-theme','dark'); }
+  })();
+</script>
+
 <style>
 :root{
-  --bg:#080e18; --bg2:#0c1422;
-  --ink:#f2f6fb; --muted:#a2b0c4; --faint:#5d6d84;
-  --turq:#3ee6d0; --turq2:#7af3e2; --pom:#ff4f6d; --gold:#f5c470;
-  --line:rgba(255,255,255,.10); --glass:rgba(255,255,255,.035);
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
+html[data-theme="dark"]{
+  --bg:#080e18; --bg2:#0d1626;
+  --ink:#f2f6fb; --muted:#a3b1c5; --faint:#61718a;
+  --turq:#3ee6d0; --turq2:#7af3e2; --pom:#ff4f6d; --gold:#f5c470;
+  --line:rgba(255,255,255,.11); --glass:rgba(255,255,255,.035);
+  --glass2:rgba(255,255,255,.06);
+  --paper:#eef3f9; --paperInk:#0c1422;
+  --propFill:#080e18; --propFill2:#131f33; --paperEdge:rgba(0,0,0,0);
+  --gradA:#3ee6d0; --gradB:#7af3e2; --gradC:#f5c470;
+  --fx:62,230,208; --fxA:.30;
+  --g1:rgba(62,230,208,.10); --g2:rgba(91,124,245,.11); --g3:rgba(255,79,109,.08);
+  --btnInk:#04121a;
+}
+html[data-theme="light"]{
+  --bg:#f7f8fa; --bg2:#eaeef3;
+  --ink:#0e1620; --muted:#4b586a; --faint:#8593a5;
+  --turq:#0c9483; --turq2:#12b3a0; --pom:#d33356; --gold:#a8761a;
+  --line:rgba(12,22,34,.13); --glass:rgba(12,22,34,.028);
+  --glass2:rgba(12,22,34,.05);
+  --paper:#ffffff; --paperInk:#0e1620;
+  --propFill:#dde5ee; --propFill2:#edf1f6; --paperEdge:rgba(14,22,32,.16);
+  --gradA:#0c9483; --gradB:#13a6bd; --gradC:#4a68d6;
+  --fx:12,148,131; --fxA:.20;
+  --g1:rgba(12,148,131,.10); --g2:rgba(74,104,214,.09); --g3:rgba(211,51,86,.07);
+  --btnInk:#ffffff;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:40px}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;
-  font-size:17px;line-height:1.7;text-align:center;overflow-x:hidden}
-::selection{background:var(--turq);color:#04121a}
+  font-size:17.5px;line-height:1.72;text-align:center;overflow-x:hidden;
+  transition:background-color .55s ease,color .55s ease}
+::selection{background:var(--turq);color:var(--btnInk)}
 ::-webkit-scrollbar{width:0}
+a{color:inherit}
 
-/* soft ground so it is not flat black */
-body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+/* ---------- living background: drifting mesh + physics canvas ---------- */
+.mesh{position:fixed;inset:-20%;z-index:0;pointer-events:none;
   background:
-    radial-gradient(60vw 50vh at 18% 8%, rgba(62,230,208,.10), transparent 70%),
-    radial-gradient(55vw 45vh at 85% 42%, rgba(91,124,245,.10), transparent 72%),
-    radial-gradient(50vw 40vh at 45% 92%, rgba(255,79,109,.08), transparent 72%)}
+    radial-gradient(38vw 34vh at 20% 12%, var(--g1), transparent 68%),
+    radial-gradient(36vw 32vh at 82% 40%, var(--g2), transparent 70%),
+    radial-gradient(34vw 30vh at 42% 88%, var(--g3), transparent 70%);
+  animation:drift 54s ease-in-out infinite alternate}
+@keyframes drift{
+  33%{transform:translate3d(2.5%,-2%,0) scale(1.06)}
+  66%{transform:translate3d(-2%,2.5%,0) scale(1.02)}
+  100%{transform:translate3d(1.5%,1.5%,0) scale(1.07)}
+}
+#fx{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.85}
 
-/* ---------- scroll rail ---------- */
-.rail{position:fixed;top:0;right:22px;width:2px;height:100vh;background:var(--line);z-index:6;border-radius:2px}
+/* ---------- right scroll rail ---------- */
+.rail{position:fixed;top:0;right:20px;width:2px;height:100vh;background:var(--line);z-index:6;border-radius:2px}
 .rail span{display:block;width:100%;height:100%;transform-origin:top;transform:scaleY(0);border-radius:2px;
   background:linear-gradient(var(--turq),var(--pom))}
 @supports (animation-timeline: scroll()){
@@ -43,129 +86,232 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   @keyframes fill{to{transform:scaleY(1)}}
 }
 
-.wrap{max-width:720px;margin:0 auto;padding:0 22px;position:relative;z-index:2}
-section{position:relative;padding:88px 0}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px;position:relative;z-index:3}
+.sec{position:relative;padding:82px 0}
 
 /* ---------- hero ---------- */
 .hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0}
 .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--turq);margin-bottom:28px;opacity:0;animation:kick 1s 1.5s both}
-@keyframes kick{from{opacity:0;letter-spacing:.5em}to{opacity:.9;letter-spacing:.3em}}
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(60px,13.5vw,124px);line-height:.95;
-  letter-spacing:-.025em;margin-bottom:24px;position:relative}
-h1 .l{display:inline-block;will-change:transform,filter;opacity:0}
+  color:var(--turq);margin-bottom:26px;opacity:0;animation:kick 1s 1.4s both}
+@keyframes kick{from{opacity:0;letter-spacing:.5em}to{opacity:.92;letter-spacing:.3em}}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(58px,13vw,122px);line-height:.95;
+  letter-spacing:-.025em;margin-bottom:22px}
+h1 .l{display:inline-block;will-change:transform;opacity:0}
 h1 em{font-style:italic}
-h1 em .l{background-image:linear-gradient(100deg,var(--turq),var(--turq2) 45%,var(--gold));
+h1 em .l{background-image:linear-gradient(100deg,var(--gradA),var(--gradB) 45%,var(--gradC));
   background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:var(--turq2)}
-h1.lit em .l{filter:drop-shadow(0 0 22px rgba(62,230,208,.34))}
-h1 em .l{transition:filter 1.2s ease}
-.tag{font-size:clamp(18px,2.3vw,22px);color:var(--muted);max-width:26em;margin:0 auto;
-  opacity:0;animation:up 1s 1.75s cubic-bezier(.2,1,.3,1) both}
+h1.lit em .l{filter:drop-shadow(0 0 20px rgba(62,230,208,.30))}
+html[data-theme="light"] h1.lit em .l{filter:none}
+.tag{font-size:clamp(18px,2.3vw,22.5px);color:var(--muted);max-width:27em;margin:0 auto;
+  opacity:0;animation:up 1s 1.7s cubic-bezier(.2,1,.3,1) both}
 .tag b{color:var(--ink);font-weight:400}
 @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.scrollcue{margin-top:52px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--faint);opacity:0;animation:up 1s 2.1s both}
-.scrollcue span{display:block;width:1px;height:34px;margin:12px auto 0;
+.scrollcue{margin-top:48px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--faint);opacity:0;animation:up 1s 2.05s both}
+.scrollcue span{display:block;width:1px;height:32px;margin:12px auto 0;
   background:linear-gradient(var(--turq),transparent);animation:pulse 2.2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.25}}
 
-/* ---------- numbers ---------- */
-.stats{display:flex;justify-content:center;gap:0;flex-wrap:wrap;margin:0 auto;max-width:620px}
-.stat{flex:1 1 30%;min-width:150px;padding:20px 10px}
-.stat b{display:block;font-family:var(--serif);font-size:clamp(38px,6vw,54px);line-height:1;
-  color:var(--turq);letter-spacing:-.02em}
-.stat i{font-style:normal;display:block;font-family:var(--mono);font-size:11px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--faint);margin-top:10px}
+/* ---------- headings + copy ---------- */
+.sub{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--turq);margin-bottom:18px;opacity:.9}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,5.4vw,46px);letter-spacing:-.02em;margin-bottom:26px}
+p.body{font-size:18px;color:var(--muted);max-width:33em;margin:0 auto 18px}
+p.body:last-child{margin-bottom:0}
+p.body strong{color:var(--ink);font-weight:400}
+.pom{color:var(--pom)}
 
-/* ---------- scroll stages: a prop slides in, tied to scroll ---------- */
-.stage{min-height:74svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:40px 0;position:relative}
-.prop{width:min(330px,74vw);height:auto;display:block;margin-bottom:26px;overflow:visible}
-.stage h3{font-family:var(--serif);font-size:clamp(30px,5vw,42px);font-weight:400;letter-spacing:-.015em;margin-bottom:10px}
-.stage p{color:var(--muted);font-size:16.5px;max-width:24em;margin:0 auto 24px}
-.go{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12.5px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-decoration:none;
-  padding:14px 26px;border-radius:999px;border:1px solid var(--line);background:var(--glass);
-  will-change:transform;transition:border-color .35s,color .35s,background .35s}
-.go:hover{border-color:var(--turq);color:var(--turq);background:rgba(62,230,208,.07)}
-.go svg{width:14px;height:14px;transition:transform .35s cubic-bezier(.2,1,.3,1)}
-.go:hover svg{transform:translate(3px,-3px)}
-
-/* scroll-linked entries. transform is scrubbed by scroll position. */
-.from-r{transform:translateX(115%) rotate(9deg);opacity:0}
-.from-l{transform:translateX(-115%) rotate(-9deg);opacity:0}
-.from-b{transform:translateY(85%);opacity:0}
+/* ---------- experience timeline ---------- */
+.tl{list-style:none;max-width:37em;margin:0 auto;text-align:left;position:relative}
+.tl::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1.5px;
+  background:linear-gradient(var(--turq),var(--line) 78%,transparent);
+  transform-origin:top;transform:scaleY(0)}
 @supports (animation-timeline: view()){
-  .from-r{animation:inR linear both;animation-timeline:view();animation-range:entry 4% cover 42%}
-  .from-l{animation:inL linear both;animation-timeline:view();animation-range:entry 4% cover 42%}
-  .from-b{animation:inB linear both;animation-timeline:view();animation-range:entry 4% cover 42%}
+  .tl::before{animation:spine linear both;animation-timeline:view();animation-range:entry 12% cover 68%}
+  @keyframes spine{to{transform:scaleY(1)}}
+}
+.tl.drawn::before{transform:scaleY(1);transition:transform 1.6s cubic-bezier(.22,1,.3,1)}
+.job{position:relative;padding:0 0 30px 34px}
+.job:last-child{padding-bottom:0}
+.dot{position:absolute;left:0;top:9px;width:15px;height:15px;border-radius:50%;
+  border:1.5px solid var(--turq);background:var(--bg);display:grid;place-items:center}
+.dot::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--turq);
+  transform:scale(0);transition:transform .5s cubic-bezier(.2,1.6,.4,1)}
+.job.on .dot::after{transform:scale(1)}
+.job.now .dot{box-shadow:0 0 0 4px rgba(62,230,208,.14)}
+.job.now .dot::after{animation:beat 2.4s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.7);opacity:.65}}
+.jhead{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap}
+.role{font-family:var(--serif);font-size:22.5px;letter-spacing:-.01em;line-height:1.3}
+.when{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--faint);white-space:nowrap;text-transform:uppercase}
+.at{font-size:14.5px;color:var(--turq);margin-top:3px;opacity:.95}
+.at i{font-style:normal;color:var(--faint)}
+.pts{list-style:none;margin-top:11px}
+.pts li{position:relative;padding-left:15px;font-size:15.8px;color:var(--muted);margin-bottom:5px}
+.pts li::before{content:"";position:absolute;left:0;top:.72em;width:5px;height:1.5px;background:var(--faint)}
+.pts li b{color:var(--ink);font-weight:400}
+
+/* ---------- side projects ---------- */
+.note{font-size:15px;color:var(--faint);max-width:31em;margin:-8px auto 30px;font-style:italic}
+.row{display:block;text-decoration:none;color:inherit;padding:22px 22px;border-radius:15px;
+  border:1px solid var(--line);background:var(--glass);margin-bottom:12px;text-align:left;
+  will-change:transform;transition:border-color .4s,background .4s}
+.row:hover{border-color:rgba(62,230,208,.42);background:var(--glass2)}
+.rtop{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.row .t{font-family:var(--serif);font-size:23px;letter-spacing:-.01em;transition:color .35s}
+.row:hover .t{color:var(--turq)}
+.row .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.row .d{font-size:15.5px;color:var(--muted);margin-top:9px}
+.row .s{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:11px}
+
+/* ---------- toolkit: chips that settle in ---------- */
+.kit{max-width:37em;margin:0 auto;text-align:left}
+.kitgrp{padding:16px 0;border-top:1px solid var(--line)}
+.kitgrp:last-child{border-bottom:1px solid var(--line)}
+.kitgrp b{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--turq);font-weight:400;display:block;margin-bottom:10px;opacity:.9}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-family:var(--mono);font-size:11.5px;padding:5px 11px;border-radius:7px;
+  border:1px solid var(--line);background:var(--glass);color:var(--muted);
+  opacity:0;transform:translateY(9px) scale(.94);will-change:transform;
+  transition:color .3s,border-color .3s,background .3s,transform .3s}
+.chip.on{opacity:1;transform:none}
+.chip:hover{color:var(--turq);border-color:rgba(62,230,208,.45);background:var(--glass2);
+  transform:translateY(-3px)}
+
+/* ---------- the four link stages ---------- */
+.stage{min-height:66svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:34px 0;position:relative}
+.prop{width:min(320px,72vw);height:auto;display:block;margin-bottom:22px;overflow:visible}
+.stage h3{font-family:var(--serif);font-size:clamp(29px,5vw,40px);font-weight:400;letter-spacing:-.015em;margin-bottom:9px}
+.stage p{color:var(--muted);font-size:16.5px;max-width:25em;margin:0 auto 22px}
+.propwrap{cursor:pointer;display:inline-block;will-change:transform;color:inherit;text-decoration:none}
+.propwrap h3,.propwrap p{color:inherit}
+
+/* the inner piece emerges from its container, on its own scroll range */
+.emerge{transform:translateY(26%);opacity:.25}
+@supports (animation-timeline: view()){
+  .emerge{animation:em linear both;animation-timeline:view();animation-range:entry 26% cover 56%}
+  @keyframes em{to{transform:none;opacity:1}}
+}
+.emerge.in{transform:none;opacity:1;transition:transform 1.1s cubic-bezier(.16,1.05,.3,1),opacity .8s}
+.fan1,.fan2{transform-box:fill-box;transform-origin:60% 100%}
+.fan1{transform:rotate(9deg) translate(6px,4px)}
+.fan2{transform:rotate(17deg) translate(12px,9px)}
+@supports (animation-timeline: view()){
+  .fan1{animation:f1 linear both;animation-timeline:view();animation-range:entry 24% cover 58%}
+  .fan2{animation:f2 linear both;animation-timeline:view();animation-range:entry 24% cover 62%}
+  @keyframes f1{to{transform:rotate(-7deg) translate(-9px,-3px)}}
+  @keyframes f2{to{transform:rotate(-15deg) translate(-19px,-7px)}}
+}
+
+/* filled sweep button, no arrow */
+.go{position:relative;display:inline-block;overflow:hidden;font-family:var(--mono);font-size:12.5px;
+  letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  padding:14px 30px;border-radius:999px;border:1px solid var(--line);background:var(--glass);
+  color:var(--muted);will-change:transform;isolation:isolate;
+  transition:border-color .4s,color .4s}
+.go span{position:relative;z-index:2}
+.go::before{content:"";position:absolute;inset:0;z-index:1;background:var(--turq);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .48s cubic-bezier(.62,.03,.2,1)}
+.go:hover,.go:focus-visible{color:var(--btnInk);border-color:var(--turq);outline:none}
+.go:hover::before,.go:focus-visible::before{transform:scaleX(1)}
+.go:active{transform:scale(.975)}
+
+/* ---------- scroll-in entries ---------- */
+.from-r{transform:translateX(112%) rotate(8deg);opacity:0}
+.from-l{transform:translateX(-112%) rotate(-8deg);opacity:0}
+.from-b{transform:translateY(80%);opacity:0}
+@supports (animation-timeline: view()){
+  .from-r{animation:inR linear both;animation-timeline:view();animation-range:entry 4% cover 40%}
+  .from-l{animation:inL linear both;animation-timeline:view();animation-range:entry 4% cover 40%}
+  .from-b{animation:inB linear both;animation-timeline:view();animation-range:entry 4% cover 40%}
   @keyframes inR{to{transform:none;opacity:1}}
   @keyframes inL{to{transform:none;opacity:1}}
   @keyframes inB{to{transform:none;opacity:1}}
 }
 .from-r.in,.from-l.in,.from-b.in{transform:none;opacity:1;
   transition:transform 1s cubic-bezier(.16,1.1,.3,1),opacity .8s}
-
-/* prop hover life */
-.propwrap{cursor:pointer;display:inline-block;will-change:transform;color:inherit;text-decoration:none}
-.propwrap h3,.propwrap p{color:inherit}
-.propwrap:hover .sheet{transform:translateY(-7px) rotate(-1.5deg)}
-.sheet{transition:transform .5s cubic-bezier(.2,1,.3,1)}
-.propwrap:hover .glowdot{opacity:1}
-.glowdot{opacity:0;transition:opacity .5s}
-
-/* ---------- reveal ---------- */
-.rv{opacity:0;transform:translateY(26px)}
+.rv{opacity:0;transform:translateY(24px)}
 @supports (animation-timeline: view()){
-  .rv{animation:rise .01s linear both;animation-timeline:view();animation-range:entry 6% cover 24%}
+  .rv{animation:rise .01s linear both;animation-timeline:view();animation-range:entry 6% cover 22%}
   @keyframes rise{to{opacity:1;transform:none}}
 }
 .rv.in{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.2,1,.3,1),transform .8s cubic-bezier(.2,1,.3,1)}
 
-/* ---------- content ---------- */
-h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,5.5vw,44px);letter-spacing:-.02em;margin-bottom:14px}
-.sub{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--turq);margin-bottom:22px;opacity:.85}
-p.body{font-size:18px;color:var(--muted);max-width:31em;margin:0 auto 20px}
-p.body:last-child{margin-bottom:0}
-p.body strong{color:var(--ink);font-weight:400}
-.pom{color:var(--pom)}
+/* ---------- floating controls ---------- */
+.dock{position:fixed;bottom:22px;left:22px;z-index:20;display:flex;flex-direction:column;
+  align-items:flex-start;gap:2px}
+.dock a{display:flex;align-items:center;gap:10px;text-decoration:none;padding:5px 8px;
+  border-radius:8px;color:var(--faint);transition:color .3s,background .3s}
+.dock a:hover{color:var(--ink);background:var(--glass)}
+.dock i{display:block;width:16px;height:1.5px;background:currentColor;opacity:.5;
+  transition:width .38s cubic-bezier(.2,1,.3,1),opacity .3s}
+.dock a:hover i{width:26px;opacity:1}
+.dock a.on{color:var(--turq)}
+.dock a.on i{width:30px;opacity:1;background:var(--turq)}
+.dock em{font-style:normal;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;max-width:0;overflow:hidden;white-space:nowrap;opacity:0;
+  transition:max-width .42s cubic-bezier(.2,1,.3,1),opacity .32s}
+.dock:hover em,.dock a.on em{max-width:130px;opacity:1}
 
-.row{display:block;text-decoration:none;color:inherit;padding:26px 22px;border-radius:16px;
-  border:1px solid var(--line);background:var(--glass);margin-bottom:14px;
-  will-change:transform;transition:border-color .4s,background .4s}
-.row:hover{border-color:rgba(62,230,208,.4);background:rgba(62,230,208,.05)}
-.row .t{font-family:var(--serif);font-size:26px;letter-spacing:-.01em;transition:color .35s}
-.row:hover .t{color:var(--turq)}
-.row .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-top:8px}
-.row .d{font-size:16px;color:var(--muted);max-width:30em;margin:12px auto 0}
-.row .s{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-top:13px}
+.themebtn{position:fixed;bottom:24px;right:22px;z-index:20;width:70px;height:34px;
+  border-radius:999px;border:1px solid var(--line);background:var(--glass);
+  cursor:pointer;padding:0;overflow:hidden;
+  transition:border-color .35s,background .35s}
+.themebtn:hover{border-color:var(--turq)}
+.themebtn:focus-visible{outline:2px solid var(--turq);outline-offset:3px}
+.themebtn .thumb{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(150deg,var(--turq2),var(--turq));display:grid;place-items:center;
+  will-change:transform}
+.themebtn svg{width:14px;height:14px;position:absolute;transition:opacity .3s,transform .45s cubic-bezier(.2,1,.3,1)}
+.themebtn .sun{color:#04121a}
+.themebtn .moon{color:#04121a}
+html[data-theme="dark"] .themebtn .sun{opacity:0;transform:rotate(-70deg) scale(.5)}
+html[data-theme="dark"] .themebtn .moon{opacity:1;transform:none}
+html[data-theme="light"] .themebtn .sun{opacity:1;transform:none}
+html[data-theme="light"] .themebtn .moon{opacity:0;transform:rotate(70deg) scale(.5)}
+.themebtn .stars{position:absolute;inset:0;pointer-events:none}
+.themebtn .stars b{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--faint);
+  opacity:0;transition:opacity .4s}
+html[data-theme="dark"] .themebtn .stars b{opacity:.7}
+.themebtn .stars b:nth-child(1){right:12px;top:9px}
+.themebtn .stars b:nth-child(2){right:20px;top:16px}
+.themebtn .stars b:nth-child(3){right:14px;top:22px}
 
-.kit{max-width:32em;margin:0 auto;font-size:16.5px;color:var(--muted)}
-.kit div{padding:14px 0;border-top:1px solid var(--line)}
-.kit div:last-child{border-bottom:1px solid var(--line)}
-.kit b{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--turq);font-weight:400;display:block;margin-bottom:6px;opacity:.85}
-
-footer{padding:80px 0 64px;font-size:14px;color:var(--faint)}
+footer{padding:70px 0 92px;font-size:14px;color:var(--faint)}
 footer a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:.3s}
 footer a:hover{color:var(--turq);border-color:var(--turq)}
 
-@media (max-width:720px){
-  body{font-size:16px}
-  section{padding:66px 0}
-  .stage{min-height:auto;padding:54px 0}
-  .prop{width:min(260px,72vw);margin-bottom:20px}
-  .rail{right:10px}
-  .stat{flex:1 1 0;min-width:0;padding:14px 3px}
-  .stat b{font-size:clamp(29px,8.5vw,40px)}
-  .stat i{font-size:9px;letter-spacing:.04em;margin-top:8px}
+@media (max-width:760px){
+  body{font-size:16.5px}
+  .sec{padding:62px 0}
+  .stage{min-height:auto;padding:46px 0}
+  .prop{width:min(250px,70vw);margin-bottom:18px}
+  .rail{right:8px}
+  .wrap{padding:0 20px}
+  .role{font-size:20px}
+  .jhead{gap:2px}
+  .when{font-size:10px}
+  .job{padding-left:28px;padding-bottom:26px}
+  .dock{bottom:16px;left:14px;gap:0}
+  .dock em{display:none}
+  .dock a{padding:7px 6px}
+  .themebtn{bottom:16px;right:14px;width:60px;height:30px}
+  .themebtn .thumb{width:22px;height:22px;top:3px;left:3px}
+  footer{padding:56px 0 84px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
-  .rv,.from-r,.from-l,.from-b{opacity:1!important;transform:none!important}
+  .rv,.from-r,.from-l,.from-b,.emerge{opacity:1!important;transform:none!important}
+  .fan1{transform:rotate(-7deg) translate(-9px,-3px)!important}
+  .fan2{transform:rotate(-15deg) translate(-19px,-7px)!important}
   h1 .l,.tag,.kicker,.scrollcue{opacity:1!important;transform:none!important}
+  .chip{opacity:1!important;transform:none!important}
+  .tl::before{transform:scaleY(1)!important}
+  .job .dot::after{transform:scale(1)!important}
   .rail span{transform:scaleY(0)!important}
   html{scroll-behavior:auto}
 }
@@ -173,218 +319,352 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
 </head>
 <body>
 
+<div class="mesh"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
 <div class="rail"><span></span></div>
+
+<nav class="dock" aria-label="Jump to section">
+  <a href="#top"><i></i><em>Top</em></a>
+  <a href="#about"><i></i><em>What I do</em></a>
+  <a href="#work"><i></i><em>Experience</em></a>
+  <a href="#side"><i></i><em>Side projects</em></a>
+  <a href="#kit"><i></i><em>Toolkit</em></a>
+  <a href="#reach"><i></i><em>Reach me</em></a>
+</nav>
+
+<button class="themebtn" id="themebtn" aria-label="Switch colour theme" aria-pressed="false">
+  <span class="stars"><b></b><b></b><b></b></span>
+  <span class="thumb">
+    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4.2"/>
+      <path d="M12 2.6v2.1M12 19.3v2.1M2.6 12h2.1M19.3 12h2.1M5.4 5.4l1.5 1.5M17.1 17.1l1.5 1.5M18.6 5.4l-1.5 1.5M6.9 17.1l-1.5 1.5"/>
+    </svg>
+    <svg class="moon" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M15.2 3.4a9 9 0 1 0 5.4 11.5A7.4 7.4 0 0 1 15.2 3.4z"/>
+    </svg>
+  </span>
+</button>
 
 <div class="wrap">
 
-  <header class="hero">
+  <header class="hero" id="top">
     <div class="kicker">Vancouver, BC</div>
     <h1 id="name">Behbod <em>Babai</em></h1>
-    <p class="tag">Full-stack engineer. I build <b>AI agents and voice systems</b>, and the
-      infrastructure that keeps them standing once real people start calling.</p>
+    <p class="tag">Full-stack engineer. I build <b>AI systems end to end</b>: the interfaces,
+      the services behind them, and the infrastructure they run on.</p>
     <div class="scrollcue">Scroll<span></span></div>
   </header>
 
-  <!-- ============ numbers ============ -->
-  <section class="rv" style="padding-top:34px">
-    <div class="stats">
-      <div class="stat"><b data-count="25" data-suffix="+">0</b><i>agents live</i></div>
-      <div class="stat"><b data-count="5">0</b><i>pilot deployments</i></div>
-      <div class="stat"><b>1000s</b><i>calls a week</i></div>
-    </div>
-  </section>
-
-  <!-- ============ stage 1: resume, hand from the right ============ -->
-  <section class="stage">
-    <a class="propwrap mag from-r" href="Behbod_Babai_Resume.pdf" aria-label="Open resume">
-      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
-        <!-- sheet -->
-        <g class="sheet">
-          <rect x="52" y="16" width="150" height="158" rx="8" fill="#f2f6fb" opacity=".97"/>
-          <rect x="68" y="36" width="66" height="8" rx="4" fill="#0c1422" opacity=".8"/>
-          <rect x="68" y="56" width="110" height="4" rx="2" fill="#0c1422" opacity=".3"/>
-          <rect x="68" y="68" width="94" height="4" rx="2" fill="#0c1422" opacity=".3"/>
-          <rect x="68" y="88" width="46" height="4.5" rx="2.2" fill="#3ee6d0" opacity=".9"/>
-          <rect x="68" y="100" width="110" height="4" rx="2" fill="#0c1422" opacity=".2"/>
-          <rect x="68" y="112" width="98" height="4" rx="2" fill="#0c1422" opacity=".2"/>
-          <rect x="68" y="132" width="46" height="4.5" rx="2.2" fill="#ff4f6d" opacity=".85"/>
-          <rect x="68" y="144" width="104" height="4" rx="2" fill="#0c1422" opacity=".2"/>
-          <rect x="68" y="156" width="76" height="4" rx="2" fill="#0c1422" opacity=".2"/>
-        </g>
-        <!-- hand offering the sheet, entering from the right -->
-        <g fill="#c3cfdd">
-          <rect x="240" y="86" width="66" height="74" rx="28"/>
-          <rect x="196" y="92" width="56" height="14" rx="7"/>
-          <rect x="190" y="110" width="62" height="14" rx="7"/>
-          <rect x="194" y="128" width="58" height="14" rx="7"/>
-          <rect x="202" y="146" width="50" height="13" rx="6.5"/>
-          <rect x="184" y="74" width="54" height="13" rx="6.5" transform="rotate(-12 211 80)" fill="#d3dde9"/>
-        </g>
-        <circle class="glowdot" cx="94" cy="94" r="72" fill="#3ee6d0" opacity="0" style="filter:blur(34px)"/>
-      </svg>
-      <h3>Resume</h3>
-      <p>One page. Everything I actually do, with the numbers attached.</p>
-      <span class="go">Open PDF
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M17 7H9M17 7v8"/></svg>
-      </span>
-    </a>
-  </section>
-
-  <!-- ============ stage 2: github, branch card from the left ============ -->
-  <section class="stage">
-    <a class="propwrap mag from-l" href="https://github.com/behi22" aria-label="Open GitHub">
-      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
-        <g class="sheet">
-          <rect x="112" y="20" width="150" height="150" rx="12" fill="#101a2b" stroke="#3ee6d0" stroke-opacity=".5" stroke-width="1.8"/>
-          <g fill="none" stroke="#3ee6d0" stroke-width="3.2" stroke-linecap="round">
-            <path d="M142 54 L142 138"/>
-            <path d="M142 86 q34 0 34 28 l0 24"/>
-          </g>
-          <circle cx="142" cy="54" r="8" fill="#101a2b" stroke="#3ee6d0" stroke-width="3.2"/>
-          <circle cx="142" cy="96" r="8" fill="#101a2b" stroke="#3ee6d0" stroke-width="3.2"/>
-          <circle cx="142" cy="138" r="8" fill="#101a2b" stroke="#3ee6d0" stroke-width="3.2"/>
-          <circle cx="176" cy="138" r="8" fill="#101a2b" stroke="#ff4f6d" stroke-width="3.2"/>
-          <rect x="196" y="48" width="48" height="5.5" rx="2.7" fill="#a2b0c4" opacity=".55"/>
-          <rect x="196" y="90" width="36" height="5.5" rx="2.7" fill="#a2b0c4" opacity=".38"/>
-          <rect x="196" y="132" width="42" height="5.5" rx="2.7" fill="#a2b0c4" opacity=".38"/>
-        </g>
-        <g fill="#c3cfdd">
-          <rect x="-6" y="86" width="66" height="74" rx="28"/>
-          <rect x="52" y="92" width="56" height="14" rx="7"/>
-          <rect x="52" y="110" width="62" height="14" rx="7"/>
-          <rect x="52" y="128" width="58" height="14" rx="7"/>
-          <rect x="52" y="146" width="50" height="13" rx="6.5"/>
-          <rect x="66" y="74" width="54" height="13" rx="6.5" transform="rotate(12 93 80)" fill="#d3dde9"/>
-        </g>
-        <circle class="glowdot" cx="208" cy="94" r="72" fill="#3ee6d0" opacity="0" style="filter:blur(34px)"/>
-      </svg>
-      <h3>GitHub</h3>
-      <p>Voice agents, a Python classifier, an in-browser JS notebook. Plus ~900 commits a year in private repos at work.</p>
-      <span class="go">Open profile
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M17 7H9M17 7v8"/></svg>
-      </span>
-    </a>
-  </section>
-
-  <!-- ============ stage 3: linkedin, card from the right ============ -->
-  <section class="stage">
-    <a class="propwrap mag from-r" href="https://www.linkedin.com/in/behbod-babai" aria-label="Open LinkedIn">
-      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
-        <g class="sheet">
-          <rect x="52" y="48" width="150" height="100" rx="10" fill="#f2f6fb" opacity=".97"/>
-          <rect x="68" y="64" width="34" height="34" rx="8" fill="#0a66c2"/>
-          <text x="85" y="88" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="600"
-                fill="#f2f6fb" text-anchor="middle">in</text>
-          <rect x="112" y="66" width="74" height="7" rx="3.5" fill="#0c1422" opacity=".82"/>
-          <rect x="112" y="82" width="54" height="4.5" rx="2.2" fill="#0c1422" opacity=".3"/>
-          <rect x="68" y="112" width="118" height="4.5" rx="2.2" fill="#0c1422" opacity=".2"/>
-          <rect x="68" y="126" width="92" height="4.5" rx="2.2" fill="#0c1422" opacity=".2"/>
-        </g>
-        <g fill="#c3cfdd">
-          <rect x="240" y="86" width="66" height="74" rx="28"/>
-          <rect x="196" y="92" width="56" height="14" rx="7"/>
-          <rect x="190" y="110" width="62" height="14" rx="7"/>
-          <rect x="194" y="128" width="58" height="14" rx="7"/>
-          <rect x="202" y="146" width="50" height="13" rx="6.5"/>
-          <rect x="184" y="74" width="54" height="13" rx="6.5" transform="rotate(-12 211 80)" fill="#d3dde9"/>
-        </g>
-        <circle class="glowdot" cx="96" cy="94" r="68" fill="#5b7cf5" opacity="0" style="filter:blur(34px)"/>
-      </svg>
-      <h3>LinkedIn</h3>
-      <p>The longer version, with the full history and the people I have worked with.</p>
-      <span class="go">Open profile
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M17 7H9M17 7v8"/></svg>
-      </span>
-    </a>
-  </section>
-
-  <!-- ============ stage 4: email, inbox from the bottom ============ -->
-  <section class="stage">
-    <a class="propwrap mag from-b" href="mailto:behibabai@gmail.com" aria-label="Send email">
-      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
-        <!-- envelope dropping in -->
-        <g class="sheet">
-          <rect x="98" y="30" width="104" height="70" rx="7" fill="#f2f6fb" opacity=".96"/>
-          <path d="M98 38 L150 74 L202 38" fill="none" stroke="#0c1422" stroke-opacity=".45" stroke-width="3.4" stroke-linejoin="round"/>
-          <rect x="112" y="84" width="40" height="4" rx="2" fill="#3ee6d0" opacity=".8"/>
-        </g>
-        <!-- inbox tray -->
-        <g>
-          <path d="M56 118 L244 118 L226 168 L74 168 Z" fill="#0c1422" stroke="#3ee6d0" stroke-opacity=".5" stroke-width="2"/>
-          <path d="M56 118 L244 118" stroke="#3ee6d0" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/>
-          <path d="M84 140 L216 140" stroke="#a2b0c4" stroke-opacity=".28" stroke-width="2.4" stroke-linecap="round"/>
-          <path d="M96 154 L204 154" stroke="#a2b0c4" stroke-opacity=".18" stroke-width="2.4" stroke-linecap="round"/>
-        </g>
-        <circle class="glowdot" cx="150" cy="118" r="70" fill="#ff4f6d" opacity="0" style="filter:blur(36px)"/>
-      </svg>
-      <h3>Email</h3>
-      <p>Fastest way to reach me. I answer.</p>
-      <span class="go">behibabai@gmail.com
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M17 7H9M17 7v8"/></svg>
-      </span>
-    </a>
-  </section>
-
-  <!-- ============ about ============ -->
-  <section class="rv">
+  <!-- ============ what I do ============ -->
+  <section class="sec rv" id="about">
     <div class="sub">01 / What I do</div>
-    <h2>Agents that answer the phone</h2>
-    <p class="body">Most of my week goes into AI agents and voice: prompt work, RAG pipelines, and the
-      <strong>guardrails that stop an agent wandering off script</strong> halfway through a call.
-      There are <strong>25+ agents live in production</strong> handling thousands of calls a week.</p>
-    <p class="body">The rest goes into the parts nobody demos. I own the architecture across our AI
-      platforms and integrations, built the webhook and lead-ingestion pipelines from scratch, and
-      <strong>maintain the CI/CD my team of five ships through</strong>.</p>
-    <p class="body">I like problems that cross the whole stack, where the bug could be in a React
-      component or in a Twilio webhook and you genuinely do not know which yet. Before this I
-      freelanced for three years and studied computer science at Langara.</p>
-    <p class="body">Away from the keyboard: FPS games, more music than is reasonable, and an ongoing
-      <span class="pom">pomegranate juice</span> habit.</p>
+    <h2>Whole stack, ugly middle included</h2>
+    <p class="body">I write <strong>React and TypeScript</strong> on the front, <strong>Node.js
+      services and REST APIs</strong> behind them, and I own the <strong>AWS, CI/CD and
+      DNS</strong> underneath. The parts of a product that nobody demos are usually the parts
+      I end up responsible for.</p>
+    <p class="body">A lot of my current work is AI: agent systems on the OpenAI and Claude APIs,
+      prompt engineering, RAG pipelines, knowledge bases, and the guardrails that stop an agent
+      wandering off script. Voice is one slice of that, not the whole job. The other slices are
+      webhook pipelines, lead ingestion, CRM and scheduling automation, and internal tools that
+      replace work people were doing by hand.</p>
+    <p class="body">I like problems that cross layers, where the bug could be in a React component
+      or in a webhook payload and you genuinely do not know which yet. I review PRs, onboard
+      engineers, sit in on technical interviews, and argue about product direction.</p>
+    <p class="body">Before this: three years freelancing for my own clients, two years fixing
+      other people's computers at a retail bench, and an Associate of Science in Computer Science
+      from Langara.</p>
+    <p class="body">Away from the keyboard: FPS games, more music than is reasonable, and an
+      ongoing <span class="pom">pomegranate juice</span> habit.</p>
   </section>
 
-  <!-- ============ work ============ -->
-  <section class="rv">
-    <div class="sub">02 / Selected work</div>
-    <h2>Things I built</h2>
+  <!-- ============ experience ============ -->
+  <section class="sec rv" id="work">
+    <div class="sub">02 / Experience</div>
+    <h2>Where I have worked</h2>
+    <ol class="tl" id="tl">
+
+      <li class="job now">
+        <span class="dot"></span>
+        <div class="jhead">
+          <div class="role">Full-Stack Engineer (AI-Enabled)</div>
+          <div class="when">Oct 2025 - Present</div>
+        </div>
+        <div class="at">Alexander Innovation Centre <i>&middot; Vancouver, BC &middot; Full-time</i></div>
+        <ul class="pts">
+          <li>Own architecture across AI platforms, backend services and integrations, from data
+            model and API design through to deployment.</li>
+          <li>Build agent systems on the OpenAI and Claude APIs. The team has <b>25+ agents live in
+            production</b>, with prompt engineering, RAG pipelines, knowledge bases and guardrails
+            keeping output predictable.</li>
+          <li>Build and maintain our in-house voice engine, which handles <b>thousands of calls a
+            week</b> across Twilio, Vapi and ElevenLabs, including routing, latency tuning and
+            handoff to human agents.</li>
+          <li>Ship full-stack features across React and TypeScript frontends and Node.js services
+            backed by SQL and NoSQL databases.</li>
+          <li>Built the real-time webhook and lead-ingestion pipelines from scratch, with custom
+            field mapping and PHP integrations into existing tooling.</li>
+          <li>Automated CRM, lead management and scheduling workflows that used to run by hand,
+            including Nylas calendar integration.</li>
+          <li>Design and maintain the CI/CD and GitHub Actions workflows the team deploys through;
+            manage AWS, DNS, Cloudflare and cPanel.</li>
+          <li>Review PRs for a <b>team of five</b>, mentor and onboard engineers, take part in
+            hiring, and have worked with clients across <b>5 pilot deployments</b>.</li>
+        </ul>
+      </li>
+
+      <li class="job">
+        <span class="dot"></span>
+        <div class="jhead">
+          <div class="role">Full-Stack Engineer</div>
+          <div class="when">Jan 2025 - Oct 2025</div>
+        </div>
+        <div class="at">BMNS Innovations <i>&middot; Vancouver, BC &middot; Full-time, remote</i></div>
+        <ul class="pts">
+          <li>Built internal tools and full-stack features with React, TypeScript, Redux, Node.js
+            and Firebase.</li>
+          <li>Integrated REST APIs and database layers across PostgreSQL and Firebase Firestore.</li>
+          <li>Built reusable, accessible, responsive UI components and refactored legacy code,
+            working in Agile sprints with cross-functional teams.</li>
+        </ul>
+      </li>
+
+      <li class="job">
+        <span class="dot"></span>
+        <div class="jhead">
+          <div class="role">Frontend Developer</div>
+          <div class="when">Apr 2025 - Sep 2025</div>
+        </div>
+        <div class="at">Array <i>&middot; Nanaimo, BC &middot; Part-time, hybrid</i></div>
+        <ul class="pts">
+          <li>Built responsive sites from Figma designs, including custom WordPress, WooCommerce
+            and Shopify builds.</li>
+          <li>Worked in PHP, jQuery and SASS, improving UI/UX and frontend performance across
+            client sites.</li>
+        </ul>
+      </li>
+
+      <li class="job">
+        <span class="dot"></span>
+        <div class="jhead">
+          <div class="role">Full-Stack Developer, freelance</div>
+          <div class="when">Jan 2022 - Dec 2024</div>
+        </div>
+        <div class="at">Self-employed <i>&middot; Vancouver, BC &middot; Part-time, remote</i></div>
+        <ul class="pts">
+          <li>Built and deployed client web applications and dashboards in React, Node.js and
+            PostgreSQL.</li>
+          <li>Integrated third-party APIs and services, deploying on Vercel, Render and Netlify.</li>
+        </ul>
+      </li>
+
+      <li class="job">
+        <span class="dot"></span>
+        <div class="jhead">
+          <div class="role">Senior Computer Service Technician</div>
+          <div class="when">Jun 2022 - Jul 2024</div>
+        </div>
+        <div class="at">London Drugs <i>&middot; Vancouver, BC &middot; Part-time, on-site</i></div>
+        <ul class="pts">
+          <li>Diagnosed hardware and software faults, performed system upgrades, trained new
+            technicians and dealt with customers directly.</li>
+        </ul>
+      </li>
+
+    </ol>
+  </section>
+
+  <!-- ============ side projects ============ -->
+  <section class="sec rv" id="side">
+    <div class="sub">03 / Side projects</div>
+    <h2>Small things I built</h2>
+    <p class="note">Weekend and evening projects. None of these are production systems, and none
+      of them are the work I would point at first. They are here because they are public and
+      because I enjoyed building them.</p>
 
     <a class="row mag" href="https://github.com/behi22/aic-voice-microsite">
-      <div class="t">Voice Agent Microsite</div>
-      <div class="k">System design</div>
+      <div class="rtop">
+        <div class="t">Voice Agent Microsite</div>
+        <div class="k">System design</div>
+      </div>
       <div class="d">An interactive proposal for a restaurant voice agent: AI IVR, conversational
-        ordering, and the handoff to a human when it stops going well.</div>
-      <div class="s">Next.js &middot; TypeScript &middot; Tailwind &middot; Recharts</div>
+        ordering and reservations, human handoff, with call flows, a data model, the API surface
+        and KPIs written up.</div>
+      <div class="s">Next.js &middot; TypeScript &middot; Tailwind &middot; Framer Motion &middot; Recharts</div>
     </a>
 
     <a class="row mag" href="https://github.com/behi22/PettyAF">
-      <div class="t">Outbound Voice Agent</div>
-      <div class="k">Hackathon</div>
-      <div class="d">AI voice agents that place real outbound calls, with live monitoring and
-        transcripts. Built in a weekend.</div>
+      <div class="rtop">
+        <div class="t">Outbound Voice Agent</div>
+        <div class="k">Hackathon</div>
+      </div>
+      <div class="d">Voice agents that place real outbound calls, with live monitoring and
+        transcripts. Built in a weekend, and it looks like it.</div>
       <div class="s">React &middot; Vite &middot; Express &middot; TypeScript</div>
     </a>
 
     <a class="row mag" href="https://github.com/behi22/visitor-classifier">
-      <div class="t">Visitor Classifier</div>
-      <div class="k">Python API</div>
-      <div class="d">Scrapes a site, then works out who is visiting it and why. Python service behind
-        a Redis cache and Postgres.</div>
+      <div class="rtop">
+        <div class="t">Visitor Classifier</div>
+        <div class="k">Python API</div>
+      </div>
+      <div class="d">Scrapes a site, then works out who is visiting it and why. Python API with a
+        Redis cache and Postgres, plus a small React frontend.</div>
       <div class="s">Python &middot; Redis &middot; PostgreSQL &middot; React</div>
     </a>
   </section>
 
   <!-- ============ toolkit ============ -->
-  <section class="rv">
-    <div class="sub">03 / Toolkit</div>
+  <section class="sec rv" id="kit">
+    <div class="sub">04 / Toolkit</div>
     <h2>What I reach for</h2>
     <div class="kit">
-      <div><b>Front end</b>React &middot; TypeScript &middot; Next.js &middot; Redux &middot; Tailwind</div>
-      <div><b>Back end</b>Node.js &middot; Express &middot; Python &middot; PostgreSQL &middot; Redis &middot; WebSockets</div>
-      <div><b>AI</b>Agents &middot; RAG &middot; Prompt engineering &middot; Guardrails &middot; OpenAI &middot; Claude &middot; Vapi &middot; ElevenLabs &middot; Twilio</div>
-      <div><b>Infra</b>AWS &middot; Linux &middot; Docker &middot; GitHub Actions &middot; CI/CD &middot; Cloudflare</div>
+      <div class="kitgrp"><b>Languages</b><div class="chips">
+        <span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">Python</span><span class="chip">PHP</span><span class="chip">SQL</span><span class="chip">HTML/CSS</span><span class="chip">Swift</span><span class="chip">Java</span><span class="chip">C#</span>
+      </div></div>
+      <div class="kitgrp"><b>Frontend</b><div class="chips">
+        <span class="chip">React</span><span class="chip">Next.js</span><span class="chip">React Native</span><span class="chip">Redux</span><span class="chip">Tailwind</span><span class="chip">SASS</span><span class="chip">MUI</span><span class="chip">Vite</span><span class="chip">Webpack</span><span class="chip">Jest</span>
+      </div></div>
+      <div class="kitgrp"><b>Backend and APIs</b><div class="chips">
+        <span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">REST APIs</span><span class="chip">Webhooks</span><span class="chip">WebSockets</span><span class="chip">Firebase Functions</span><span class="chip">Serverless</span><span class="chip">OAuth</span>
+      </div></div>
+      <div class="kitgrp"><b>AI systems</b><div class="chips">
+        <span class="chip">AI agents</span><span class="chip">Agentic workflows</span><span class="chip">Prompt engineering</span><span class="chip">RAG</span><span class="chip">Knowledge bases</span><span class="chip">Guardrails</span><span class="chip">Agent evaluation</span><span class="chip">Voice AI</span><span class="chip">OpenAI</span><span class="chip">Claude</span>
+      </div></div>
+      <div class="kitgrp"><b>Cloud and DevOps</b><div class="chips">
+        <span class="chip">AWS</span><span class="chip">Linux</span><span class="chip">CI/CD</span><span class="chip">GitHub Actions</span><span class="chip">Docker</span><span class="chip">Cloudflare</span><span class="chip">DNS</span><span class="chip">Vercel</span><span class="chip">Netlify</span><span class="chip">Render</span><span class="chip">Jenkins</span>
+      </div></div>
+      <div class="kitgrp"><b>Databases</b><div class="chips">
+        <span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">MongoDB</span><span class="chip">Firestore</span><span class="chip">Redis</span>
+      </div></div>
+      <div class="kitgrp"><b>Integrations</b><div class="chips">
+        <span class="chip">Twilio</span><span class="chip">Vapi</span><span class="chip">ElevenLabs</span><span class="chip">Nylas</span><span class="chip">TwiML</span><span class="chip">Speech-to-text</span><span class="chip">Text-to-speech</span><span class="chip">CRM systems</span>
+      </div></div>
+      <div class="kitgrp"><b>Practices</b><div class="chips">
+        <span class="chip">System design</span><span class="chip">Solution architecture</span><span class="chip">Algorithms</span><span class="chip">Data structures</span><span class="chip">OOP</span><span class="chip">Internal tools</span><span class="chip">Automation</span><span class="chip">Accessibility</span><span class="chip">Agile</span><span class="chip">Unit testing</span><span class="chip">Code review</span><span class="chip">Mentoring</span><span class="chip">Git</span><span class="chip">JIRA</span><span class="chip">Figma</span>
+      </div></div>
     </div>
   </section>
 
-  <footer class="rv">
+  <div class="sec rv" id="reach" style="padding-bottom:0">
+    <div class="sub">05 / Reach me</div>
+    <h2>Four ways in</h2>
+  </div>
+
+  <!-- ============ stage 1: resume slides up out of a folder ============ -->
+  <section class="stage">
+    <a class="propwrap mag from-r" href="Behbod_Babai_Resume.pdf" aria-label="Open resume">
+      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
+        <!-- folder back -->
+        <path d="M40 62 h74 l13 15 h133 a8 8 0 0 1 8 8 v78 a8 8 0 0 1 -8 8 H40 a8 8 0 0 1 -8 -8 V70 a8 8 0 0 1 8 -8 z"
+              fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".42" stroke-width="1.6"/>
+        <!-- the sheet, rising out of the folder -->
+        <g class="emerge">
+          <rect x="76" y="18" width="148" height="120" rx="6" fill="var(--paper)" stroke="var(--paperEdge)" stroke-width="1"/>
+          <rect x="92" y="34" width="62" height="7" rx="3.5" fill="var(--paperInk)" opacity=".82"/>
+          <rect x="92" y="52" width="108" height="4" rx="2" fill="var(--paperInk)" opacity=".28"/>
+          <rect x="92" y="63" width="90" height="4" rx="2" fill="var(--paperInk)" opacity=".28"/>
+          <rect x="92" y="81" width="44" height="4.5" rx="2.2" fill="var(--turq)"/>
+          <rect x="92" y="92" width="108" height="4" rx="2" fill="var(--paperInk)" opacity=".2"/>
+          <rect x="92" y="103" width="96" height="4" rx="2" fill="var(--paperInk)" opacity=".2"/>
+          <rect x="92" y="118" width="44" height="4.5" rx="2.2" fill="var(--pom)"/>
+        </g>
+        <!-- folder front, so the sheet reads as coming out of it -->
+        <path d="M32 96 h236 v56 a8 8 0 0 1 -8 8 H40 a8 8 0 0 1 -8 -8 z"
+              fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".55" stroke-width="1.8"/>
+        <rect x="126" y="118" width="48" height="4" rx="2" fill="var(--turq)" opacity=".5"/>
+      </svg>
+      <h3>Resume</h3>
+      <p>One page. Everything I actually do, with the numbers attached.</p>
+      <span class="go"><span>Open PDF</span></span>
+    </a>
+  </section>
+
+  <!-- ============ stage 2: repo cards fan out of a stack ============ -->
+  <section class="stage">
+    <a class="propwrap mag from-l" href="https://github.com/behi22" aria-label="Open GitHub">
+      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
+        <g class="fan2">
+          <rect x="86" y="26" width="128" height="138" rx="11" fill="var(--propFill2)"
+                stroke="var(--turq)" stroke-opacity=".22" stroke-width="1.5"/>
+        </g>
+        <g class="fan1">
+          <rect x="86" y="26" width="128" height="138" rx="11" fill="var(--propFill2)"
+                stroke="var(--turq)" stroke-opacity=".34" stroke-width="1.5"/>
+        </g>
+        <g>
+          <rect x="86" y="26" width="128" height="138" rx="11" fill="var(--propFill)"
+                stroke="var(--turq)" stroke-opacity=".62" stroke-width="1.8"/>
+          <g fill="none" stroke="var(--turq)" stroke-width="3" stroke-linecap="round">
+            <path d="M114 56 L114 134"/>
+            <path d="M114 86 q30 0 30 26 l0 22"/>
+          </g>
+          <circle cx="114" cy="56" r="7.5" fill="var(--propFill)" stroke="var(--turq)" stroke-width="3"/>
+          <circle cx="114" cy="95" r="7.5" fill="var(--propFill)" stroke="var(--turq)" stroke-width="3"/>
+          <circle cx="114" cy="134" r="7.5" fill="var(--propFill)" stroke="var(--turq)" stroke-width="3"/>
+          <circle cx="144" cy="134" r="7.5" fill="var(--propFill)" stroke="var(--pom)" stroke-width="3"/>
+          <rect x="164" y="50" width="38" height="5" rx="2.5" fill="var(--muted)" opacity=".55"/>
+          <rect x="164" y="90" width="28" height="5" rx="2.5" fill="var(--muted)" opacity=".38"/>
+          <rect x="164" y="129" width="32" height="5" rx="2.5" fill="var(--muted)" opacity=".38"/>
+        </g>
+      </svg>
+      <h3>GitHub</h3>
+      <p>Side projects in public, plus about 900 commits a year in private repos at work.</p>
+      <span class="go"><span>Open profile</span></span>
+    </a>
+  </section>
+
+  <!-- ============ stage 3: profile card slides out of a sleeve ============ -->
+  <section class="stage">
+    <a class="propwrap mag from-r" href="https://www.linkedin.com/in/behbod-babai" aria-label="Open LinkedIn">
+      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
+        <g class="emerge">
+          <rect x="66" y="26" width="168" height="104" rx="9" fill="var(--paper)" stroke="var(--paperEdge)" stroke-width="1"/>
+          <rect x="82" y="42" width="32" height="32" rx="7" fill="#0a66c2"/>
+          <text x="98" y="65" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="600"
+                fill="#ffffff" text-anchor="middle">in</text>
+          <rect x="124" y="44" width="76" height="7" rx="3.5" fill="var(--paperInk)" opacity=".8"/>
+          <rect x="124" y="60" width="54" height="4.5" rx="2.2" fill="var(--paperInk)" opacity=".3"/>
+          <rect x="82" y="88" width="136" height="4.5" rx="2.2" fill="var(--paperInk)" opacity=".2"/>
+          <rect x="82" y="102" width="104" height="4.5" rx="2.2" fill="var(--paperInk)" opacity=".2"/>
+        </g>
+        <!-- sleeve -->
+        <path d="M54 104 h192 a8 8 0 0 1 8 8 v40 a8 8 0 0 1 -8 8 H54 a8 8 0 0 1 -8 -8 v-40 a8 8 0 0 1 8 -8 z"
+              fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".55" stroke-width="1.8"/>
+        <path d="M46 118 h208" stroke="var(--turq)" stroke-opacity=".3" stroke-width="1.4"/>
+        <rect x="126" y="134" width="48" height="4" rx="2" fill="var(--turq)" opacity=".45"/>
+      </svg>
+      <h3>LinkedIn</h3>
+      <p>The longer version, with the full history and the people I have worked with.</p>
+      <span class="go"><span>Open profile</span></span>
+    </a>
+  </section>
+
+  <!-- ============ stage 4: envelope drops into the tray ============ -->
+  <section class="stage">
+    <a class="propwrap mag from-b" href="mailto:behibabai@gmail.com" aria-label="Send email">
+      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
+        <g class="emerge">
+          <rect x="98" y="24" width="104" height="70" rx="7" fill="var(--paper)" stroke="var(--paperEdge)" stroke-width="1"/>
+          <path d="M98 32 L150 68 L202 32" fill="none" stroke="var(--paperInk)" stroke-opacity=".42"
+                stroke-width="3.2" stroke-linejoin="round"/>
+          <rect x="112" y="78" width="40" height="4" rx="2" fill="var(--turq)"/>
+        </g>
+        <g>
+          <path d="M56 112 L244 112 L226 164 L74 164 Z" fill="var(--propFill)"
+                stroke="var(--turq)" stroke-opacity=".5" stroke-width="2"/>
+          <path d="M56 112 L244 112" stroke="var(--turq)" stroke-opacity=".72" stroke-width="3" stroke-linecap="round"/>
+          <path d="M84 134 L216 134" stroke="var(--muted)" stroke-opacity=".3" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M96 148 L204 148" stroke="var(--muted)" stroke-opacity=".2" stroke-width="2.4" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <h3>Email</h3>
+      <p>Fastest way to reach me. I answer.</p>
+      <span class="go"><span>behibabai@gmail.com</span></span>
+    </a>
+  </section>
+
+  <footer>
     <a href="mailto:behibabai@gmail.com">behibabai@gmail.com</a>
   </footer>
 
@@ -392,8 +672,9 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
 
 <script>
 (function(){
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = matchMedia('(pointer:fine)').matches;
+  var root=document.documentElement;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine=matchMedia('(pointer:fine)').matches;
 
   /* ---------- spring integrator ---------- */
   function Spring(k,d,m){this.k=k;this.d=d;this.m=m||1;this.x=0;this.v=0;this.target=0}
@@ -402,7 +683,48 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
     this.v+=(f/this.m)*dt; this.x+=this.v*dt; return this.x;
   };
 
-  /* ---------- 1. name: letters fly in from scattered offsets, spring to rest ---------- */
+  /* ---------- theme ---------- */
+  var btn=document.getElementById('themebtn');
+  var thumb=btn.querySelector('.thumb');
+  var thumbSpring=new Spring(240,20);
+  var thumbRun=false, thumbPrev=0;
+  function travel(){ return btn.clientWidth - thumb.offsetWidth - 6; }
+  function syncTheme(){
+    var light=root.getAttribute('data-theme')==='light';
+    btn.setAttribute('aria-pressed',light?'true':'false');
+    thumbSpring.target=light?travel():0;
+    if(reduce){ thumbSpring.x=thumbSpring.target; thumbSpring.v=0;
+      thumb.style.transform='translateX('+thumbSpring.x+'px)'; paintFx(); return; }
+    if(!thumbRun){ thumbRun=true; thumbPrev=performance.now(); requestAnimationFrame(thumbTick); }
+  }
+  function thumbTick(now){
+    var dt=Math.min((now-thumbPrev)/1000,.032); thumbPrev=now;
+    thumbSpring.step(dt);
+    thumb.style.transform='translateX('+thumbSpring.x.toFixed(2)+'px)';
+    if(Math.abs(thumbSpring.x-thumbSpring.target)>.2||Math.abs(thumbSpring.v)>.4){
+      requestAnimationFrame(thumbTick);
+    } else {
+      thumbSpring.x=thumbSpring.target; thumbSpring.v=0;
+      thumb.style.transform='translateX('+thumbSpring.x+'px)';
+      thumbRun=false;
+    }
+  }
+  btn.addEventListener('click',function(){
+    var next=root.getAttribute('data-theme')==='light'?'dark':'light';
+    root.setAttribute('data-theme',next);
+    try{ localStorage.setItem('theme',next); }catch(e){}
+    var m=document.querySelector('meta[name="theme-color"]');
+    if(m) m.setAttribute('content',next==='light'?'#f7f8fa':'#080e18');
+    syncTheme(); paintFx();
+  });
+  addEventListener('resize',function(){
+    thumbSpring.target=root.getAttribute('data-theme')==='light'?travel():0;
+    thumbSpring.x=thumbSpring.target;
+    thumb.style.transform='translateX('+thumbSpring.x+'px)';
+  });
+  syncTheme();
+
+  /* ---------- name: letters spring in from a deterministic scatter ---------- */
   var h1=document.getElementById('name');
   (function(){
     var out='';
@@ -423,7 +745,7 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
   var ltrs=[].slice.call(h1.querySelectorAll('.l'));
   var emLtrs=[].slice.call(h1.querySelectorAll('em .l'));
 
-  /* stitch the per-letter gradients back into one continuous ramp across the word */
+  /* each em letter carries a slice of one gradient; stitch them by offset */
   function paintGradient(){
     var em=h1.querySelector('em'); if(!em||!emLtrs.length) return;
     var w=em.getBoundingClientRect().width; if(!w) return;
@@ -436,17 +758,22 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
   }
   paintGradient();
   if(document.fonts&&document.fonts.ready){document.fonts.ready.then(paintGradient);}
-  window.addEventListener('resize',paintGradient);
-  setTimeout(function(){h1.classList.add('lit')},reduce?0:2100);
+  addEventListener('resize',paintGradient);
 
-  if(reduce){ ltrs.forEach(function(l){l.style.opacity=1}); }
-  else {
-    /* deterministic scatter so it looks composed, not random noise */
+  function settleName(){
+    ltrs.forEach(function(l){ l.style.opacity=1; l.style.transform=''; });
+    h1.classList.add('lit');
+  }
+  /* rAF is suspended in background tabs, so guarantee the name is never left scattered */
+  setTimeout(settleName,3200);
+
+  if(reduce){ settleName(); }
+  else{
+    setTimeout(function(){h1.classList.add('lit')},2000);
     var sp=ltrs.map(function(l,i){
-      var s={x:new Spring(190,17),y:new Spring(190,17),r:new Spring(170,16),el:l,t:0,delay:0.05*i};
+      var s={x:new Spring(195,17),y:new Spring(195,17),r:new Spring(175,16),el:l,t:0,delay:.045*i};
       var dir=(i%2?1:-1), swing=(i%3)+1;
-      s.x.x=dir*(40+swing*26); s.y.x=-70-swing*24; s.r.x=dir*(16+swing*7);
-      l.style.opacity=0;
+      s.x.x=dir*(38+swing*24); s.y.x=-66-swing*22; s.r.x=dir*(15+swing*6);
       return s;
     });
     var last=performance.now();
@@ -457,27 +784,27 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
         s.t+=dt;
         if(s.t<s.delay){busy=true;return}
         s.x.step(dt); s.y.step(dt); s.r.step(dt);
-        var settled=Math.abs(s.x.x)<.06&&Math.abs(s.y.x)<.06&&Math.abs(s.r.x)<.06
-                 && Math.abs(s.x.v)<.1&&Math.abs(s.y.v)<.1;
         s.el.style.opacity=1;
-        if(settled){ s.el.style.transform=''; s.el.style.filter=''; }
+        var done=Math.abs(s.x.x)<.06&&Math.abs(s.y.x)<.06&&Math.abs(s.r.x)<.06
+              && Math.abs(s.x.v)<.1&&Math.abs(s.y.v)<.1;
+        if(done){ s.el.style.transform=''; }
         else{
           busy=true;
           s.el.style.transform='translate('+s.x.x.toFixed(2)+'px,'+s.y.x.toFixed(2)+'px) rotate('+s.r.x.toFixed(2)+'deg)';
-          var b=Math.min(9,Math.abs(s.y.x)*.12);
-          s.el.style.filter=b>.35?'blur('+b.toFixed(2)+'px)':'';
         }
       });
       if(busy) requestAnimationFrame(step);
     })(last);
   }
 
-  /* ---------- 2. magnetic springs on props, buttons, rows ---------- */
+  /* ---------- magnetic springs on props and rows ---------- */
   if(fine && !reduce){
     var mags=[].slice.call(document.querySelectorAll('.mag')).map(function(el){
-      return {el:el,sx:new Spring(200,19),sy:new Spring(200,19),reach:el.classList.contains('row')?150:210,pull:el.classList.contains('row')?.10:.16};
+      var isRow=el.classList.contains('row');
+      return {el:el,sx:new Spring(200,19),sy:new Spring(200,19),
+              reach:isRow?150:210, pull:isRow?.09:.15};
     });
-    var mx=-9999,my=-9999,run=false,prev=performance.now();
+    var mx=-9999,my=-9999,run=false,prev=0;
     addEventListener('mousemove',function(e){
       mx=e.clientX;my=e.clientY;
       if(!run){run=true;prev=performance.now();requestAnimationFrame(tick)}
@@ -496,7 +823,7 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
           if(f>0) busy=true;
         }
         m.sx.step(dt); m.sy.step(dt);
-        if(Math.abs(m.sx.x)>.05||Math.abs(m.sy.x)>.05){busy=true;
+        if(Math.abs(m.sx.x)>.05||Math.abs(m.sy.x)>.05){ busy=true;
           m.el.style.transform='translate('+m.sx.x.toFixed(2)+'px,'+m.sy.x.toFixed(2)+'px)';
         } else { m.el.style.transform=''; }
       });
@@ -504,36 +831,123 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
     }
   }
 
-  /* ---------- 3. counters ---------- */
-  var counted=false;
-  function runCounters(){
-    if(counted) return; counted=true;
-    document.querySelectorAll('[data-count]').forEach(function(el){
-      var to=+el.getAttribute('data-count'), sfx=el.getAttribute('data-suffix')||'';
-      if(reduce){ el.textContent=to+sfx; return; }
-      var t0=null;
-      (function f(ts){
-        if(!t0) t0=ts;
-        var p=Math.min((ts-t0)/1100,1);
-        var e=1-Math.pow(1-p,3);
-        el.textContent=Math.round(to*e)+(p===1?sfx:'');
-        if(p<1) requestAnimationFrame(f);
-      })(performance.now());
-    });
+  /* ---------- physics field in the margins ---------- */
+  var cv=document.getElementById('fx'), ctx=cv&&cv.getContext?cv.getContext('2d'):null;
+  var nodes=[], dpr=1, cw=0, ch=0, fxRGB='62,230,208', fxA=.3;
+  var pmx=-9999, pmy=-9999, fxRun=false, fxPrev=0;
+
+  function readFxColour(){
+    var cs=getComputedStyle(root);
+    fxRGB=(cs.getPropertyValue('--fx')||'62,230,208').trim();
+    fxA=parseFloat(cs.getPropertyValue('--fxA'))||.3;
+  }
+  function layout(){
+    if(!ctx) return;
+    dpr=Math.min(devicePixelRatio||1,2);
+    cw=innerWidth; ch=innerHeight;
+    cv.width=Math.round(cw*dpr); cv.height=Math.round(ch*dpr);
+    cv.style.width=cw+'px'; cv.style.height=ch+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    /* keep the field in the margins so it never fights the text column */
+    var colHalf=Math.min(380,cw*.5);
+    var count=Math.max(14,Math.min(46,Math.round(cw*ch/42000)));
+    nodes=[];
+    for(var i=0;i<count;i++){
+      var left=i%2===0;
+      var span=Math.max(40,cw/2-colHalf);
+      var hx=left?(Math.random()*span):(cw-Math.random()*span);
+      var hy=Math.random()*ch;
+      nodes.push({hx:hx,hy:hy,x:hx,y:hy,vx:0,vy:0,
+        px:(Math.random()*2-1)*.09,py:(Math.random()*2-1)*.09,
+        r:.9+Math.random()*1.5});
+    }
+  }
+  function draw(){
+    if(!ctx) return;
+    ctx.clearRect(0,0,cw,ch);
+    var i,j,a,b,d;
+    ctx.lineWidth=1;
+    for(i=0;i<nodes.length;i++){
+      a=nodes[i];
+      for(j=i+1;j<nodes.length;j++){
+        b=nodes[j];
+        var dx=a.x-b.x, dy=a.y-b.y;
+        d=dx*dx+dy*dy;
+        if(d<9500){
+          var o=(1-d/9500)*fxA*.42;
+          ctx.strokeStyle='rgba('+fxRGB+','+o.toFixed(3)+')';
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+    for(i=0;i<nodes.length;i++){
+      a=nodes[i];
+      ctx.fillStyle='rgba('+fxRGB+','+(fxA*.85).toFixed(3)+')';
+      ctx.beginPath(); ctx.arc(a.x,a.y,a.r,0,6.2832); ctx.fill();
+    }
+  }
+  function stepFx(now){
+    var dt=Math.min((now-fxPrev)/1000,.032); fxPrev=now;
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i];
+      /* slow drift around home */
+      n.hx+=n.px; n.hy+=n.py;
+      if(n.hx<0||n.hx>cw) n.px*=-1;
+      if(n.hy<0||n.hy>ch) n.py*=-1;
+      /* cursor pushes, spring pulls home */
+      var fx=-90*(n.x-n.hx)-13*n.vx;
+      var fy=-90*(n.y-n.hy)-13*n.vy;
+      var dx=n.x-pmx, dy=n.y-pmy;
+      var d2=dx*dx+dy*dy;
+      if(d2<26000&&d2>.01){
+        var push=(1-d2/26000)*2600/Math.sqrt(d2);
+        fx+=dx*push; fy+=dy*push;
+      }
+      n.vx+=fx*dt; n.vy+=fy*dt;
+      n.x+=n.vx*dt; n.y+=n.vy*dt;
+    }
+    draw();
+    if(document.visibilityState==='visible') requestAnimationFrame(stepFx);
+    else fxRun=false;
+  }
+  function paintFx(){ readFxColour(); draw(); }
+  function startFx(){
+    if(!ctx||fxRun) return;
+    fxRun=true; fxPrev=performance.now(); requestAnimationFrame(stepFx);
+  }
+  if(ctx){
+    readFxColour(); layout(); draw();
+    addEventListener('resize',function(){layout();draw()});
+    if(!reduce){
+      if(fine){
+        addEventListener('mousemove',function(e){pmx=e.clientX;pmy=e.clientY},{passive:true});
+      }
+      startFx();
+      document.addEventListener('visibilitychange',function(){
+        if(document.visibilityState==='visible') startFx();
+      });
+    }
   }
 
-  /* ---------- 4. fallbacks where scroll-driven CSS is missing ---------- */
-  var hasView = CSS.supports('animation-timeline: view()');
+  /* ---------- reveal + fallbacks + staggered chips ---------- */
+  var hasView=CSS.supports('animation-timeline: view()');
+  function stagger(el){
+    var chips=[].slice.call(el.querySelectorAll('.chip'));
+    chips.forEach(function(c,i){ setTimeout(function(){c.classList.add('on')}, reduce?0:i*26); });
+  }
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){
       if(!e.isIntersecting) return;
-      if(!hasView) e.target.classList.add('in');
-      if(e.target.querySelector&&e.target.querySelector('[data-count]')) runCounters();
-      if(e.target.hasAttribute&&e.target.hasAttribute('data-count')) runCounters();
-      io.unobserve(e.target);
+      var t=e.target;
+      if(!hasView) t.classList.add('in');
+      if(t.classList.contains('job')) t.classList.add('on');
+      if(t.id==='tl'&&!hasView) t.classList.add('drawn');
+      if(t.classList.contains('kitgrp')) stagger(t);
+      io.unobserve(t);
     });
-  },{threshold:.15,rootMargin:'0px 0px -5% 0px'});
-  document.querySelectorAll('.rv,.from-r,.from-l,.from-b,.stats').forEach(function(el){io.observe(el)});
+  },{threshold:.12,rootMargin:'0px 0px -4% 0px'});
+  document.querySelectorAll('.rv,.from-r,.from-l,.from-b,.emerge,.job,.kitgrp,#tl')
+    .forEach(function(el){io.observe(el)});
 
   if(!CSS.supports('animation-timeline: scroll(root block)')){
     var bar=document.querySelector('.rail span');
@@ -542,6 +956,29 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
       bar.style.transform='scaleY('+(h>0?scrollY/h:0)+')';
     },{passive:true});
   }
+
+  /* failsafe: nothing that starts at opacity 0 may stay invisible */
+  setTimeout(function(){
+    document.querySelectorAll(".rv,.from-r,.from-l,.from-b,.emerge").forEach(function(el){el.classList.add("in")});
+    document.querySelectorAll(".chip").forEach(function(c){c.classList.add("on")});
+    document.querySelectorAll(".job").forEach(function(j){j.classList.add("on")});
+    var tl=document.getElementById("tl"); if(tl) tl.classList.add("drawn");
+  },4200);
+
+  /* ---------- dock: mark the section you are in ---------- */
+  var links=[].slice.call(document.querySelectorAll('.dock a'));
+  var targets=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function markDock(){
+    var best=0, mid=innerHeight*.42;
+    targets.forEach(function(t,i){
+      if(!t) return;
+      var r=t.getBoundingClientRect();
+      if(r.top<=mid) best=i;
+    });
+    links.forEach(function(a,i){ a.classList.toggle('on',i===best) });
+  }
+  addEventListener('scroll',markDock,{passive:true});
+  markDock();
 })();
 </script>
 </body>
