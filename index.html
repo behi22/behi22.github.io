@@ -3,90 +3,380 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Behbod Babai | Full-Stack Engineer</title>
-<meta name="description" content="Full-Stack Engineer in Vancouver, BC. AI systems, agents, and voice AI. React, TypeScript, Node.js, AWS.">
+<title>Behbod Babai</title>
+<meta name="description" content="Full-stack engineer in Vancouver. AI agents, voice systems, and the infrastructure that keeps them standing.">
+<meta name="theme-color" content="#080d16">
+<!-- pomegranate, inline so there is no extra request -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='19.5' r='10.5' fill='%23c9304f'/%3E%3Cpath d='M16 9c5 2 8 5.5 8 10.5 0 3-1.5 5.5-4 7 1-2.5 1.2-5.5.4-8.5C19.6 15 18 11.5 16 9z' fill='%23e2506b'/%3E%3Cpath d='M16 10.5c-1.6-2-2.2-4-2-6.5 1.2 1.4 2 2.2 3.2 2.6.5-1 1.4-1.8 2.6-2.3-.4 1.5-.3 2.6.2 3.6-1.3.4-2.6 1.2-4 2.6z' fill='%233f7d55'/%3E%3Ccircle cx='13' cy='18' r='1.5' fill='%23f6d0d8' opacity='.55'/%3E%3Ccircle cx='17.5' cy='22' r='1.3' fill='%23f6d0d8' opacity='.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#fbfbfa; --fg:#1a1a1a; --muted:#5c5c5c; --line:#e3e3e0; --accent:#1f6feb; --card:#ffffff;
-  }
-  @media (prefers-color-scheme:dark){
-    :root{ --bg:#0f1115; --fg:#eceef2; --muted:#9aa1ad; --line:#242833; --accent:#6ea8fe; --card:#161922; }
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    background:var(--bg); color:var(--fg);
-    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    padding:64px 20px; display:flex; justify-content:center;
-  }
-  .wrap{width:100%;max-width:640px}
-  h1{font-size:32px;letter-spacing:-.02em;line-height:1.2}
-  .tag{color:var(--accent);font-weight:600;margin-top:6px}
-  .loc{color:var(--muted);font-size:14px;margin-top:4px}
-  p.intro{margin-top:22px;color:var(--fg)}
-  h2{font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);
-     margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
-  ul{list-style:none}
-  .links li{margin-bottom:10px}
-  a{color:var(--accent);text-decoration:none}
-  a:hover{text-decoration:underline}
-  .links .what{color:var(--muted);font-size:14px}
-  .proj{background:var(--card);border:1px solid var(--line);border-radius:10px;
-        padding:16px 18px;margin-bottom:12px}
-  .proj .name{font-weight:600}
-  .proj .desc{color:var(--muted);font-size:14px;margin-top:5px}
-  .proj .stack{color:var(--muted);font-size:12.5px;margin-top:8px}
-  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);
-         color:var(--muted);font-size:13px}
+:root{
+  --night:#080d16;
+  --night2:#0c1320;
+  --ink:#eef2f7;
+  --muted:#8593a6;
+  --faint:#59677c;
+  --turq:#5ad3c6;
+  --indigo:#5b7cf5;
+  --pom:#e0455f;
+  --sand:#e9d6b8;
+  --line:rgba(255,255,255,.07);
+  --glass:rgba(255,255,255,.025);
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{
+  background:var(--night);color:var(--ink);font-family:var(--sans);
+  font-weight:300;line-height:1.7;overflow-x:hidden;position:relative;
+}
+::selection{background:var(--turq);color:var(--night)}
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:var(--night)}
+::-webkit-scrollbar-thumb{background:#1c2636;border-radius:9px}
+::-webkit-scrollbar-thumb:hover{background:#28374d}
+
+/* ---------- aurora ---------- */
+.aurora{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5}
+.b1{width:52vw;height:52vw;background:radial-gradient(circle,var(--turq),transparent 68%);
+    top:-16vw;left:-10vw;animation:drift1 26s ease-in-out infinite}
+.b2{width:46vw;height:46vw;background:radial-gradient(circle,var(--indigo),transparent 68%);
+    top:22vh;right:-14vw;animation:drift2 32s ease-in-out infinite}
+.b3{width:34vw;height:34vw;background:radial-gradient(circle,var(--pom),transparent 70%);
+    bottom:-10vw;left:24vw;opacity:.32;animation:drift3 38s ease-in-out infinite}
+@keyframes drift1{50%{transform:translate3d(8vw,6vh,0) scale(1.12)}}
+@keyframes drift2{50%{transform:translate3d(-7vw,-5vh,0) scale(.9)}}
+@keyframes drift3{50%{transform:translate3d(5vw,-7vh,0) scale(1.15)}}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.4;
+  background-image:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:3px 3px}
+
+/* ---------- cursor glow ---------- */
+.glow{position:fixed;width:520px;height:520px;border-radius:50%;z-index:1;
+  pointer-events:none;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(90,211,198,.09),transparent 62%);
+  transition:opacity .5s;opacity:0}
+
+/* ---------- layout ---------- */
+.page{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:0 26px}
+section{padding:104px 0}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);
+  font-weight:500;margin-bottom:26px;display:flex;align-items:center;gap:12px}
+.eyebrow::after{content:"";height:1px;flex:1;background:var(--line)}
+
+/* ---------- hero ---------- */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:80px 0 60px}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(58px,12vw,116px);
+  line-height:.92;letter-spacing:-.022em;margin-bottom:26px}
+h1 .ltr{display:inline-block;opacity:0;transform:translateY(.42em);filter:blur(9px);
+  animation:letterIn .95s cubic-bezier(.22,1,.36,1) forwards;will-change:transform,filter}
+h1 .ltr:hover{color:var(--turq);transform:translateY(-6px);transition:.3s}
+@keyframes letterIn{to{opacity:1;transform:translateY(0);filter:blur(0)}}
+h1 em{font-style:italic;color:var(--turq)}
+.lede{font-size:clamp(17px,2.1vw,20px);color:var(--muted);max-width:29em;
+  opacity:0;animation:fadeUp .9s .95s cubic-bezier(.22,1,.36,1) forwards}
+.lede b{color:var(--ink);font-weight:400}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* ---------- waveform ---------- */
+.wave{display:flex;align-items:flex-end;gap:4px;height:38px;margin:38px 0 34px;
+  opacity:0;animation:fadeUp .9s 1.25s cubic-bezier(.22,1,.36,1) forwards}
+.wave i{width:3px;border-radius:3px;background:linear-gradient(to top,var(--turq),var(--indigo));
+  height:20%;animation:eq 1.5s ease-in-out infinite;transform-origin:bottom}
+@keyframes eq{0%,100%{height:16%;opacity:.5}50%{height:100%;opacity:1}}
+.wavecap{font-size:12px;color:var(--faint);letter-spacing:.05em;margin-left:14px;
+  align-self:flex-end;margin-bottom:1px;font-weight:400;white-space:nowrap}
+
+/* ---------- buttons ---------- */
+.cta{display:flex;flex-wrap:wrap;gap:11px;
+  opacity:0;animation:fadeUp .9s 1.45s cubic-bezier(.22,1,.36,1) forwards}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;
+  padding:12px 20px;border-radius:999px;border:1px solid var(--line);
+  background:var(--glass);color:var(--ink);text-decoration:none;font-size:14px;
+  font-weight:400;transition:border-color .3s,transform .3s,color .3s}
+.btn:hover{border-color:var(--turq);color:var(--turq);transform:translateY(-2px)}
+.btn::after{content:"";position:absolute;inset:0;border-radius:999px;opacity:0;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(90,211,198,.18),transparent 60%);
+  transition:opacity .35s}
+.btn:hover::after{opacity:1}
+.btn.solid{background:var(--turq);color:#04121a;border-color:var(--turq);font-weight:500}
+.btn.solid:hover{background:#74e0d4;color:#04121a;transform:translateY(-2px)}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- about ---------- */
+.about p{font-size:17px;color:var(--muted);margin-bottom:20px;max-width:34em}
+.about p:last-child{margin-bottom:0}
+.about strong{color:var(--ink);font-weight:400}
+.pom{color:var(--pom)}
+
+/* ---------- skills ---------- */
+.skills{display:grid;gap:26px}
+.srow{display:grid;grid-template-columns:118px 1fr;gap:18px;align-items:start}
+.slabel{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  padding-top:7px;font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-size:13px;padding:5px 12px;border-radius:7px;border:1px solid var(--line);
+  background:var(--glass);color:var(--muted);transition:.28s;cursor:default}
+.chip:hover{color:var(--turq);border-color:rgba(90,211,198,.4);transform:translateY(-2px)}
+
+/* ---------- work ---------- */
+.cards{display:grid;gap:16px}
+.card{position:relative;display:block;text-decoration:none;color:inherit;
+  padding:26px;border-radius:16px;border:1px solid var(--line);background:var(--glass);
+  overflow:hidden;transform-style:preserve-3d;
+  transition:border-color .4s,box-shadow .4s}
+.card::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .4s;
+  background:radial-gradient(560px circle at var(--mx,50%) var(--my,50%),rgba(90,211,198,.07),transparent 42%)}
+.card:hover{border-color:rgba(90,211,198,.32);box-shadow:0 22px 50px -28px rgba(0,0,0,.85)}
+.card:hover::before{opacity:1}
+.card h3{font-family:var(--serif);font-weight:400;font-size:23px;letter-spacing:-.01em;
+  margin-bottom:9px;display:flex;align-items:baseline;gap:9px}
+.card h3 span{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint);font-weight:500}
+.card p{font-size:14.5px;color:var(--muted);margin-bottom:15px}
+.stack{display:flex;flex-wrap:wrap;gap:6px}
+.stack i{font-style:normal;font-size:11.5px;letter-spacing:.03em;color:var(--faint);
+  padding:3px 9px;border-radius:5px;background:rgba(255,255,255,.03)}
+.arrow{position:absolute;top:26px;right:26px;color:var(--faint);transition:.35s;font-size:15px}
+.card:hover .arrow{color:var(--turq);transform:translate(4px,-4px)}
+
+/* ---------- footer ---------- */
+footer{padding:70px 0 54px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  font-size:13px;color:var(--faint)}
+footer a{color:var(--muted);text-decoration:none;transition:.3s}
+footer a:hover{color:var(--turq)}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--turq);
+  margin-right:8px;animation:pulse 2.6s ease-in-out infinite;vertical-align:middle}
+@keyframes pulse{50%{opacity:.25;transform:scale(.7)}}
+
+@media (max-width:620px){
+  section{padding:76px 0}
+  .srow{grid-template-columns:1fr;gap:9px}
+  .slabel{padding-top:0}
+  footer{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001s!important;transition-duration:.001s!important}
+  .blob,.wave i,.dot{animation:none!important}
+  h1 .ltr,.lede,.wave,.cta{opacity:1!important;transform:none!important;filter:none!important}
+  .rv{opacity:1!important;transform:none!important}
+  html{scroll-behavior:auto}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <h1>Behbod Babai</h1>
-  <div class="tag">Full-Stack Engineer | AI systems, agents, and voice AI</div>
-  <div class="loc">Vancouver, BC, Canada</div>
+<div class="aurora"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="grain"></div>
+<div class="glow" id="glow"></div>
 
-  <p class="intro">
-    I build AI systems end to end: agents, RAG pipelines, and voice AI, plus the
-    React and TypeScript front ends, Node.js services, and AWS infrastructure around them.
-    Currently at Alexander Innovation Centre, where I own architecture across AI platforms,
-    integrations, and the CI/CD my team deploys through.
-  </p>
+<div class="page">
 
-  <h2>Links</h2>
-  <ul class="links">
-    <li><a href="https://github.com/behi22">github.com/behi22</a> <span class="what">personal projects</span></li>
-    <li><a href="https://github.com/behbod-babai">github.com/behbod-babai</a> <span class="what">work account, private repos</span></li>
-    <li><a href="https://www.linkedin.com/in/behbod-babai">linkedin.com/in/behbod-babai</a></li>
-    <li><a href="mailto:behibabai@gmail.com">behibabai@gmail.com</a></li>
-  </ul>
+  <section class="hero">
+    <h1 id="name">Behbod <em>Babai</em></h1>
 
-  <h2>Selected work</h2>
+    <p class="lede">
+      Full-stack engineer in Vancouver. I build <b>AI agents and voice systems</b>,
+      and the infrastructure that keeps them standing once real people start calling.
+    </p>
 
-  <div class="proj">
-    <div class="name"><a href="https://github.com/behi22/aic-voice-microsite">AI Voice Agent Microsite</a></div>
-    <div class="desc">Interactive system-design proposal for a restaurant voice agent: AI IVR,
-      conversational ordering and reservations, and human handoff, with call flows,
-      data model, API surface, and a DevOps plan documented.</div>
-    <div class="stack">Next.js, TypeScript, Tailwind, Framer Motion, Recharts</div>
-  </div>
+    <div class="wave" id="wave"><span class="wavecap">voice, mostly</span></div>
 
-  <div class="proj">
-    <div class="name"><a href="https://github.com/behi22/PettyAF">AI Outbound Voice Agent</a></div>
-    <div class="desc">Hackathon project. AI voice agents that place real outbound calls,
-      with live call monitoring and transcripts.</div>
-    <div class="stack">React, Vite, Express, TypeScript, Vercel</div>
-  </div>
+    <div class="cta">
+      <a class="btn solid" href="Behbod_Babai_Resume.pdf">Résumé</a>
+      <a class="btn" href="https://github.com/behi22">GitHub</a>
+      <a class="btn" href="https://www.linkedin.com/in/behbod-babai">LinkedIn</a>
+      <a class="btn" href="mailto:behibabai@gmail.com">Email</a>
+    </div>
+  </section>
 
-  <div class="proj">
-    <div class="name"><a href="https://github.com/behi22/visitor-classifier">Visitor Classifier</a></div>
-    <div class="desc">Web scraping and visitor classification service with a Python API,
-      Redis caching, and PostgreSQL, plus a React front end.</div>
-    <div class="stack">Python, Redis, PostgreSQL, React, Render</div>
-  </div>
+  <section class="about rv">
+    <div class="eyebrow">About</div>
+    <p>
+      Most of my week goes into AI agents and voice: prompt work, RAG pipelines, and the
+      <strong>guardrails that stop an agent wandering off script</strong> halfway through a call.
+      The rest goes into the unglamorous parts that make it survive contact with real users,
+      like the deploy pipeline my team ships through.
+    </p>
+    <p>
+      I like problems that cross the whole stack, where the bug could be in a React component
+      or in a Twilio webhook and you genuinely do not know which yet.
+    </p>
+    <p>
+      Away from the keyboard: FPS games, more music than is reasonable, and an ongoing
+      <span class="pom">pomegranate juice</span> habit.
+    </p>
+  </section>
 
-  <footer>Built and hosted on GitHub Pages.</footer>
+  <section class="rv">
+    <div class="eyebrow">Toolkit</div>
+    <div class="skills">
+      <div class="srow"><div class="slabel">Front end</div><div class="chips">
+        <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Next.js</span>
+        <span class="chip">Redux</span><span class="chip">Tailwind</span><span class="chip">Framer Motion</span>
+      </div></div>
+      <div class="srow"><div class="slabel">Back end</div><div class="chips">
+        <span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">Python</span>
+        <span class="chip">PostgreSQL</span><span class="chip">Redis</span><span class="chip">REST</span>
+        <span class="chip">Webhooks</span>
+      </div></div>
+      <div class="srow"><div class="slabel">AI</div><div class="chips">
+        <span class="chip">Agents</span><span class="chip">RAG</span><span class="chip">Prompt engineering</span>
+        <span class="chip">Guardrails</span><span class="chip">OpenAI</span><span class="chip">Claude</span>
+        <span class="chip">Vapi</span><span class="chip">ElevenLabs</span><span class="chip">Twilio</span>
+      </div></div>
+      <div class="srow"><div class="slabel">Infra</div><div class="chips">
+        <span class="chip">AWS</span><span class="chip">Linux</span><span class="chip">Docker</span>
+        <span class="chip">GitHub Actions</span><span class="chip">CI/CD</span><span class="chip">Cloudflare</span>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="rv">
+    <div class="eyebrow">Selected work</div>
+    <div class="cards">
+
+      <a class="card tilt" href="https://github.com/behi22/aic-voice-microsite">
+        <span class="arrow">↗</span>
+        <h3>Voice Agent Microsite <span>system design</span></h3>
+        <p>An interactive proposal for a restaurant voice agent: AI IVR, conversational ordering
+        and reservations, and the handoff to a human when it stops going well. Call flows, data
+        model, API surface and DevOps plan all written down.</p>
+        <div class="stack"><i>Next.js</i><i>TypeScript</i><i>Tailwind</i><i>Framer Motion</i><i>Recharts</i></div>
+      </a>
+
+      <a class="card tilt" href="https://github.com/behi22/PettyAF">
+        <span class="arrow">↗</span>
+        <h3>Outbound Voice Agent <span>hackathon</span></h3>
+        <p>AI voice agents that place real outbound calls, with live monitoring and transcripts.
+        Built in a weekend, wrapped in a deliberately over serious fintech UI.</p>
+        <div class="stack"><i>React</i><i>Vite</i><i>Express</i><i>TypeScript</i><i>Vercel</i></div>
+      </a>
+
+      <a class="card tilt" href="https://github.com/behi22/visitor-classifier">
+        <span class="arrow">↗</span>
+        <h3>Visitor Classifier <span>python api</span></h3>
+        <p>Scrapes a site, then works out who is visiting it and why. Python service behind a
+        Redis cache and Postgres, with a React front end on top.</p>
+        <div class="stack"><i>Python</i><i>Redis</i><i>PostgreSQL</i><i>React</i><i>Render</i></div>
+      </a>
+
+    </div>
+  </section>
+
+  <footer>
+    <div><span class="dot"></span>Vancouver, BC</div>
+    <div>
+      <a href="https://github.com/behi22">github.com/behi22</a> &nbsp;·&nbsp;
+      <a href="mailto:behibabai@gmail.com">behibabai@gmail.com</a>
+    </div>
+  </footer>
 
 </div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* split the name into letters so each can animate on its own */
+  var h1 = document.getElementById('name');
+  (function split(node){
+    var out = '';
+    var walk = function(el){
+      Array.prototype.forEach.call(el.childNodes, function(n){
+        if(n.nodeType === 3){
+          /* one pass only: a second replace would mangle the spaces inside the
+             markup this pass just produced */
+          out += n.textContent.replace(/[\s\S]/g, function(c){
+            return c === ' '
+              ? '<span class="ltr">&nbsp;</span>'
+              : '<span class="ltr">'+c+'</span>';
+          });
+        } else {
+          out += '<em>'; walk(n); out += '</em>';
+        }
+      });
+    };
+    walk(node);
+    node.innerHTML = out;
+  })(h1);
+  var ltrs = h1.querySelectorAll('.ltr');
+  Array.prototype.forEach.call(ltrs, function(l,i){ l.style.animationDelay = (0.16 + i*0.045)+'s'; });
+
+  /* waveform bars */
+  var wave = document.getElementById('wave');
+  var cap = wave.firstElementChild;
+  /* bar count follows available width: 34 bars plus the caption overflows a 360px
+     phone, so derive it instead of hard coding */
+  var capW = cap.getBoundingClientRect().width || 88;
+  var avail = wave.clientWidth - capW - 18;
+  var bars = Math.max(10, Math.min(34, Math.floor(avail / 7)));
+  for(var i=0;i<bars;i++){
+    var b = document.createElement('i');
+    /* static fallback height: the running animation overrides this, but with
+       reduced motion it is what shows, so it must still read as a waveform */
+    b.style.height = (18 + Math.abs(Math.sin(i*0.9))*62).toFixed(0)+'%';
+    b.style.animationDelay = (i*0.07)+'s';
+    b.style.animationDuration = (1.15 + (i%5)*0.18)+'s';
+    wave.insertBefore(b, cap);
+  }
+
+  /* cursor glow, only for real pointers */
+  var glow = document.getElementById('glow');
+  if(!reduce && window.matchMedia('(pointer:fine)').matches){
+    var gx=0, gy=0, cx=0, cy=0, on=false;
+    window.addEventListener('mousemove', function(e){
+      gx=e.clientX; gy=e.clientY;
+      if(!on){ on=true; glow.style.opacity=1; }
+    });
+    (function loop(){
+      cx += (gx-cx)*0.1; cy += (gy-cy)*0.1;
+      glow.style.left=cx+'px'; glow.style.top=cy+'px';
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  /* pointer position for card and button sheen */
+  document.addEventListener('mousemove', function(e){
+    var t = e.target.closest ? e.target.closest('.card,.btn') : null;
+    if(!t) return;
+    var r = t.getBoundingClientRect();
+    t.style.setProperty('--mx', (e.clientX-r.left)+'px');
+    t.style.setProperty('--my', (e.clientY-r.top)+'px');
+  });
+
+  /* subtle tilt toward the cursor */
+  if(!reduce && window.matchMedia('(pointer:fine)').matches){
+    Array.prototype.forEach.call(document.querySelectorAll('.tilt'), function(card){
+      card.addEventListener('mousemove', function(e){
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX-r.left)/r.width - .5;
+        var py = (e.clientY-r.top)/r.height - .5;
+        card.style.transform = 'perspective(900px) rotateY('+(px*3.4)+'deg) rotateX('+(-py*3.4)+'deg) translateY(-3px)';
+      });
+      card.addEventListener('mouseleave', function(){ card.style.transform=''; });
+    });
+  }
+
+  /* scroll reveals, staggered per child */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  },{threshold:.14, rootMargin:'0px 0px -8% 0px'});
+  Array.prototype.forEach.call(document.querySelectorAll('.rv'), function(el,i){
+    el.style.transitionDelay = (i*0.06)+'s';
+    io.observe(el);
+  });
+})();
+</script>
 </body>
 </html>
