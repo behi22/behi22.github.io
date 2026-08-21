@@ -9,10 +9,10 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='19.5' r='10.5' fill='%23c9304f'/%3E%3Cpath d='M16 9c5 2 8 5.5 8 10.5 0 3-1.5 5.5-4 7 1-2.5 1.2-5.5.4-8.5C19.6 15 18 11.5 16 9z' fill='%23e2506b'/%3E%3Cpath d='M16 10.5c-1.6-2-2.2-4-2-6.5 1.2 1.4 2 2.2 3.2 2.6.5-1 1.4-1.8 2.6-2.3-.4 1.5-.3 2.6.2 3.6-1.3.4-2.6 1.2-4 2.6z' fill='%233f7d55'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <script>
-  /* set the theme before first paint so there is no flash of the wrong palette */
+  /* resolve the theme before first paint so there is no flash of the wrong palette */
   (function(){
     try{
       var s=localStorage.getItem('theme');
@@ -24,46 +24,62 @@
 
 <style>
 :root{
-  --serif:"Instrument Serif",Georgia,serif;
+  /* the hero name keeps the serif; every other display role is Outfit */
+  --name:"Instrument Serif",Georgia,serif;
+  --serif:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --w-body:400; --w-strong:600;
 }
 html[data-theme="dark"]{
   --bg:#080e18; --bg2:#0d1626;
-  --ink:#f2f6fb; --muted:#a3b1c5; --faint:#61718a;
+  --ink:#f2f6fb; --muted:#aebbcd; --faint:#7d8da5;
   --turq:#3ee6d0; --turq2:#7af3e2; --pom:#ff4f6d; --gold:#f5c470;
   --line:rgba(255,255,255,.11); --glass:rgba(255,255,255,.035);
-  --glass2:rgba(255,255,255,.06);
-  --paper:#eef3f9; --paperInk:#0c1422;
-  --propFill:#080e18; --propFill2:#131f33; --paperEdge:rgba(0,0,0,0);
+  --glass2:rgba(255,255,255,.07); --panel:rgba(14,22,36,.74);
+  --paper:#eef3f9; --paperInk:#0c1422; --paperEdge:rgba(0,0,0,0);
+  --propFill:#080e18; --propFill2:#131f33;
   --gradA:#3ee6d0; --gradB:#7af3e2; --gradC:#f5c470;
-  --fx:62,230,208; --fxA:.30;
+  --fx:62,230,208; --fxA:.44;
   --g1:rgba(62,230,208,.10); --g2:rgba(91,124,245,.11); --g3:rgba(255,79,109,.08);
-  --btnInk:#04121a;
+  --btnInk:#04121a; --shadow:rgba(0,0,0,.45);
+  --tqFaint:rgba(62,230,208,.13); --tqSoft:rgba(62,230,208,.24);
+  --tqMid:rgba(62,230,208,.42); --tqStrong:rgba(62,230,208,.55);
+  --tqHot:rgba(62,230,208,.72);
+  --turqText:#3ee6d0;
+  --blobBg:rgba(255,255,255,.07); --blobEdge:rgba(62,230,208,.22);
+  --cardBg:rgba(255,255,255,.04); --cardBgHover:rgba(255,255,255,.075);
 }
 html[data-theme="light"]{
   --bg:#f7f8fa; --bg2:#eaeef3;
-  --ink:#0e1620; --muted:#4b586a; --faint:#8593a5;
-  --turq:#0c9483; --turq2:#12b3a0; --pom:#d33356; --gold:#a8761a;
+  --ink:#0e1620; --muted:#3f4c5c; --faint:#5e6d81;
+  --turq:#0a7a6b; --turq2:#0f9f8d; --pom:#bf2a4a; --gold:#8f6415;
   --line:rgba(12,22,34,.13); --glass:rgba(12,22,34,.028);
-  --glass2:rgba(12,22,34,.05);
-  --paper:#ffffff; --paperInk:#0e1620;
-  --propFill:#dde5ee; --propFill2:#edf1f6; --paperEdge:rgba(14,22,32,.16);
+  --glass2:rgba(12,22,34,.06); --panel:rgba(255,255,255,.78);
+  --paper:#ffffff; --paperInk:#0e1620; --paperEdge:rgba(14,22,32,.16);
+  --propFill:#dde5ee; --propFill2:#edf1f6;
   --gradA:#0c9483; --gradB:#13a6bd; --gradC:#4a68d6;
-  --fx:12,148,131; --fxA:.20;
-  --g1:rgba(12,148,131,.10); --g2:rgba(74,104,214,.09); --g3:rgba(211,51,86,.07);
-  --btnInk:#ffffff;
+  --fx:10,122,107; --fxA:.62;
+  --g1:rgba(10,122,107,.10); --g2:rgba(74,104,214,.09); --g3:rgba(211,51,86,.07);
+  --btnInk:#ffffff; --shadow:rgba(24,40,60,.18);
+  --tqFaint:rgba(10,122,107,.18); --tqSoft:rgba(10,122,107,.32);
+  --tqMid:rgba(10,122,107,.5); --tqStrong:rgba(10,122,107,.66);
+  --tqHot:rgba(10,122,107,.85);
+  --turqText:#0a6b5e;
+  --blobBg:rgba(10,122,107,.12); --blobEdge:rgba(10,122,107,.42);
+  --cardBg:#ffffff; --cardBgHover:#f4faf8;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:40px}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;
-  font-size:17.5px;line-height:1.72;text-align:center;overflow-x:hidden;
-  transition:background-color .55s ease,color .55s ease}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:400;
+  font-size:18px;line-height:1.75;text-align:center;overflow-x:hidden;
+  transition:background-color .42s ease,color .42s ease}
 ::selection{background:var(--turq);color:var(--btnInk)}
 ::-webkit-scrollbar{width:0}
 a{color:inherit}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 
-/* ---------- living background: drifting mesh + physics canvas ---------- */
+/* ---------- living background ---------- */
 .mesh{position:fixed;inset:-20%;z-index:0;pointer-events:none;
   background:
     radial-gradient(38vw 34vh at 20% 12%, var(--g1), transparent 68%),
@@ -77,8 +93,7 @@ a{color:inherit}
 }
 #fx{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.85}
 
-/* ---------- right scroll rail ---------- */
-.rail{position:fixed;top:0;right:20px;width:2px;height:100vh;background:var(--line);z-index:6;border-radius:2px}
+.rail{position:fixed;top:0;right:14px;width:2px;height:100vh;background:var(--line);z-index:6;border-radius:2px}
 .rail span{display:block;width:100%;height:100%;transform-origin:top;transform:scaleY(0);border-radius:2px;
   background:linear-gradient(var(--turq),var(--pom))}
 @supports (animation-timeline: scroll()){
@@ -87,231 +102,367 @@ a{color:inherit}
 }
 
 .wrap{max-width:760px;margin:0 auto;padding:0 24px;position:relative;z-index:3}
-.sec{position:relative;padding:82px 0}
+.sec{position:relative;padding:80px 0}
 
 /* ---------- hero ---------- */
-.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0}
-.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--turq);margin-bottom:26px;opacity:0;animation:kick 1s 1.4s both}
-@keyframes kick{from{opacity:0;letter-spacing:.5em}to{opacity:.92;letter-spacing:.3em}}
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(58px,13vw,122px);line-height:.95;
+.hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0}
+.heroin{will-change:transform,opacity}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.26em;text-indent:.26em;text-transform:uppercase;font-weight:500;
+  color:var(--turqText);margin-bottom:26px;opacity:0;animation:kick 1s 1.4s both}
+@keyframes kick{from{opacity:0;letter-spacing:.5em}to{opacity:1;letter-spacing:.3em}}
+h1{font-family:var(--name);font-weight:400;font-size:clamp(58px,13vw,122px);line-height:.95;
   letter-spacing:-.025em;margin-bottom:22px}
 h1 .l{display:inline-block;will-change:transform;opacity:0}
 h1 em{font-style:italic}
 h1 em .l{background-image:linear-gradient(100deg,var(--gradA),var(--gradB) 45%,var(--gradC));
   background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;color:var(--turq2)}
+  -webkit-text-fill-color:transparent;color:var(--turq2);
+  /* italic serif ink overhangs its advance width; without padding the overhang
+     falls outside the background box and background-clip:text drops it */
+  padding:0 .18em;margin:0 -.18em}
 h1.lit em .l{filter:drop-shadow(0 0 20px rgba(62,230,208,.30))}
 html[data-theme="light"] h1.lit em .l{filter:none}
 .tag{font-size:clamp(18px,2.3vw,22.5px);color:var(--muted);max-width:27em;margin:0 auto;
   opacity:0;animation:up 1s 1.7s cubic-bezier(.2,1,.3,1) both}
-.tag b{color:var(--ink);font-weight:400}
+.tag b{color:var(--ink);font-weight:600}
 @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.scrollcue{margin-top:48px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--faint);opacity:0;animation:up 1s 2.05s both}
-.scrollcue span{display:block;width:1px;height:32px;margin:12px auto 0;
-  background:linear-gradient(var(--turq),transparent);animation:pulse 2.2s ease-in-out infinite}
+.scrollcue{margin-top:52px;font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-indent:.22em;font-weight:500;
+  text-transform:uppercase;color:var(--turqText);opacity:0;animation:up 1s 2.05s both}
+.scrollcue span{display:block;position:relative;width:2px;height:52px;margin:16px auto 0;border-radius:2px;
+  background:linear-gradient(var(--turq),transparent);overflow:hidden}
+.scrollcue span::after{content:"";position:absolute;left:-2px;width:6px;height:6px;border-radius:50%;
+  background:var(--turq);box-shadow:0 0 10px var(--turq);animation:cueDrop 2s cubic-bezier(.5,0,.5,1) infinite}
+@keyframes cueDrop{
+  0%{top:-8px;opacity:0}
+  25%{opacity:1}
+  75%{opacity:1}
+  100%{top:52px;opacity:0}
+}
 @keyframes pulse{50%{opacity:.25}}
 
 /* ---------- headings + copy ---------- */
-.sub{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--turq);margin-bottom:18px;opacity:.9}
-h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,5.4vw,46px);letter-spacing:-.02em;margin-bottom:26px}
-p.body{font-size:18px;color:var(--muted);max-width:33em;margin:0 auto 18px}
+.sub{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-indent:.2em;text-transform:uppercase;font-weight:500;
+  color:var(--turqText);margin-bottom:18px}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(32px,5.4vw,46px);letter-spacing:-.022em;margin-bottom:26px}
+p.body{font-size:19px;color:var(--muted);max-width:33em;margin:0 auto 19px}
 p.body:last-child{margin-bottom:0}
-p.body strong{color:var(--ink);font-weight:400}
 .pom{color:var(--pom)}
-
-/* ---------- experience timeline ---------- */
-.tl{list-style:none;max-width:37em;margin:0 auto;text-align:left;position:relative}
-.tl::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1.5px;
-  background:linear-gradient(var(--turq),var(--line) 78%,transparent);
-  transform-origin:top;transform:scaleY(0)}
+.mark{position:relative;color:var(--ink);font-weight:600;white-space:nowrap}
+.mark::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1.5px;
+  background:var(--turq);transform:scaleX(0);transform-origin:left;opacity:.7}
 @supports (animation-timeline: view()){
-  .tl::before{animation:spine linear both;animation-timeline:view();animation-range:entry 12% cover 68%}
-  @keyframes spine{to{transform:scaleY(1)}}
+  .mark::after{animation:draw linear both;animation-timeline:view();animation-range:entry 24% cover 58%}
+  @keyframes draw{to{transform:scaleX(1)}}
 }
-.tl.drawn::before{transform:scaleY(1);transition:transform 1.6s cubic-bezier(.22,1,.3,1)}
-.job{position:relative;padding:0 0 30px 34px}
-.job:last-child{padding-bottom:0}
-.dot{position:absolute;left:0;top:9px;width:15px;height:15px;border-radius:50%;
-  border:1.5px solid var(--turq);background:var(--bg);display:grid;place-items:center}
-.dot::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--turq);
-  transform:scale(0);transition:transform .5s cubic-bezier(.2,1.6,.4,1)}
-.job.on .dot::after{transform:scale(1)}
-.job.now .dot{box-shadow:0 0 0 4px rgba(62,230,208,.14)}
-.job.now .dot::after{animation:beat 2.4s ease-in-out infinite}
-@keyframes beat{50%{transform:scale(1.7);opacity:.65}}
-.jhead{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap}
-.role{font-family:var(--serif);font-size:22.5px;letter-spacing:-.01em;line-height:1.3}
-.when{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--faint);white-space:nowrap;text-transform:uppercase}
-.at{font-size:14.5px;color:var(--turq);margin-top:3px;opacity:.95}
-.at i{font-style:normal;color:var(--faint)}
-.pts{list-style:none;margin-top:11px}
-.pts li{position:relative;padding-left:15px;font-size:15.8px;color:var(--muted);margin-bottom:5px}
-.pts li::before{content:"";position:absolute;left:0;top:.72em;width:5px;height:1.5px;background:var(--faint)}
-.pts li b{color:var(--ink);font-weight:400}
+.rv.in .mark::after{transform:scaleX(1);transition:transform .9s cubic-bezier(.2,1,.3,1)}
 
-/* ---------- side projects ---------- */
-.note{font-size:15px;color:var(--faint);max-width:31em;margin:-8px auto 30px;font-style:italic}
-.row{display:block;text-decoration:none;color:inherit;padding:22px 22px;border-radius:15px;
-  border:1px solid var(--line);background:var(--glass);margin-bottom:12px;text-align:left;
-  will-change:transform;transition:border-color .4s,background .4s}
-.row:hover{border-color:rgba(62,230,208,.42);background:var(--glass2)}
-.rtop{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-.row .t{font-family:var(--serif);font-size:23px;letter-spacing:-.01em;transition:color .35s}
-.row:hover .t{color:var(--turq)}
-.row .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
-.row .d{font-size:15.5px;color:var(--muted);margin-top:9px}
-.row .s{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:11px}
-
-/* ---------- toolkit: chips that settle in ---------- */
-.kit{max-width:37em;margin:0 auto;text-align:left}
-.kitgrp{padding:16px 0;border-top:1px solid var(--line)}
-.kitgrp:last-child{border-bottom:1px solid var(--line)}
-.kitgrp b{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--turq);font-weight:400;display:block;margin-bottom:10px;opacity:.9}
-.chips{display:flex;flex-wrap:wrap;gap:7px}
-.chip{font-family:var(--mono);font-size:11.5px;padding:5px 11px;border-radius:7px;
-  border:1px solid var(--line);background:var(--glass);color:var(--muted);
-  opacity:0;transform:translateY(9px) scale(.94);will-change:transform;
-  transition:color .3s,border-color .3s,background .3s,transform .3s}
-.chip.on{opacity:1;transform:none}
-.chip:hover{color:var(--turq);border-color:rgba(62,230,208,.45);background:var(--glass2);
-  transform:translateY(-3px)}
-
-/* ---------- the four link stages ---------- */
-.stage{min-height:66svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:34px 0;position:relative}
-.prop{width:min(320px,72vw);height:auto;display:block;margin-bottom:22px;overflow:visible}
-.stage h3{font-family:var(--serif);font-size:clamp(29px,5vw,40px);font-weight:400;letter-spacing:-.015em;margin-bottom:9px}
-.stage p{color:var(--muted);font-size:16.5px;max-width:25em;margin:0 auto 22px}
+/* ================= the four gantry stages ================= */
+.stage{min-height:94vh;min-height:94svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:36px 0;position:relative}
+/* clip to the viewBox: the off-stage carriage must never paint outside the prop */
+.prop{width:min(340px,76vw);height:auto;display:block;margin:0 auto 20px;overflow:hidden}
+.stage h3{font-family:var(--serif);font-size:clamp(29px,5vw,40px);font-weight:500;letter-spacing:-.018em;margin-bottom:9px}
+.stage p{color:var(--muted);font-size:17.5px;max-width:25em;margin:0 auto 22px}
 .propwrap{cursor:pointer;display:inline-block;will-change:transform;color:inherit;text-decoration:none}
 .propwrap h3,.propwrap p{color:inherit}
+.propwrap:focus-visible{outline:2px solid var(--turq);outline-offset:8px;border-radius:14px}
 
-/* the inner piece emerges from its container, on its own scroll range */
-.emerge{transform:translateY(26%);opacity:.25}
-@supports (animation-timeline: view()){
-  .emerge{animation:em linear both;animation-timeline:view();animation-range:entry 26% cover 56%}
-  @keyframes em{to{transform:none;opacity:1}}
-}
-.emerge.in{transform:none;opacity:1;transition:transform 1.1s cubic-bezier(.16,1.05,.3,1),opacity .8s}
-.fan1,.fan2{transform-box:fill-box;transform-origin:60% 100%}
-.fan1{transform:rotate(9deg) translate(6px,4px)}
-.fan2{transform:rotate(17deg) translate(12px,9px)}
-@supports (animation-timeline: view()){
-  .fan1{animation:f1 linear both;animation-timeline:view();animation-range:entry 24% cover 58%}
-  .fan2{animation:f2 linear both;animation-timeline:view();animation-range:entry 24% cover 62%}
-  @keyframes f1{to{transform:rotate(-7deg) translate(-9px,-3px)}}
-  @keyframes f2{to{transform:rotate(-15deg) translate(-19px,-7px)}}
-}
+/* Rest state. The machine only appears once JavaScript has rigged it, so if
+   the script never runs you get a clean landed prop rather than a broken arm. */
+.carriage,.railg{opacity:0}
+.prop.rigged .carriage,.prop.rigged .railg{opacity:1}
+.carriage{transform:translateX(150px)}
+.shaft{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(.2)}
+.item{transform:translate(0px,0px)}
+.lift{transform:translateY(-52px)}
+.fanA{transform-box:fill-box;transform-origin:60% 100%;transform:rotate(-6deg) translate(-7px,-2px)}
+.fanB{transform-box:fill-box;transform-origin:60% 100%;transform:rotate(-13deg) translate(-16px,-5px)}
 
-/* filled sweep button, no arrow */
-.go{position:relative;display:inline-block;overflow:hidden;font-family:var(--mono);font-size:12.5px;
-  letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+/* The gantry is driven from JavaScript (see the rig below), not from CSS
+   scroll timelines. Every part must share ONE progress value; animation-timeline
+   view() resolves from each element's own box, so the shaft outran the clamp
+   and the carriage outran the document it was carrying. */
+
+/* filled sweep button */
+.go{position:relative;display:inline-block;clip-path:inset(0 round 999px);font-family:var(--mono);font-size:13px;
+  letter-spacing:.12em;text-indent:.12em;font-weight:500;text-transform:uppercase;text-decoration:none;
   padding:14px 30px;border-radius:999px;border:1px solid var(--line);background:var(--glass);
-  color:var(--muted);will-change:transform;isolation:isolate;
-  transition:border-color .4s,color .4s}
+  color:var(--muted);isolation:isolate;
+  transition:border-color .48s cubic-bezier(.62,.03,.2,1),color .4s}
 .go span{position:relative;z-index:2}
-.go::before{content:"";position:absolute;inset:0;z-index:1;background:var(--turq);
+.go::before{content:"";position:absolute;inset:-1px;z-index:1;background:var(--turq);
   transform:scaleX(0);transform-origin:left;
   transition:transform .48s cubic-bezier(.62,.03,.2,1)}
-.go:hover,.go:focus-visible{color:var(--btnInk);border-color:var(--turq);outline:none}
-.go:hover::before,.go:focus-visible::before{transform:scaleX(1)}
-.go:active{transform:scale(.975)}
+.propwrap:hover .go,.propwrap:focus-visible .go{color:var(--btnInk);border-color:var(--turq)}
+.propwrap:hover .go::before,.propwrap:focus-visible .go::before{transform:scaleX(1)}
 
-/* ---------- scroll-in entries ---------- */
-.from-r{transform:translateX(112%) rotate(8deg);opacity:0}
-.from-l{transform:translateX(-112%) rotate(-8deg);opacity:0}
-.from-b{transform:translateY(80%);opacity:0}
-@supports (animation-timeline: view()){
-  .from-r{animation:inR linear both;animation-timeline:view();animation-range:entry 4% cover 40%}
-  .from-l{animation:inL linear both;animation-timeline:view();animation-range:entry 4% cover 40%}
-  .from-b{animation:inB linear both;animation-timeline:view();animation-range:entry 4% cover 40%}
-  @keyframes inR{to{transform:none;opacity:1}}
-  @keyframes inL{to{transform:none;opacity:1}}
-  @keyframes inB{to{transform:none;opacity:1}}
-}
-.from-r.in,.from-l.in,.from-b.in{transform:none;opacity:1;
-  transition:transform 1s cubic-bezier(.16,1.1,.3,1),opacity .8s}
+/* ---------- generic reveal ---------- */
 .rv{opacity:0;transform:translateY(24px)}
 @supports (animation-timeline: view()){
-  .rv{animation:rise .01s linear both;animation-timeline:view();animation-range:entry 6% cover 22%}
+  .rv{animation:rise .01s linear both;animation-timeline:view();animation-range:entry 8% cover 40%}
   @keyframes rise{to{opacity:1;transform:none}}
 }
 .rv.in{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.2,1,.3,1),transform .8s cubic-bezier(.2,1,.3,1)}
 
-/* ---------- floating controls ---------- */
-.dock{position:fixed;bottom:22px;left:22px;z-index:20;display:flex;flex-direction:column;
-  align-items:flex-start;gap:2px}
-.dock a{display:flex;align-items:center;gap:10px;text-decoration:none;padding:5px 8px;
-  border-radius:8px;color:var(--faint);transition:color .3s,background .3s}
-.dock a:hover{color:var(--ink);background:var(--glass)}
-.dock i{display:block;width:16px;height:1.5px;background:currentColor;opacity:.5;
-  transition:width .38s cubic-bezier(.2,1,.3,1),opacity .3s}
-.dock a:hover i{width:26px;opacity:1}
-.dock a.on{color:var(--turq)}
-.dock a.on i{width:30px;opacity:1;background:var(--turq)}
-.dock em{font-style:normal;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
-  text-transform:uppercase;max-width:0;overflow:hidden;white-space:nowrap;opacity:0;
-  transition:max-width .42s cubic-bezier(.2,1,.3,1),opacity .32s}
-.dock:hover em,.dock a.on em{max-width:130px;opacity:1}
+/* ---------- experience timeline ---------- */
+.tl{list-style:none;max-width:37em;margin:0 auto;text-align:left;position:relative}
+.tl::before{content:"";position:absolute;left:7px;top:17px;bottom:10px;width:2px;
+  background:linear-gradient(var(--turq),var(--line) 78%,transparent);
+  transform-origin:top;transform:scaleY(0)}
+@supports (animation-timeline: view()){
+  .tl::before{animation:spine linear both;animation-timeline:view();animation-range:entry 12% cover 66%}
+  @keyframes spine{to{transform:scaleY(1)}}
+}
+.tl.drawn::before{transform:scaleY(1);transition:transform 1.6s cubic-bezier(.22,1,.3,1)}
+.job{position:relative;padding:0 0 28px 34px}
+.jin>.jhead,.jin>.at,.jin>.pts{opacity:0;transform:translateX(-18px)}
+@supports (animation-timeline: view()){
+  .job{view-timeline-name:--jb;view-timeline-axis:block}
+  .jin>.jhead,.jin>.at,.jin>.pts{animation:jobIn cubic-bezier(.2,.9,.25,1) both;
+    animation-timeline:--jb;animation-range:entry 8% cover 42%}
+  @keyframes jobIn{to{opacity:1;transform:none}}
+}
+.jin.in>.jhead,.jin.in>.at,.jin.in>.pts{opacity:1;transform:none;
+  transition:opacity .7s,transform .8s cubic-bezier(.2,1,.3,1)}
+.job:last-child{padding-bottom:0}
+.dot{position:absolute;left:0;top:9px;width:16px;height:16px;border-radius:50%;
+  border:2px solid var(--turq);background:var(--bg);
+  transition:transform .45s cubic-bezier(.2,1.7,.4,1),box-shadow .4s}
+.dot::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;
+  margin:-3px 0 0 -3px;border-radius:50%;background:var(--turq);
+  transform:scale(0);transition:transform .55s cubic-bezier(.2,1.6,.4,1)}
+.job.on .dot::after{transform:scale(1)}
+/* The fill stays put at a whole-pixel 6px and the pulse radiates as a ring.
+   Scaling it by 1.75 produced a 10.5px circle, whose half-pixel edges rendered
+   lopsided, which is what read as off-centre when it expanded. */
+.job.now .dot::after{transform:scale(1);animation:beat 2.6s ease-out infinite}
+@keyframes beat{
+  0%{box-shadow:0 0 0 0 var(--tqStrong)}
+  70%{box-shadow:0 0 0 9px rgba(0,0,0,0)}
+  100%{box-shadow:0 0 0 0 rgba(0,0,0,0)}
+}
+.job .role{transition:color .35s}
+.job:hover .role{color:var(--turqText)}
+.job::before{content:"";position:absolute;left:6px;top:17px;bottom:-17px;width:4px;border-radius:2px;
+  background:var(--turq);opacity:0;transform:scaleY(.4);transform-origin:top;
+  transition:opacity .4s,transform .5s cubic-bezier(.2,1,.3,1)}
+.job:hover::before{opacity:.55;transform:scaleY(1)}
+.job:last-child::before{bottom:auto;height:0}
+.job:hover .dot{transform:scale(1.35)}
+.jhead{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap}
+.role{font-family:var(--serif);font-weight:500;font-size:22.5px;letter-spacing:-.012em;line-height:1.3}
+.when{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;color:var(--muted);white-space:nowrap;text-transform:uppercase}
+.at{font-size:15.5px;color:var(--turqText);margin-top:3px}
+.at i{font-style:normal;color:var(--faint)}
+.pts{list-style:none;margin-top:11px}
+.pts li{position:relative;padding-left:16px;font-size:17px;color:var(--muted);margin-bottom:7px}
+.pts li::before{content:"";position:absolute;left:0;top:.72em;width:5px;height:1.5px;background:var(--faint)}
+.pts li b{color:var(--ink);font-weight:600}
 
-.themebtn{position:fixed;bottom:24px;right:22px;z-index:20;width:70px;height:34px;
-  border-radius:999px;border:1px solid var(--line);background:var(--glass);
-  cursor:pointer;padding:0;overflow:hidden;
-  transition:border-color .35s,background .35s}
-.themebtn:hover{border-color:var(--turq)}
-.themebtn:focus-visible{outline:2px solid var(--turq);outline-offset:3px}
-.themebtn .thumb{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;
-  background:linear-gradient(150deg,var(--turq2),var(--turq));display:grid;place-items:center;
-  will-change:transform}
-.themebtn svg{width:14px;height:14px;position:absolute;transition:opacity .3s,transform .45s cubic-bezier(.2,1,.3,1)}
-.themebtn .sun{color:#04121a}
-.themebtn .moon{color:#04121a}
-html[data-theme="dark"] .themebtn .sun{opacity:0;transform:rotate(-70deg) scale(.5)}
-html[data-theme="dark"] .themebtn .moon{opacity:1;transform:none}
-html[data-theme="light"] .themebtn .sun{opacity:1;transform:none}
-html[data-theme="light"] .themebtn .moon{opacity:0;transform:rotate(70deg) scale(.5)}
-.themebtn .stars{position:absolute;inset:0;pointer-events:none}
-.themebtn .stars b{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--faint);
-  opacity:0;transition:opacity .4s}
-html[data-theme="dark"] .themebtn .stars b{opacity:.7}
-.themebtn .stars b:nth-child(1){right:12px;top:9px}
-.themebtn .stars b:nth-child(2){right:20px;top:16px}
-.themebtn .stars b:nth-child(3){right:14px;top:22px}
+/* ================= projects as 3D depth cards ================= */
+.note{font-size:16px;color:var(--muted);max-width:31em;margin:-8px auto 30px;font-style:italic}
+.cardp{margin-bottom:16px}
+/* no 3D: a rise with a settle and a shadow bloom. Nothing to flicker or skew. */
+.cardturn{position:relative;border-radius:15px;opacity:0;
+  transform:translateY(52px) scale(.968);box-shadow:0 2px 6px var(--shadow)}
+@supports (animation-timeline: view()){
+  .cardturn{animation:cardIn cubic-bezier(.18,.86,.22,1) both;animation-timeline:view();animation-range:entry 6% cover 56%}
+  @keyframes cardIn{to{opacity:1;transform:none;box-shadow:0 16px 40px var(--shadow)}}
+}
+.cardturn.in{opacity:1;transform:none;box-shadow:0 16px 40px var(--shadow);
+  transition:transform 1.1s cubic-bezier(.18,.86,.22,1),opacity .9s,box-shadow 1.1s}
+.row{display:block;text-decoration:none;color:inherit;padding:22px;border-radius:15px;
+  border:1px solid var(--line);background:var(--cardBg);text-align:left;
+  position:relative;overflow:hidden;will-change:transform;
+  transition:border-color .4s,background .4s}
+.row:hover{border-color:var(--tqMid);background:var(--cardBgHover)}
+.row:focus-visible{outline:2px solid var(--turq);outline-offset:3px}
+.row .glow{position:absolute;width:300px;height:300px;border-radius:50%;pointer-events:none;
+  left:0;top:0;opacity:0;transition:opacity .4s;
+  background:radial-gradient(circle, var(--tqFaint), transparent 66%)}
+.row:hover .glow{opacity:1}
+.rtop{display:flex;justify-content:space-between;align-items:baseline;gap:12px;position:relative}
+.row .t{font-family:var(--serif);font-weight:500;font-size:23px;letter-spacing:-.012em;transition:color .35s}
+.row:hover .t{color:var(--turqText)}
+.row .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;margin-right:-.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.row .d{font-size:16.5px;color:var(--muted);margin-top:10px;position:relative}
+.row .s{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:12px;position:relative}
 
-footer{padding:70px 0 92px;font-size:14px;color:var(--faint)}
-footer a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:.3s}
-footer a:hover{color:var(--turq);border-color:var(--turq)}
+/* ================= toolkit: physics blobs ================= */
+.kitswitch{display:inline-flex;gap:0;margin:0 auto 22px;border:1px solid var(--line);
+  border-radius:999px;overflow:hidden;background:var(--glass)}
+.kitswitch button{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-indent:.14em;text-transform:uppercase;
+  padding:10px 19px;border:0;background:none;color:var(--muted);cursor:pointer;transition:color .3s,background .3s}
+.kitswitch button[aria-pressed="true"]{color:var(--btnInk);background:var(--turq)}
+.kitswitch button:focus-visible{outline:2px solid var(--turq);outline-offset:-2px}
+.field{position:relative;width:100%;height:400px;margin:0 auto;touch-action:manipulation;
+  transition:height .6s cubic-bezier(.2,1,.3,1)}
+.field.wide{height:620px}
+.blob,.mote{position:absolute;left:0;top:0;display:grid;place-items:center;text-align:center;
+  border-radius:50%;border:1px solid var(--blobEdge);background:var(--blobBg);color:var(--muted);
+  font-family:var(--mono);cursor:pointer;padding:6px;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  transition:border-color .3s,color .3s,background .3s,opacity .35s}
+.blob{font-size:11.5px;letter-spacing:.02em;text-indent:.02em;text-transform:uppercase;
+  line-height:1.3;color:var(--ink);font-weight:500}
+.blob:hover,.blob:focus-visible{color:var(--turqText);border-color:var(--tqStrong);outline:none}
+.blob[aria-expanded="true"]{color:var(--turqText);border-color:var(--turq);background:var(--tqFaint)}
+.blob .cnt{display:block;font-size:11px;color:var(--muted);letter-spacing:.1em;text-indent:.1em;margin-top:3px}
+.mote{font-size:12px;line-height:1;letter-spacing:.02em;text-indent:.02em;border-radius:999px;cursor:pointer;white-space:nowrap;
+  color:var(--ink);border-color:var(--tqMid);background:var(--blobBg);
+  transition:transform .3s cubic-bezier(.2,1.5,.4,1),border-color .3s,box-shadow .3s,color .3s,background .3s,opacity .35s}
+.mote:hover{border-color:var(--turq);color:var(--btnInk);background:var(--turq);
+  transform:scale(1.1);box-shadow:0 0 26px var(--tqStrong);z-index:3}
+.mote.pop{animation:motePop .55s cubic-bezier(.2,1.6,.3,1)}
+@keyframes motePop{
+  0%{box-shadow:0 0 0 0 var(--tqStrong)}
+  100%{box-shadow:0 0 0 22px rgba(62,230,208,0)}
+}
+.blob.pop{animation:motePop .6s cubic-bezier(.2,1.6,.3,1)}
+.hint{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-indent:.12em;text-transform:uppercase;
+  color:var(--muted);margin-top:16px}
+/* plain list: the no-JS and reduced-motion path, and the explicit list view */
+.kitlist{max-width:37em;margin:0 auto;text-align:center}
+.kitgrp{padding:16px 0;border-top:1px solid var(--line)}
+.kitgrp:last-child{border-bottom:1px solid var(--line)}
+.kitgrp b{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-indent:.18em;text-transform:uppercase;
+  color:var(--turqText);font-weight:500;display:block;margin-bottom:11px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;justify-content:center}
+.chips li{position:relative;overflow:hidden;isolation:isolate;cursor:pointer;
+  font-family:var(--mono);font-size:12.5px;padding:7px 14px;border-radius:999px;
+  border:1px solid var(--line);background:var(--glass);color:var(--muted);
+  transition:color .34s,border-color .34s,transform .42s cubic-bezier(.2,1.5,.4,1)}
+.chips li::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--turq);
+  transform:translateY(101%);transition:transform .42s cubic-bezier(.5,0,.2,1)}
+/* identical to the blob motes */
+.chips li:hover{background:var(--turq);color:var(--btnInk);border-color:var(--turq);
+  transform:scale(1.1);box-shadow:0 0 26px var(--tqStrong)}
+.chips li.pop{animation:popper .5s cubic-bezier(.2,1.6,.3,1)}
+@keyframes popper{
+  0%{transform:scale(1.1)}
+  38%{transform:scale(1.24)}
+  100%{transform:scale(1.1)}
+}
+html.blobmode .kitlist{display:none}
+html:not(.blobmode) .field,html:not(.blobmode) .hint{display:none}
+
+/* ---------- bottom-left section nav ---------- */
+.dock{position:fixed;bottom:22px;left:22px;z-index:21;
+  display:flex;flex-direction:column;align-items:center;
+  width:46px;padding:7px 0;border-radius:24px;
+  border:1px solid var(--line);background:var(--panel);
+  -webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px);
+  transition:width .52s cubic-bezier(.2,1,.3,1),border-color .4s}
+.dock:hover,.dock:focus-within{width:190px;border-color:var(--tqMid)}
+.dock .ind{position:absolute;left:5px;right:5px;top:7px;height:32px;border-radius:16px;
+  background:var(--glass2);pointer-events:none;z-index:0;
+  transition:transform .55s cubic-bezier(.3,1.45,.4,1)}
+.dock a{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;
+  width:100%;height:32px;text-decoration:none;color:var(--faint);transition:color .32s}
+.dock a:hover{color:var(--ink)}
+.dock a:focus-visible{outline:2px solid var(--turq);outline-offset:-2px;border-radius:16px}
+.dock a .d{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.6;flex:0 0 auto;
+  transition:transform .42s cubic-bezier(.2,1.7,.4,1),opacity .3s,box-shadow .4s}
+.dock a em{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;max-width:0;margin-left:0;overflow:hidden;white-space:nowrap;opacity:0;
+  transition:max-width .52s cubic-bezier(.2,1,.3,1),opacity .34s,margin-left .52s cubic-bezier(.2,1,.3,1)}
+.dock:hover a em,.dock:focus-within a em{max-width:122px;margin-left:9px;opacity:1}
+.dock a.on{color:var(--turqText)}
+.dock a.on .d{opacity:1;transform:scale(1.5);box-shadow:0 0 9px var(--tqHot)}
+
+/* ---------- bottom-right theme switch ---------- */
+.tbtn{position:fixed;bottom:22px;right:48px;z-index:21;width:48px;height:48px;
+  border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;
+  border:1px solid var(--line);background:var(--panel);color:var(--muted);
+  -webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px);
+  transition:border-color .4s,color .4s,transform .4s cubic-bezier(.2,1.7,.4,1),background .4s}
+.tbtn:hover{color:var(--turqText);border-color:var(--tqStrong);transform:scale(1.09) rotate(-10deg)}
+.tbtn:active{transform:scale(.93)}
+.tbtn:focus-visible{outline:2px solid var(--turq);outline-offset:3px}
+.tbtn svg{width:23px;height:23px;display:block;overflow:visible}
+.tbtn .bite{transition:transform .58s cubic-bezier(.4,1.35,.4,1)}
+.tbtn .rays{transform-origin:12px 12px;
+  transition:transform .62s cubic-bezier(.3,1.45,.4,1),opacity .42s}
+html[data-theme="dark"] .tbtn .bite{transform:translate(-7px,3.5px)}
+html[data-theme="dark"] .tbtn .rays{transform:scale(.25) rotate(-50deg);opacity:0}
+html[data-theme="light"] .tbtn .bite{transform:translate(7px,-7px)}
+html[data-theme="light"] .tbtn .rays{transform:none;opacity:1}
+/* theme switch: rings detonate out of the button, the background field is
+   shoved outward, and the palette flips as the wavefront passes */
+/* Fixed 240px base, scaled up by transform. Sizing the element to its final
+   diameter meant painting a multi-thousand-pixel gradient and promoting a layer
+   that big, which is what made this stutter. A small texture scales on the GPU. */
+.wave{position:fixed;width:240px;height:240px;border-radius:50%;
+  pointer-events:none;z-index:41;
+  background:radial-gradient(circle, transparent 50%, var(--tqSoft) 64%,
+    var(--turq) 72%, var(--tqSoft) 80%, transparent 92%);
+  transform:translate(-50%,-50%) scale(.06);opacity:.95;
+  will-change:transform,opacity;backface-visibility:hidden;
+  transition:transform 1.15s cubic-bezier(.15,.6,.13,1),
+             opacity 1.15s cubic-bezier(.45,0,.8,1)}
+/* click sparks, shared by the toolkit chips and the blobs */
+.spark{position:fixed;width:5px;height:5px;border-radius:50%;background:var(--turq);
+  z-index:45;pointer-events:none;opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+  transition:transform .64s cubic-bezier(.18,.72,.2,1),opacity .64s ease-out}
+.spark.fly{opacity:0;
+  transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.25)}
+.ring{position:fixed;border-radius:50%;pointer-events:none;z-index:20;
+  border:1.5px solid var(--turq);transform:translate(-50%,-50%) scale(0);opacity:.6;
+  transition:transform .85s cubic-bezier(.32,0,.2,1),opacity .85s ease-out}
+.ring.out{transform:translate(-50%,-50%) scale(1);opacity:0}
+
+footer{padding:74px 0 100px;font-size:14px;color:var(--faint);margin-top:24px}
+.fcta{font-family:var(--serif);font-weight:500;font-size:clamp(30px,5vw,44px);
+  letter-spacing:-.02em;color:var(--ink);margin-bottom:12px}
+.fwhere{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-indent:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:26px}
+.flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 26px;margin-bottom:26px}
+.flinks a{position:relative;font-family:var(--mono);font-size:13px;letter-spacing:.08em;
+  color:var(--muted);text-decoration:none;padding-bottom:3px;transition:color .3s}
+.flinks a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--turq);
+  transform:scaleX(0);transform-origin:left;transition:transform .42s cubic-bezier(.2,1,.3,1)}
+.flinks a:hover{color:var(--turqText)}
+.flinks a:hover::after{transform:scaleX(1)}
+.flinks a:focus-visible{outline:2px solid var(--turq);outline-offset:3px;border-radius:3px}
+.fsmall{font-size:13.5px;color:var(--muted)}
 
 @media (max-width:760px){
   body{font-size:16.5px}
-  .sec{padding:62px 0}
-  .stage{min-height:auto;padding:46px 0}
-  .prop{width:min(250px,70vw);margin-bottom:18px}
-  .rail{right:8px}
+  .sec{padding:60px 0}
+  .stage{min-height:auto;padding:44px 0}
+  .prop{width:min(280px,80vw);margin-bottom:18px}
+  .rail{right:5px}
   .wrap{padding:0 20px}
   .role{font-size:20px}
   .jhead{gap:2px}
   .when{font-size:10px}
   .job{padding-left:28px;padding-bottom:26px}
-  .dock{bottom:16px;left:14px;gap:0}
-  .dock em{display:none}
-  .dock a{padding:7px 6px}
-  .themebtn{bottom:16px;right:14px;width:60px;height:30px}
-  .themebtn .thumb{width:22px;height:22px;top:3px;left:3px}
-  footer{padding:56px 0 84px}
+  .mark{white-space:normal}
+  .field{height:520px}
+  .field.wide{height:800px}
+  .cardp{perspective:800px}
+  .dock{bottom:14px;left:12px;width:auto;flex-direction:row;padding:0 5px;border-radius:21px}
+  .dock:hover,.dock:focus-within{width:auto}
+  .dock a{height:38px;width:32px}
+  .dock a em{display:none}
+  .dock .ind{top:4px;left:5px;right:auto;width:32px;height:30px;border-radius:15px}
+  .tbtn{bottom:14px;right:26px;width:44px;height:44px}
+  .tbtn:hover{transform:none}
+  .job:hover::before{opacity:0}
+  footer{padding:54px 0 104px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
-  .rv,.from-r,.from-l,.from-b,.emerge{opacity:1!important;transform:none!important}
-  .fan1{transform:rotate(-7deg) translate(-9px,-3px)!important}
-  .fan2{transform:rotate(-15deg) translate(-19px,-7px)!important}
+  .rv,.cardturn,.jin>.jhead,.jin>.at,.jin>.pts{opacity:1!important;transform:none!important}
+  .item{transform:none!important;opacity:1!important}
+  .carriage,.railg{opacity:0!important}
   h1 .l,.tag,.kicker,.scrollcue{opacity:1!important;transform:none!important}
-  .chip{opacity:1!important;transform:none!important}
   .tl::before{transform:scaleY(1)!important}
   .job .dot::after{transform:scale(1)!important}
+  .mark::after{transform:scaleX(1)!important}
+  .fanA{transform:rotate(-6deg) translate(-7px,-2px)!important}
+  .fanB{transform:rotate(-13deg) translate(-16px,-5px)!important}
   .rail span{transform:scaleY(0)!important}
   html{scroll-behavior:auto}
 }
@@ -323,56 +474,227 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="rail"><span></span></div>
 
-<nav class="dock" aria-label="Jump to section">
-  <a href="#top"><i></i><em>Top</em></a>
-  <a href="#about"><i></i><em>What I do</em></a>
-  <a href="#work"><i></i><em>Experience</em></a>
-  <a href="#side"><i></i><em>Side projects</em></a>
-  <a href="#kit"><i></i><em>Toolkit</em></a>
-  <a href="#reach"><i></i><em>Reach me</em></a>
+<nav class="dock" id="dock" aria-label="Jump to section">
+  <span class="ind" id="ind" aria-hidden="true"></span>
+  <a href="#top"><span class="d"></span><em>Top</em></a>
+  <a href="#reach"><span class="d"></span><em>Find me</em></a>
+  <a href="#about"><span class="d"></span><em>What I do</em></a>
+  <a href="#work"><span class="d"></span><em>Experience</em></a>
+  <a href="#side"><span class="d"></span><em>Projects</em></a>
+  <a href="#kit"><span class="d"></span><em>Toolkit</em></a>
+  <a href="#end"><span class="d"></span><em>Bottom</em></a>
 </nav>
 
-<button class="themebtn" id="themebtn" aria-label="Switch colour theme" aria-pressed="false">
-  <span class="stars"><b></b><b></b><b></b></span>
-  <span class="thumb">
-    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-      <circle cx="12" cy="12" r="4.2"/>
-      <path d="M12 2.6v2.1M12 19.3v2.1M2.6 12h2.1M19.3 12h2.1M5.4 5.4l1.5 1.5M17.1 17.1l1.5 1.5M18.6 5.4l-1.5 1.5M6.9 17.1l-1.5 1.5"/>
-    </svg>
-    <svg class="moon" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M15.2 3.4a9 9 0 1 0 5.4 11.5A7.4 7.4 0 0 1 15.2 3.4z"/>
-    </svg>
-  </span>
+<button class="tbtn" id="tbtn" aria-label="Switch colour theme" aria-pressed="false">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <defs>
+      <mask id="crescent">
+        <rect x="-6" y="-6" width="36" height="36" fill="#fff"/>
+        <circle class="bite" cx="24" cy="4" r="7.6" fill="#000"/>
+      </mask>
+    </defs>
+    <circle cx="12" cy="12" r="6" fill="currentColor" mask="url(#crescent)"/>
+    <g class="rays" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none">
+      <path d="M12 1.5v2.3M12 20.2v2.3M1.5 12h2.3M20.2 12h2.3M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M19.4 4.6l-1.6 1.6M6.2 17.8l-1.6 1.6"/>
+    </g>
+  </svg>
 </button>
 
 <div class="wrap">
 
   <header class="hero" id="top">
-    <div class="kicker">Vancouver, BC</div>
-    <h1 id="name">Behbod <em>Babai</em></h1>
-    <p class="tag">Full-stack engineer. I build <b>AI systems end to end</b>: the interfaces,
-      the services behind them, and the infrastructure they run on.</p>
-    <div class="scrollcue">Scroll<span></span></div>
+    <div class="heroin" id="heroin">
+      <div class="kicker">Vancouver, BC</div>
+      <h1 id="name">Behbod <em>Babai</em></h1>
+      <p class="tag">Full-stack engineer. I build <b>AI systems end to end</b>: the interfaces,
+        the services behind them, and the infrastructure they run on.</p>
+      <div class="scrollcue">Scroll<span></span></div>
+    </div>
   </header>
+
+  <span id="reach"></span>
+
+  <!-- ============ 1. resume, lowered into a folder ============ -->
+  <section class="stage">
+    <a class="propwrap mag" href="Behbod_Babai_Resume.pdf" aria-label="Open resume PDF">
+      <svg class="prop gR" viewBox="0 0 300 210" role="img" aria-hidden="true">
+        <rect class="railg" x="4" y="9" width="292" height="5" rx="2.5" fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".3" stroke-width="1"/>
+        <g class="railg" stroke="var(--turq)" stroke-opacity=".22" stroke-width="1">
+          <path d="M28 14v4M76 14v4M124 14v4M172 14v4M220 14v4M268 14v4"/>
+        </g>
+        <path d="M46 104 h66 l12 14 h130 a8 8 0 0 1 8 8 v56 a8 8 0 0 1 -8 8 H46 a8 8 0 0 1 -8 -8 V112 a8 8 0 0 1 8 -8 z"
+              fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".4" stroke-width="1.5"/>
+        <g class="item">
+          <rect x="82" y="84" width="136" height="96" rx="6" fill="var(--paper)" stroke="var(--paperEdge)" stroke-width="1"/>
+          <rect x="96" y="98" width="58" height="6.5" rx="3.2" fill="var(--paperInk)" opacity=".8"/>
+          <rect x="96" y="114" width="100" height="4" rx="2" fill="var(--paperInk)" opacity=".26"/>
+          <rect x="96" y="124" width="84" height="4" rx="2" fill="var(--paperInk)" opacity=".26"/>
+          <rect x="96" y="140" width="42" height="4.5" rx="2.2" fill="var(--turq)"/>
+          <rect x="96" y="150" width="100" height="4" rx="2" fill="var(--paperInk)" opacity=".2"/>
+          <rect x="96" y="160" width="88" height="4" rx="2" fill="var(--paperInk)" opacity=".2"/>
+        </g>
+        <path d="M38 146 h224 v36 a8 8 0 0 1 -8 8 H46 a8 8 0 0 1 -8 -8 z"
+              fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".55" stroke-width="1.8"/>
+        <rect x="126" y="164" width="48" height="4" rx="2" fill="var(--turq)" opacity=".45"/>
+        <g class="carriage">
+          <rect class="shaft" x="-3" y="16" width="6" height="60" rx="3" fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".5" stroke-width="1"/>
+          <g class="lift">
+            <rect x="-14" y="70" width="28" height="10" rx="3" fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".6" stroke-width="1.2"/>
+            <rect class="jawL" x="-11" y="79" width="5" height="13" rx="2" fill="var(--turq)" opacity=".75"/>
+            <rect class="jawR" x="6" y="79" width="5" height="13" rx="2" fill="var(--turq)" opacity=".75"/>
+          </g>
+          <rect x="-23" y="2" width="46" height="16" rx="5" fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".6" stroke-width="1.4"/>
+          <circle cx="-13" cy="10" r="2.6" fill="var(--turq)" opacity=".85"/>
+          <circle cx="13" cy="10" r="2.6" fill="var(--turq)" opacity=".85"/>
+        </g>
+      </svg>
+      <h3>Resume</h3>
+      <p>One page. Everything I actually do, with the numbers attached.</p>
+      <span class="go"><span>Open PDF</span></span>
+    </a>
+  </section>
+
+  <!-- ============ 2. repo card, placed on a stack that fans ============ -->
+  <section class="stage">
+    <a class="propwrap mag" href="https://github.com/behi22" aria-label="Open GitHub profile">
+      <svg class="prop gL" viewBox="0 0 300 210" role="img" aria-hidden="true">
+        <rect class="railg" x="4" y="9" width="292" height="5" rx="2.5" fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".3" stroke-width="1"/>
+        <g class="railg" stroke="var(--turq)" stroke-opacity=".22" stroke-width="1">
+          <path d="M28 14v4M76 14v4M124 14v4M172 14v4M220 14v4M268 14v4"/>
+        </g>
+        <g class="fanB">
+          <rect x="90" y="84" width="120" height="102" rx="10" fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".22" stroke-width="1.4"/>
+        </g>
+        <g class="fanA">
+          <rect x="90" y="84" width="120" height="102" rx="10" fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".34" stroke-width="1.4"/>
+        </g>
+        <g class="item">
+          <rect x="90" y="84" width="120" height="102" rx="10" fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".62" stroke-width="1.8"/>
+          <g fill="none" stroke="var(--turq)" stroke-width="2.8" stroke-linecap="round">
+            <path d="M114 106 L114 166"/>
+            <path d="M114 128 q24 0 24 20 l0 18"/>
+          </g>
+          <circle cx="114" cy="106" r="6.6" fill="var(--propFill)" stroke="var(--turq)" stroke-width="2.8"/>
+          <circle cx="114" cy="136" r="6.6" fill="var(--propFill)" stroke="var(--turq)" stroke-width="2.8"/>
+          <circle cx="114" cy="166" r="6.6" fill="var(--propFill)" stroke="var(--turq)" stroke-width="2.8"/>
+          <circle cx="138" cy="166" r="6.6" fill="var(--propFill)" stroke="var(--pom)" stroke-width="2.8"/>
+          <rect x="152" y="102" width="38" height="4.5" rx="2.2" fill="var(--muted)" opacity=".55"/>
+          <rect x="152" y="132" width="28" height="4.5" rx="2.2" fill="var(--muted)" opacity=".38"/>
+          <rect x="152" y="162" width="32" height="4.5" rx="2.2" fill="var(--muted)" opacity=".38"/>
+        </g>
+        <g class="carriage">
+          <rect class="shaft" x="-3" y="16" width="6" height="60" rx="3" fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".5" stroke-width="1"/>
+          <g class="lift">
+            <rect x="-14" y="70" width="28" height="10" rx="3" fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".6" stroke-width="1.2"/>
+            <rect class="jawL" x="-11" y="79" width="5" height="13" rx="2" fill="var(--turq)" opacity=".75"/>
+            <rect class="jawR" x="6" y="79" width="5" height="13" rx="2" fill="var(--turq)" opacity=".75"/>
+          </g>
+          <rect x="-23" y="2" width="46" height="16" rx="5" fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".6" stroke-width="1.4"/>
+          <circle cx="-13" cy="10" r="2.6" fill="var(--turq)" opacity=".85"/>
+          <circle cx="13" cy="10" r="2.6" fill="var(--turq)" opacity=".85"/>
+        </g>
+      </svg>
+      <h3>GitHub</h3>
+      <p>Side projects in public, plus about 900 commits a year in private repos at work.</p>
+      <span class="go"><span>Open profile</span></span>
+    </a>
+  </section>
+
+  <!-- ============ 3. profile card, slid into a sleeve ============ -->
+  <section class="stage">
+    <a class="propwrap mag" href="https://www.linkedin.com/in/behbod-babai" aria-label="Open LinkedIn profile">
+      <svg class="prop gR" viewBox="0 0 300 210" role="img" aria-hidden="true">
+        <rect class="railg" x="4" y="9" width="292" height="5" rx="2.5" fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".3" stroke-width="1"/>
+        <g class="railg" stroke="var(--turq)" stroke-opacity=".22" stroke-width="1">
+          <path d="M28 14v4M76 14v4M124 14v4M172 14v4M220 14v4M268 14v4"/>
+        </g>
+        <path d="M40 128 h220 a8 8 0 0 1 8 8 v46 a8 8 0 0 1 -8 8 H40 a8 8 0 0 1 -8 -8 v-46 a8 8 0 0 1 8 -8 z"
+              fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".34" stroke-width="1.4"/>
+        <g class="item">
+          <rect x="66" y="84" width="168" height="96" rx="9" fill="var(--paper)" stroke="var(--paperEdge)" stroke-width="1"/>
+          <rect x="82" y="100" width="32" height="32" rx="7" fill="#0a5699"/>
+          <text x="98" y="123" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="600" fill="#ffffff" text-anchor="middle">in</text>
+          <rect x="124" y="102" width="76" height="7" rx="3.5" fill="var(--paperInk)" opacity=".8"/>
+          <rect x="124" y="118" width="54" height="4.5" rx="2.2" fill="var(--paperInk)" opacity=".3"/>
+          <rect x="82" y="146" width="136" height="4.5" rx="2.2" fill="var(--paperInk)" opacity=".2"/>
+          <rect x="82" y="160" width="104" height="4.5" rx="2.2" fill="var(--paperInk)" opacity=".2"/>
+        </g>
+        <path d="M32 152 h236 v30 a8 8 0 0 1 -8 8 H40 a8 8 0 0 1 -8 -8 z"
+              fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".55" stroke-width="1.8"/>
+        <rect x="126" y="168" width="48" height="4" rx="2" fill="var(--turq)" opacity=".45"/>
+        <g class="carriage">
+          <rect class="shaft" x="-3" y="16" width="6" height="60" rx="3" fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".5" stroke-width="1"/>
+          <g class="lift">
+            <rect x="-14" y="70" width="28" height="10" rx="3" fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".6" stroke-width="1.2"/>
+            <rect class="jawL" x="-11" y="79" width="5" height="13" rx="2" fill="var(--turq)" opacity=".75"/>
+            <rect class="jawR" x="6" y="79" width="5" height="13" rx="2" fill="var(--turq)" opacity=".75"/>
+          </g>
+          <rect x="-23" y="2" width="46" height="16" rx="5" fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".6" stroke-width="1.4"/>
+          <circle cx="-13" cy="10" r="2.6" fill="var(--turq)" opacity=".85"/>
+          <circle cx="13" cy="10" r="2.6" fill="var(--turq)" opacity=".85"/>
+        </g>
+      </svg>
+      <h3>LinkedIn</h3>
+      <p>The longer version, with the full history and the people I have worked with.</p>
+      <span class="go"><span>Open profile</span></span>
+    </a>
+  </section>
+
+  <!-- ============ 4. envelope, dropped into the inbox tray ============ -->
+  <section class="stage">
+    <a class="propwrap mag" href="mailto:behibabai@gmail.com" aria-label="Send me an email">
+      <svg class="prop gL" viewBox="0 0 300 210" role="img" aria-hidden="true">
+        <rect class="railg" x="4" y="9" width="292" height="5" rx="2.5" fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".3" stroke-width="1"/>
+        <g class="railg" stroke="var(--turq)" stroke-opacity=".22" stroke-width="1">
+          <path d="M28 14v4M76 14v4M124 14v4M172 14v4M220 14v4M268 14v4"/>
+        </g>
+        <path d="M52 138 L248 138" stroke="var(--turq)" stroke-opacity=".3" stroke-width="1.4"/>
+        <g class="item">
+          <rect x="96" y="84" width="108" height="74" rx="7" fill="var(--paper)" stroke="var(--paperEdge)" stroke-width="1"/>
+          <path d="M96 92 L150 130 L204 92" fill="none" stroke="var(--paperInk)" stroke-opacity=".42" stroke-width="3.2" stroke-linejoin="round"/>
+          <rect x="112" y="140" width="40" height="4" rx="2" fill="var(--turq)"/>
+        </g>
+        <path d="M52 144 L248 144 L228 190 L72 190 Z"
+              fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".5" stroke-width="2"/>
+        <path d="M52 144 L248 144" stroke="var(--turq)" stroke-opacity=".72" stroke-width="3" stroke-linecap="round"/>
+        <path d="M84 162 L216 162" stroke="var(--muted)" stroke-opacity=".3" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M96 176 L204 176" stroke="var(--muted)" stroke-opacity=".2" stroke-width="2.4" stroke-linecap="round"/>
+        <g class="carriage">
+          <rect class="shaft" x="-3" y="16" width="6" height="60" rx="3" fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".5" stroke-width="1"/>
+          <g class="lift">
+            <rect x="-14" y="70" width="28" height="10" rx="3" fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".6" stroke-width="1.2"/>
+            <rect class="jawL" x="-11" y="79" width="5" height="13" rx="2" fill="var(--turq)" opacity=".75"/>
+            <rect class="jawR" x="6" y="79" width="5" height="13" rx="2" fill="var(--turq)" opacity=".75"/>
+          </g>
+          <rect x="-23" y="2" width="46" height="16" rx="5" fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".6" stroke-width="1.4"/>
+          <circle cx="-13" cy="10" r="2.6" fill="var(--turq)" opacity=".85"/>
+          <circle cx="13" cy="10" r="2.6" fill="var(--turq)" opacity=".85"/>
+        </g>
+      </svg>
+      <h3>Email</h3>
+      <p>Fastest way to reach me. I answer.</p>
+      <span class="go"><span>behibabai@gmail.com</span></span>
+    </a>
+  </section>
 
   <!-- ============ what I do ============ -->
   <section class="sec rv" id="about">
     <div class="sub">01 / What I do</div>
-    <h2>Whole stack, ugly middle included</h2>
-    <p class="body">I write <strong>React and TypeScript</strong> on the front, <strong>Node.js
-      services and REST APIs</strong> behind them, and I own the <strong>AWS, CI/CD and
-      DNS</strong> underneath. The parts of a product that nobody demos are usually the parts
-      I end up responsible for.</p>
-    <p class="body">A lot of my current work is AI: agent systems on the OpenAI and Claude APIs,
-      prompt engineering, RAG pipelines, knowledge bases, and the guardrails that stop an agent
-      wandering off script. Voice is one slice of that, not the whole job. The other slices are
-      webhook pipelines, lead ingestion, CRM and scheduling automation, and internal tools that
-      replace work people were doing by hand.</p>
-    <p class="body">I like problems that cross layers, where the bug could be in a React component
-      or in a webhook payload and you genuinely do not know which yet. I review PRs, onboard
-      engineers, sit in on technical interviews, and argue about product direction.</p>
-    <p class="body">Before this: three years freelancing for my own clients, two years fixing
-      other people's computers at a retail bench, and an Associate of Science in Computer Science
+    <h2>Front to back, and everything underneath</h2>
+    <p class="body">I build web software end to end. I write <span class="mark">React and TypeScript</span>
+      on the front, <span class="mark">Node.js services and REST APIs</span> behind them, and I own
+      the <span class="mark">AWS, CI/CD and DNS</span> underneath. In practice I am usually the
+      person who can answer for the whole path rather than one layer of it.</p>
+    <p class="body">Most of my work now is <span class="mark">AI systems</span>, and most of that is retrieval quality,
+      guardrails and failure paths. The interesting engineering is rarely the model itself.
+      It is everything around it.</p>
+    <p class="body">I like problems that cross layers, where the bug could be in a <span class="mark">React component</span>
+      or in a <span class="mark">webhook payload</span> three services away and you genuinely do not know which yet. The
+      parts nobody demos usually end up mine: deploy pipelines, DNS, the job that runs at 3am.
+      They are the difference between something that works in a demo and something that works
+      on a Tuesday.</p>
+    <p class="body">Before this: three years freelancing for my own clients, two years as
+      a senior service technician, training the people who came after me, and an Associate of Science in Computer Science
       from Langara.</p>
     <p class="body">Away from the keyboard: FPS games, more music than is reasonable, and an
       ongoing <span class="pom">pomegranate juice</span> habit.</p>
@@ -384,7 +706,7 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
     <h2>Where I have worked</h2>
     <ol class="tl" id="tl">
 
-      <li class="job now">
+      <li class="job jin now">
         <span class="dot"></span>
         <div class="jhead">
           <div class="role">Full-Stack Engineer (AI-Enabled)</div>
@@ -413,7 +735,7 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
         </ul>
       </li>
 
-      <li class="job">
+      <li class="job jin">
         <span class="dot"></span>
         <div class="jhead">
           <div class="role">Full-Stack Engineer</div>
@@ -429,7 +751,7 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
         </ul>
       </li>
 
-      <li class="job">
+      <li class="job jin">
         <span class="dot"></span>
         <div class="jhead">
           <div class="role">Frontend Developer</div>
@@ -444,7 +766,7 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
         </ul>
       </li>
 
-      <li class="job">
+      <li class="job jin">
         <span class="dot"></span>
         <div class="jhead">
           <div class="role">Full-Stack Developer, freelance</div>
@@ -458,7 +780,7 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
         </ul>
       </li>
 
-      <li class="job">
+      <li class="job jin">
         <span class="dot"></span>
         <div class="jhead">
           <div class="role">Senior Computer Service Technician</div>
@@ -476,196 +798,104 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
 
   <!-- ============ side projects ============ -->
   <section class="sec rv" id="side">
-    <div class="sub">03 / Side projects</div>
+    <div class="sub">03 / Projects</div>
     <h2>Small things I built</h2>
     <p class="note">Weekend and evening projects. None of these are production systems, and none
       of them are the work I would point at first. They are here because they are public and
       because I enjoyed building them.</p>
 
-    <a class="row mag" href="https://github.com/behi22/aic-voice-microsite">
-      <div class="rtop">
-        <div class="t">Voice Agent Microsite</div>
-        <div class="k">System design</div>
-      </div>
-      <div class="d">An interactive proposal for a restaurant voice agent: AI IVR, conversational
-        ordering and reservations, human handoff, with call flows, a data model, the API surface
-        and KPIs written up.</div>
-      <div class="s">Next.js &middot; TypeScript &middot; Tailwind &middot; Framer Motion &middot; Recharts</div>
-    </a>
+    <div class="cardp"><div class="cardturn">
+      <a class="row tilt" href="https://github.com/behi22/aic-voice-microsite">
+        <span class="glow" aria-hidden="true"></span>
+        <div class="rtop">
+          <div class="t">Voice Agent Microsite</div>
+          <div class="k">System design</div>
+        </div>
+        <div class="d">An interactive proposal for a restaurant voice agent: AI IVR, conversational
+          ordering and reservations, human handoff, with call flows, a data model, the API surface
+          and KPIs written up.</div>
+        <div class="s">Next.js &middot; TypeScript &middot; Tailwind &middot; Framer Motion &middot; Recharts</div>
+      </a>
+    </div></div>
 
-    <a class="row mag" href="https://github.com/behi22/PettyAF">
-      <div class="rtop">
-        <div class="t">Outbound Voice Agent</div>
-        <div class="k">Hackathon</div>
-      </div>
-      <div class="d">Voice agents that place real outbound calls, with live monitoring and
-        transcripts. Built in a weekend, and it looks like it.</div>
-      <div class="s">React &middot; Vite &middot; Express &middot; TypeScript</div>
-    </a>
+    <div class="cardp"><div class="cardturn">
+      <a class="row tilt" href="https://github.com/behi22/PettyAF">
+        <span class="glow" aria-hidden="true"></span>
+        <div class="rtop">
+          <div class="t">Outbound Voice Agent</div>
+          <div class="k">Hackathon</div>
+        </div>
+        <div class="d">Voice agents that place real outbound calls, with live monitoring and
+          transcripts. Built in a weekend, and it looks like it.</div>
+        <div class="s">React &middot; Vite &middot; Express &middot; TypeScript</div>
+      </a>
+    </div></div>
 
-    <a class="row mag" href="https://github.com/behi22/visitor-classifier">
-      <div class="rtop">
-        <div class="t">Visitor Classifier</div>
-        <div class="k">Python API</div>
-      </div>
-      <div class="d">Scrapes a site, then works out who is visiting it and why. Python API with a
-        Redis cache and Postgres, plus a small React frontend.</div>
-      <div class="s">Python &middot; Redis &middot; PostgreSQL &middot; React</div>
-    </a>
+    <div class="cardp"><div class="cardturn">
+      <a class="row tilt" href="https://github.com/behi22/visitor-classifier">
+        <span class="glow" aria-hidden="true"></span>
+        <div class="rtop">
+          <div class="t">Visitor Classifier</div>
+          <div class="k">Python API</div>
+        </div>
+        <div class="d">Scrapes a site, then works out who is visiting it and why. Python API with a
+          Redis cache and Postgres, plus a small React frontend.</div>
+        <div class="s">Python &middot; Redis &middot; PostgreSQL &middot; React</div>
+      </a>
+    </div></div>
   </section>
 
   <!-- ============ toolkit ============ -->
   <section class="sec rv" id="kit">
     <div class="sub">04 / Toolkit</div>
     <h2>What I reach for</h2>
-    <div class="kit">
-      <div class="kitgrp"><b>Languages</b><div class="chips">
-        <span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">Python</span><span class="chip">PHP</span><span class="chip">SQL</span><span class="chip">HTML/CSS</span><span class="chip">Swift</span><span class="chip">Java</span><span class="chip">C#</span>
-      </div></div>
-      <div class="kitgrp"><b>Frontend</b><div class="chips">
-        <span class="chip">React</span><span class="chip">Next.js</span><span class="chip">React Native</span><span class="chip">Redux</span><span class="chip">Tailwind</span><span class="chip">SASS</span><span class="chip">MUI</span><span class="chip">Vite</span><span class="chip">Webpack</span><span class="chip">Jest</span>
-      </div></div>
-      <div class="kitgrp"><b>Backend and APIs</b><div class="chips">
-        <span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">REST APIs</span><span class="chip">Webhooks</span><span class="chip">WebSockets</span><span class="chip">Firebase Functions</span><span class="chip">Serverless</span><span class="chip">OAuth</span>
-      </div></div>
-      <div class="kitgrp"><b>AI systems</b><div class="chips">
-        <span class="chip">AI agents</span><span class="chip">Agentic workflows</span><span class="chip">Prompt engineering</span><span class="chip">RAG</span><span class="chip">Knowledge bases</span><span class="chip">Guardrails</span><span class="chip">Agent evaluation</span><span class="chip">Voice AI</span><span class="chip">OpenAI</span><span class="chip">Claude</span>
-      </div></div>
-      <div class="kitgrp"><b>Cloud and DevOps</b><div class="chips">
-        <span class="chip">AWS</span><span class="chip">Linux</span><span class="chip">CI/CD</span><span class="chip">GitHub Actions</span><span class="chip">Docker</span><span class="chip">Cloudflare</span><span class="chip">DNS</span><span class="chip">Vercel</span><span class="chip">Netlify</span><span class="chip">Render</span><span class="chip">Jenkins</span>
-      </div></div>
-      <div class="kitgrp"><b>Databases</b><div class="chips">
-        <span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">MongoDB</span><span class="chip">Firestore</span><span class="chip">Redis</span>
-      </div></div>
-      <div class="kitgrp"><b>Integrations</b><div class="chips">
-        <span class="chip">Twilio</span><span class="chip">Vapi</span><span class="chip">ElevenLabs</span><span class="chip">Nylas</span><span class="chip">TwiML</span><span class="chip">Speech-to-text</span><span class="chip">Text-to-speech</span><span class="chip">CRM systems</span>
-      </div></div>
-      <div class="kitgrp"><b>Practices</b><div class="chips">
-        <span class="chip">System design</span><span class="chip">Solution architecture</span><span class="chip">Algorithms</span><span class="chip">Data structures</span><span class="chip">OOP</span><span class="chip">Internal tools</span><span class="chip">Automation</span><span class="chip">Accessibility</span><span class="chip">Agile</span><span class="chip">Unit testing</span><span class="chip">Code review</span><span class="chip">Mentoring</span><span class="chip">Git</span><span class="chip">JIRA</span><span class="chip">Figma</span>
-      </div></div>
+
+    <div class="kitswitch" role="group" aria-label="Toolkit view">
+      <button type="button" id="viewBlobs" aria-pressed="true">Blobs</button>
+      <button type="button" id="viewList" aria-pressed="false">List</button>
+    </div>
+
+    <div class="field" id="field"></div>
+    <p class="hint">Click a blob to scatter what is inside it</p>
+
+    <div class="kitlist" id="kitlist">
+      <div class="kitgrp"><b>Languages</b><ul class="chips">
+        <li>JavaScript</li><li>TypeScript</li><li>Python</li><li>PHP</li><li>SQL</li><li>HTML/CSS</li><li>Swift</li><li>Java</li><li>C#</li>
+      </ul></div>
+      <div class="kitgrp"><b>Frontend</b><ul class="chips">
+        <li>React</li><li>Next.js</li><li>React Native</li><li>Redux</li><li>Tailwind</li><li>SASS</li><li>MUI</li><li>Bootstrap</li><li>jQuery</li><li>Vite</li><li>Webpack</li><li>Jest</li>
+      </ul></div>
+      <div class="kitgrp" data-short="Backend"><b>Backend and APIs</b><ul class="chips">
+        <li>Node.js</li><li>Express</li><li>REST APIs</li><li>Webhooks</li><li>WebSockets</li><li>Firebase Functions</li><li>Serverless</li><li>OAuth</li><li>API design</li>
+      </ul></div>
+      <div class="kitgrp"><b>AI systems</b><ul class="chips">
+        <li>AI agents</li><li>Agentic workflows</li><li>Prompt engineering</li><li>RAG</li><li>Knowledge bases</li><li>Guardrails</li><li>Agent evaluation</li><li>Voice AI</li><li>OpenAI</li><li>Claude</li>
+      </ul></div>
+      <div class="kitgrp" data-short="Cloud"><b>Cloud and DevOps</b><ul class="chips">
+        <li>AWS</li><li>Linux</li><li>CI/CD</li><li>GitHub Actions</li><li>Docker</li><li>Cloudflare</li><li>DNS</li><li>Vercel</li><li>Netlify</li><li>Render</li><li>Jenkins</li><li>cPanel</li>
+      </ul></div>
+      <div class="kitgrp"><b>Databases</b><ul class="chips">
+        <li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li><li>Firestore</li><li>Redis</li>
+      </ul></div>
+      <div class="kitgrp"><b>Integrations</b><ul class="chips">
+        <li>Twilio</li><li>Vapi</li><li>ElevenLabs</li><li>Nylas</li><li>TwiML</li><li>Speech-to-text</li><li>Text-to-speech</li><li>CRM systems</li>
+      </ul></div>
+      <div class="kitgrp"><b>Practices</b><ul class="chips">
+        <li>System design</li><li>Solution architecture</li><li>Algorithms</li><li>Data structures</li><li>OOP</li><li>Internal tools</li><li>Automation</li><li>Accessibility</li><li>Agile</li><li>Unit testing</li><li>Code review</li><li>Mentoring</li><li>Git</li><li>JIRA</li><li>Figma</li>
+      </ul></div>
     </div>
   </section>
 
-  <div class="sec rv" id="reach" style="padding-bottom:0">
-    <div class="sub">05 / Reach me</div>
-    <h2>Four ways in</h2>
-  </div>
-
-  <!-- ============ stage 1: resume slides up out of a folder ============ -->
-  <section class="stage">
-    <a class="propwrap mag from-r" href="Behbod_Babai_Resume.pdf" aria-label="Open resume">
-      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
-        <!-- folder back -->
-        <path d="M40 62 h74 l13 15 h133 a8 8 0 0 1 8 8 v78 a8 8 0 0 1 -8 8 H40 a8 8 0 0 1 -8 -8 V70 a8 8 0 0 1 8 -8 z"
-              fill="var(--propFill2)" stroke="var(--turq)" stroke-opacity=".42" stroke-width="1.6"/>
-        <!-- the sheet, rising out of the folder -->
-        <g class="emerge">
-          <rect x="76" y="18" width="148" height="120" rx="6" fill="var(--paper)" stroke="var(--paperEdge)" stroke-width="1"/>
-          <rect x="92" y="34" width="62" height="7" rx="3.5" fill="var(--paperInk)" opacity=".82"/>
-          <rect x="92" y="52" width="108" height="4" rx="2" fill="var(--paperInk)" opacity=".28"/>
-          <rect x="92" y="63" width="90" height="4" rx="2" fill="var(--paperInk)" opacity=".28"/>
-          <rect x="92" y="81" width="44" height="4.5" rx="2.2" fill="var(--turq)"/>
-          <rect x="92" y="92" width="108" height="4" rx="2" fill="var(--paperInk)" opacity=".2"/>
-          <rect x="92" y="103" width="96" height="4" rx="2" fill="var(--paperInk)" opacity=".2"/>
-          <rect x="92" y="118" width="44" height="4.5" rx="2.2" fill="var(--pom)"/>
-        </g>
-        <!-- folder front, so the sheet reads as coming out of it -->
-        <path d="M32 96 h236 v56 a8 8 0 0 1 -8 8 H40 a8 8 0 0 1 -8 -8 z"
-              fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".55" stroke-width="1.8"/>
-        <rect x="126" y="118" width="48" height="4" rx="2" fill="var(--turq)" opacity=".5"/>
-      </svg>
-      <h3>Resume</h3>
-      <p>One page. Everything I actually do, with the numbers attached.</p>
-      <span class="go"><span>Open PDF</span></span>
-    </a>
-  </section>
-
-  <!-- ============ stage 2: repo cards fan out of a stack ============ -->
-  <section class="stage">
-    <a class="propwrap mag from-l" href="https://github.com/behi22" aria-label="Open GitHub">
-      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
-        <g class="fan2">
-          <rect x="86" y="26" width="128" height="138" rx="11" fill="var(--propFill2)"
-                stroke="var(--turq)" stroke-opacity=".22" stroke-width="1.5"/>
-        </g>
-        <g class="fan1">
-          <rect x="86" y="26" width="128" height="138" rx="11" fill="var(--propFill2)"
-                stroke="var(--turq)" stroke-opacity=".34" stroke-width="1.5"/>
-        </g>
-        <g>
-          <rect x="86" y="26" width="128" height="138" rx="11" fill="var(--propFill)"
-                stroke="var(--turq)" stroke-opacity=".62" stroke-width="1.8"/>
-          <g fill="none" stroke="var(--turq)" stroke-width="3" stroke-linecap="round">
-            <path d="M114 56 L114 134"/>
-            <path d="M114 86 q30 0 30 26 l0 22"/>
-          </g>
-          <circle cx="114" cy="56" r="7.5" fill="var(--propFill)" stroke="var(--turq)" stroke-width="3"/>
-          <circle cx="114" cy="95" r="7.5" fill="var(--propFill)" stroke="var(--turq)" stroke-width="3"/>
-          <circle cx="114" cy="134" r="7.5" fill="var(--propFill)" stroke="var(--turq)" stroke-width="3"/>
-          <circle cx="144" cy="134" r="7.5" fill="var(--propFill)" stroke="var(--pom)" stroke-width="3"/>
-          <rect x="164" y="50" width="38" height="5" rx="2.5" fill="var(--muted)" opacity=".55"/>
-          <rect x="164" y="90" width="28" height="5" rx="2.5" fill="var(--muted)" opacity=".38"/>
-          <rect x="164" y="129" width="32" height="5" rx="2.5" fill="var(--muted)" opacity=".38"/>
-        </g>
-      </svg>
-      <h3>GitHub</h3>
-      <p>Side projects in public, plus about 900 commits a year in private repos at work.</p>
-      <span class="go"><span>Open profile</span></span>
-    </a>
-  </section>
-
-  <!-- ============ stage 3: profile card slides out of a sleeve ============ -->
-  <section class="stage">
-    <a class="propwrap mag from-r" href="https://www.linkedin.com/in/behbod-babai" aria-label="Open LinkedIn">
-      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
-        <g class="emerge">
-          <rect x="66" y="26" width="168" height="104" rx="9" fill="var(--paper)" stroke="var(--paperEdge)" stroke-width="1"/>
-          <rect x="82" y="42" width="32" height="32" rx="7" fill="#0a66c2"/>
-          <text x="98" y="65" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="600"
-                fill="#ffffff" text-anchor="middle">in</text>
-          <rect x="124" y="44" width="76" height="7" rx="3.5" fill="var(--paperInk)" opacity=".8"/>
-          <rect x="124" y="60" width="54" height="4.5" rx="2.2" fill="var(--paperInk)" opacity=".3"/>
-          <rect x="82" y="88" width="136" height="4.5" rx="2.2" fill="var(--paperInk)" opacity=".2"/>
-          <rect x="82" y="102" width="104" height="4.5" rx="2.2" fill="var(--paperInk)" opacity=".2"/>
-        </g>
-        <!-- sleeve -->
-        <path d="M54 104 h192 a8 8 0 0 1 8 8 v40 a8 8 0 0 1 -8 8 H54 a8 8 0 0 1 -8 -8 v-40 a8 8 0 0 1 8 -8 z"
-              fill="var(--propFill)" stroke="var(--turq)" stroke-opacity=".55" stroke-width="1.8"/>
-        <path d="M46 118 h208" stroke="var(--turq)" stroke-opacity=".3" stroke-width="1.4"/>
-        <rect x="126" y="134" width="48" height="4" rx="2" fill="var(--turq)" opacity=".45"/>
-      </svg>
-      <h3>LinkedIn</h3>
-      <p>The longer version, with the full history and the people I have worked with.</p>
-      <span class="go"><span>Open profile</span></span>
-    </a>
-  </section>
-
-  <!-- ============ stage 4: envelope drops into the tray ============ -->
-  <section class="stage">
-    <a class="propwrap mag from-b" href="mailto:behibabai@gmail.com" aria-label="Send email">
-      <svg class="prop" viewBox="0 0 300 190" role="img" aria-hidden="true">
-        <g class="emerge">
-          <rect x="98" y="24" width="104" height="70" rx="7" fill="var(--paper)" stroke="var(--paperEdge)" stroke-width="1"/>
-          <path d="M98 32 L150 68 L202 32" fill="none" stroke="var(--paperInk)" stroke-opacity=".42"
-                stroke-width="3.2" stroke-linejoin="round"/>
-          <rect x="112" y="78" width="40" height="4" rx="2" fill="var(--turq)"/>
-        </g>
-        <g>
-          <path d="M56 112 L244 112 L226 164 L74 164 Z" fill="var(--propFill)"
-                stroke="var(--turq)" stroke-opacity=".5" stroke-width="2"/>
-          <path d="M56 112 L244 112" stroke="var(--turq)" stroke-opacity=".72" stroke-width="3" stroke-linecap="round"/>
-          <path d="M84 134 L216 134" stroke="var(--muted)" stroke-opacity=".3" stroke-width="2.4" stroke-linecap="round"/>
-          <path d="M96 148 L204 148" stroke="var(--muted)" stroke-opacity=".2" stroke-width="2.4" stroke-linecap="round"/>
-        </g>
-      </svg>
-      <h3>Email</h3>
-      <p>Fastest way to reach me. I answer.</p>
-      <span class="go"><span>behibabai@gmail.com</span></span>
-    </a>
-  </section>
-
-  <footer>
-    <a href="mailto:behibabai@gmail.com">behibabai@gmail.com</a>
+  <footer id="end">
+    <p class="fcta">Let's build something</p>
+    <p class="fwhere">Vancouver, BC &middot; on-site, hybrid or remote</p>
+    <nav class="flinks" aria-label="Find me elsewhere">
+      <a href="Behbod_Babai_Resume.pdf">Resume</a>
+      <a href="https://github.com/behi22">GitHub</a>
+      <a href="https://www.linkedin.com/in/behbod-babai">LinkedIn</a>
+      <a href="mailto:behibabai@gmail.com">behibabai@gmail.com</a>
+    </nav>
+    <p class="fsmall">Hand-written HTML, CSS and JavaScript. No framework, no page builder.</p>
   </footer>
 
 </div>
@@ -676,55 +906,73 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine=matchMedia('(pointer:fine)').matches;
 
-  /* ---------- spring integrator ---------- */
   function Spring(k,d,m){this.k=k;this.d=d;this.m=m||1;this.x=0;this.v=0;this.target=0}
   Spring.prototype.step=function(dt){
     var f=-this.k*(this.x-this.target)-this.d*this.v;
     this.v+=(f/this.m)*dt; this.x+=this.v*dt; return this.x;
   };
 
-  /* ---------- theme ---------- */
-  var btn=document.getElementById('themebtn');
-  var thumb=btn.querySelector('.thumb');
-  var thumbSpring=new Spring(240,20);
-  var thumbRun=false, thumbPrev=0;
-  function travel(){ return btn.clientWidth - thumb.offsetWidth - 6; }
+  var hasView=CSS.supports('animation-timeline: view()');
+  if(!hasView) root.classList.add('noview');
+
+  /* ================= theme ================= */
+  var tbtn=document.getElementById('tbtn');
   function syncTheme(){
     var light=root.getAttribute('data-theme')==='light';
-    btn.setAttribute('aria-pressed',light?'true':'false');
-    thumbSpring.target=light?travel():0;
-    if(reduce){ thumbSpring.x=thumbSpring.target; thumbSpring.v=0;
-      thumb.style.transform='translateX('+thumbSpring.x+'px)'; paintFx(); return; }
-    if(!thumbRun){ thumbRun=true; thumbPrev=performance.now(); requestAnimationFrame(thumbTick); }
-  }
-  function thumbTick(now){
-    var dt=Math.min((now-thumbPrev)/1000,.032); thumbPrev=now;
-    thumbSpring.step(dt);
-    thumb.style.transform='translateX('+thumbSpring.x.toFixed(2)+'px)';
-    if(Math.abs(thumbSpring.x-thumbSpring.target)>.2||Math.abs(thumbSpring.v)>.4){
-      requestAnimationFrame(thumbTick);
-    } else {
-      thumbSpring.x=thumbSpring.target; thumbSpring.v=0;
-      thumb.style.transform='translateX('+thumbSpring.x+'px)';
-      thumbRun=false;
-    }
-  }
-  btn.addEventListener('click',function(){
-    var next=root.getAttribute('data-theme')==='light'?'dark':'light';
-    root.setAttribute('data-theme',next);
-    try{ localStorage.setItem('theme',next); }catch(e){}
+    tbtn.setAttribute('aria-pressed',light?'true':'false');
     var m=document.querySelector('meta[name="theme-color"]');
-    if(m) m.setAttribute('content',next==='light'?'#f7f8fa':'#080e18');
-    syncTheme(); paintFx();
-  });
-  addEventListener('resize',function(){
-    thumbSpring.target=root.getAttribute('data-theme')==='light'?travel():0;
-    thumbSpring.x=thumbSpring.target;
-    thumb.style.transform='translateX('+thumbSpring.x+'px)';
+    if(m) m.setAttribute('content',light?'#f7f8fa':'#080e18');
+  }
+  function pulse(){
+    if(reduce) return;
+    var r=tbtn.getBoundingClientRect();
+    var cx=r.left+r.width/2, cy=r.top+r.height/2;
+    var d=Math.hypot(Math.max(cx,innerWidth-cx),Math.max(cy,innerHeight-cy))*2.1;
+    var el=document.createElement('div');
+    el.className='ring';
+    el.style.left=cx+'px'; el.style.top=cy+'px';
+    el.style.width=d+'px'; el.style.height=d+'px';
+    document.body.appendChild(el);
+    setTimeout(function(){ el.classList.add('out'); },20);
+    setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); },1300);
+  }
+  var themeBusy=false;
+  tbtn.addEventListener('click',function(){
+    if(themeBusy) return;
+    var next=root.getAttribute('data-theme')==='light'?'dark':'light';
+    function apply(){
+      root.setAttribute('data-theme',next);
+      try{ localStorage.setItem('theme',next); }catch(e){}
+      syncTheme(); paintFx();
+    }
+    if(reduce){ apply(); return; }
+    themeBusy=true;
+    var r=tbtn.getBoundingClientRect();
+    var cx=r.left+r.width/2, cy=r.top+r.height/2;
+    var reach=Math.hypot(Math.max(cx,innerWidth-cx),Math.max(cy,innerHeight-cy))*2.3;
+    var target=(reach/240).toFixed(3);
+    [0,140].forEach(function(delay){
+      setTimeout(function(){
+        var w=document.createElement('div');
+        w.className='wave';
+        w.style.left=cx+'px'; w.style.top=cy+'px';
+        document.body.appendChild(w);
+        /* let the small scale commit for a frame, then hand off to the compositor */
+        setTimeout(function(){
+          w.style.transform='translate(-50%,-50%) scale('+target+')';
+          w.style.opacity='0';
+        },24);
+        setTimeout(function(){ if(w.parentNode) w.parentNode.removeChild(w); },1500);
+      },delay);
+    });
+    blastField(cx,cy);
+    setTimeout(apply,270);
+    /* release the lock right after the flip so rapid clicks stay responsive */
+    setTimeout(function(){ themeBusy=false; },520);
   });
   syncTheme();
 
-  /* ---------- name: letters spring in from a deterministic scatter ---------- */
+  /* ================= hero name ================= */
   var h1=document.getElementById('name');
   (function(){
     var out='';
@@ -741,30 +989,33 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
     });
     h1.innerHTML=out;
   })();
-
   var ltrs=[].slice.call(h1.querySelectorAll('.l'));
   var emLtrs=[].slice.call(h1.querySelectorAll('em .l'));
 
-  /* each em letter carries a slice of one gradient; stitch them by offset */
   function paintGradient(){
-    var em=h1.querySelector('em'); if(!em||!emLtrs.length) return;
-    var w=em.getBoundingClientRect().width; if(!w) return;
-    var base=emLtrs[0].getBoundingClientRect().left;
+    if(!emLtrs.length) return;
+    /* Span the gradient across the letters' PADDING boxes, not the em's width.
+       The boxes are wider than the glyph advances (so italic overhang keeps its
+       fill), which puts the last letter past the em's edge -- and with
+       no-repeat that letter would get no background and vanish. */
+    var first=emLtrs[0].getBoundingClientRect();
+    var last=emLtrs[emLtrs.length-1].getBoundingClientRect();
+    var w=last.right-first.left;
+    if(!(w>0)) return;
     emLtrs.forEach(function(l){
-      var off=l.getBoundingClientRect().left-base;
+      var off=l.getBoundingClientRect().left-first.left;
       l.style.backgroundSize=w+'px 100%';
       l.style.backgroundPosition=(-off)+'px 0';
     });
   }
   paintGradient();
   if(document.fonts&&document.fonts.ready){document.fonts.ready.then(paintGradient);}
-  addEventListener('resize',paintGradient);
 
   function settleName(){
     ltrs.forEach(function(l){ l.style.opacity=1; l.style.transform=''; });
     h1.classList.add('lit');
   }
-  /* rAF is suspended in background tabs, so guarantee the name is never left scattered */
+  /* rAF is suspended in background tabs, so the name must never stay scattered */
   setTimeout(settleName,3200);
 
   if(reduce){ settleName(); }
@@ -776,9 +1027,9 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
       s.x.x=dir*(38+swing*24); s.y.x=-66-swing*22; s.r.x=dir*(15+swing*6);
       return s;
     });
-    var last=performance.now();
+    var nlast=performance.now();
     (function step(now){
-      var dt=Math.min((now-last)/1000,.032); last=now;
+      var dt=Math.min((now-nlast)/1000,.032); nlast=now;
       var busy=false;
       sp.forEach(function(s){
         s.t+=dt;
@@ -794,48 +1045,60 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
         }
       });
       if(busy) requestAnimationFrame(step);
-    })(last);
+    })(nlast);
   }
 
-  /* ---------- magnetic springs on props and rows ---------- */
-  if(fine && !reduce){
-    var mags=[].slice.call(document.querySelectorAll('.mag')).map(function(el){
-      var isRow=el.classList.contains('row');
-      return {el:el,sx:new Spring(200,19),sy:new Spring(200,19),
-              reach:isRow?150:210, pull:isRow?.09:.15};
-    });
-    var mx=-9999,my=-9999,run=false,prev=0;
-    addEventListener('mousemove',function(e){
-      mx=e.clientX;my=e.clientY;
-      if(!run){run=true;prev=performance.now();requestAnimationFrame(tick)}
-    },{passive:true});
-    function tick(now){
-      var dt=Math.min((now-prev)/1000,.032); prev=now;
-      var busy=false;
-      mags.forEach(function(m){
-        var r=m.el.getBoundingClientRect();
-        if(r.bottom<-200||r.top>innerHeight+200){ m.sx.target=0;m.sy.target=0; }
-        else{
-          var dx=mx-(r.left+r.width/2), dy=my-(r.top+r.height/2);
-          var dist=Math.hypot(dx,dy);
-          var f=dist<m.reach?(1-dist/m.reach):0;
-          m.sx.target=dx*f*m.pull; m.sy.target=dy*f*m.pull;
-          if(f>0) busy=true;
-        }
-        m.sx.step(dt); m.sy.step(dt);
-        if(Math.abs(m.sx.x)>.05||Math.abs(m.sy.x)>.05){ busy=true;
-          m.el.style.transform='translate('+m.sx.x.toFixed(2)+'px,'+m.sy.x.toFixed(2)+'px)';
-        } else { m.el.style.transform=''; }
-      });
-      if(busy) requestAnimationFrame(tick); else run=false;
+  /* ================= pointer springs =================
+     Scroll entry lives on .cardturn / the svg internals; the pointer transform
+     lives on .propwrap / .row, so a CSS animation and an inline transform never
+     fight over the same element. */
+  var mx=-9999,my=-9999;
+  var items=[].slice.call(document.querySelectorAll('.mag,.tilt')).map(function(el){
+    var isCard=el.classList.contains('tilt');
+    return {el:el,card:isCard,glow:isCard?el.querySelector('.glow'):null,
+      sx:new Spring(200,19),sy:new Spring(200,19),
+      rx:new Spring(150,16),ry:new Spring(150,16),
+      reach:isCard?0:210,pull:isCard?0:.14,tilt:isCard?7:0};
+  });
+  var pRun=false,pPrev=0;
+  function pKick(){ if(!pRun&&!reduce&&fine){pRun=true;pPrev=performance.now();requestAnimationFrame(pTick);} }
+  function pTick(now){
+    var dt=Math.min((now-pPrev)/1000,.032); pPrev=now;
+    var busy=false;
+    for(var i=0;i<items.length;i++){
+      var it=items[i], r=it.el.getBoundingClientRect();
+      if(r.bottom<-220||r.top>innerHeight+220){
+        it.sx.target=0;it.sy.target=0;it.rx.target=0;it.ry.target=0;
+      } else if(it.card){
+        if(mx>=r.left&&mx<=r.right&&my>=r.top&&my<=r.bottom){
+          it.ry.target=((mx-r.left)/r.width-.5)*it.tilt;
+          it.rx.target=-((my-r.top)/r.height-.5)*it.tilt;
+          if(it.glow) it.glow.style.transform='translate('+(mx-r.left-150)+'px,'+(my-r.top-150)+'px)';
+          busy=true;
+        } else { it.rx.target=0; it.ry.target=0; }
+      } else {
+        var dx=mx-(r.left+r.width/2), dy=my-(r.top+r.height/2);
+        var dist=Math.hypot(dx,dy);
+        var f=dist<it.reach?(1-dist/it.reach):0;
+        it.sx.target=dx*f*it.pull; it.sy.target=dy*f*it.pull;
+        if(f>0) busy=true;
+      }
+      it.sx.step(dt); it.sy.step(dt); it.rx.step(dt); it.ry.step(dt);
+      if(Math.abs(it.sx.x)>.05||Math.abs(it.sy.x)>.05||Math.abs(it.rx.x)>.05||Math.abs(it.ry.x)>.05){
+        busy=true;
+        var t='translate('+it.sx.x.toFixed(2)+'px,'+it.sy.x.toFixed(2)+'px)';
+        if(it.card) t+=' perspective(900px) rotateX('+it.rx.x.toFixed(2)+'deg) rotateY('+it.ry.x.toFixed(2)+'deg)';
+        it.el.style.transform=t;
+      } else { it.el.style.transform=''; }
     }
+    if(busy&&document.visibilityState==='visible') requestAnimationFrame(pTick); else pRun=false;
   }
+  if(fine&&!reduce) addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;pKick()},{passive:true});
 
-  /* ---------- physics field in the margins ---------- */
+  /* ================= background field ================= */
   var cv=document.getElementById('fx'), ctx=cv&&cv.getContext?cv.getContext('2d'):null;
-  var nodes=[], dpr=1, cw=0, ch=0, fxRGB='62,230,208', fxA=.3;
-  var pmx=-9999, pmy=-9999, fxRun=false, fxPrev=0;
-
+  var nodes=[],dpr=1,cw=0,ch=0,fxRGB='62,230,208',fxA=.3;
+  var pmx=-9999,pmy=-9999,fxRun=false,fxPrev=0;
   function readFxColour(){
     var cs=getComputedStyle(root);
     fxRGB=(cs.getPropertyValue('--fx')||'62,230,208').trim();
@@ -848,57 +1111,48 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
     cv.width=Math.round(cw*dpr); cv.height=Math.round(ch*dpr);
     cv.style.width=cw+'px'; cv.style.height=ch+'px';
     ctx.setTransform(dpr,0,0,dpr,0,0);
-    /* keep the field in the margins so it never fights the text column */
     var colHalf=Math.min(380,cw*.5);
-    var count=Math.max(14,Math.min(46,Math.round(cw*ch/42000)));
+    var count=Math.max(12,Math.min(44,Math.round(cw*ch/44000)));
     nodes=[];
     for(var i=0;i<count;i++){
-      var left=i%2===0;
-      var span=Math.max(40,cw/2-colHalf);
-      var hx=left?(Math.random()*span):(cw-Math.random()*span);
+      var span=Math.max(36,cw/2-colHalf);
+      var hx=(i%2===0)?(Math.random()*span):(cw-Math.random()*span);
       var hy=Math.random()*ch;
       nodes.push({hx:hx,hy:hy,x:hx,y:hy,vx:0,vy:0,
-        px:(Math.random()*2-1)*.09,py:(Math.random()*2-1)*.09,
-        r:.9+Math.random()*1.5});
+        px:(Math.random()*2-1)*.14,py:(Math.random()*2-1)*.14,
+        r:1.7+Math.random()*2.1});
     }
   }
   function draw(){
     if(!ctx) return;
     ctx.clearRect(0,0,cw,ch);
-    var i,j,a,b,d;
-    ctx.lineWidth=1;
+    ctx.lineWidth=1.25;
+    var i,j,a,b;
     for(i=0;i<nodes.length;i++){
       a=nodes[i];
       for(j=i+1;j<nodes.length;j++){
         b=nodes[j];
-        var dx=a.x-b.x, dy=a.y-b.y;
-        d=dx*dx+dy*dy;
-        if(d<9500){
-          var o=(1-d/9500)*fxA*.42;
-          ctx.strokeStyle='rgba('+fxRGB+','+o.toFixed(3)+')';
+        var dx=a.x-b.x, dy=a.y-b.y, d=dx*dx+dy*dy;
+        if(d<13500){
+          ctx.strokeStyle='rgba('+fxRGB+','+((1-d/13500)*fxA*.5).toFixed(3)+')';
           ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
         }
       }
     }
+    ctx.fillStyle='rgba('+fxRGB+','+(fxA*.95).toFixed(3)+')';
     for(i=0;i<nodes.length;i++){
-      a=nodes[i];
-      ctx.fillStyle='rgba('+fxRGB+','+(fxA*.85).toFixed(3)+')';
-      ctx.beginPath(); ctx.arc(a.x,a.y,a.r,0,6.2832); ctx.fill();
+      a=nodes[i]; ctx.beginPath(); ctx.arc(a.x,a.y,a.r,0,6.2832); ctx.fill();
     }
   }
   function stepFx(now){
     var dt=Math.min((now-fxPrev)/1000,.032); fxPrev=now;
     for(var i=0;i<nodes.length;i++){
       var n=nodes[i];
-      /* slow drift around home */
       n.hx+=n.px; n.hy+=n.py;
       if(n.hx<0||n.hx>cw) n.px*=-1;
       if(n.hy<0||n.hy>ch) n.py*=-1;
-      /* cursor pushes, spring pulls home */
-      var fx=-90*(n.x-n.hx)-13*n.vx;
-      var fy=-90*(n.y-n.hy)-13*n.vy;
-      var dx=n.x-pmx, dy=n.y-pmy;
-      var d2=dx*dx+dy*dy;
+      var fx=-90*(n.x-n.hx)-13*n.vx, fy=-90*(n.y-n.hy)-13*n.vy;
+      var dx=n.x-pmx, dy=n.y-pmy, d2=dx*dx+dy*dy;
       if(d2<26000&&d2>.01){
         var push=(1-d2/26000)*2600/Math.sqrt(d2);
         fx+=dx*push; fy+=dy*push;
@@ -907,34 +1161,311 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
       n.x+=n.vx*dt; n.y+=n.vy*dt;
     }
     draw();
-    if(document.visibilityState==='visible') requestAnimationFrame(stepFx);
-    else fxRun=false;
+    if(document.visibilityState==='visible') requestAnimationFrame(stepFx); else fxRun=false;
   }
   function paintFx(){ readFxColour(); draw(); }
-  function startFx(){
-    if(!ctx||fxRun) return;
-    fxRun=true; fxPrev=performance.now(); requestAnimationFrame(stepFx);
+  function blastField(cx,cy){
+    if(!ctx||reduce) return;
+    for(var i=0;i<nodes.length;i++){
+      var nd=nodes[i];
+      var dx=nd.x-cx, dy=nd.y-cy, d=Math.hypot(dx,dy)||1;
+      var f=520*(1-Math.min(1,d/1000));
+      nd.vx+=dx/d*f; nd.vy+=dy/d*f;
+    }
+    startFx();
   }
+  function startFx(){ if(!ctx||fxRun) return; fxRun=true; fxPrev=performance.now(); requestAnimationFrame(stepFx); }
   if(ctx){
     readFxColour(); layout(); draw();
-    addEventListener('resize',function(){layout();draw()});
     if(!reduce){
-      if(fine){
-        addEventListener('mousemove',function(e){pmx=e.clientX;pmy=e.clientY},{passive:true});
-      }
+      if(fine) addEventListener('mousemove',function(e){pmx=e.clientX;pmy=e.clientY},{passive:true});
       startFx();
       document.addEventListener('visibilitychange',function(){
-        if(document.visibilityState==='visible') startFx();
+        if(document.visibilityState==='visible'){ startFx(); kKick(); }
       });
     }
   }
+  function paintBlobColours(){}
 
-  /* ---------- reveal + fallbacks + staggered chips ---------- */
-  var hasView=CSS.supports('animation-timeline: view()');
-  function stagger(el){
-    var chips=[].slice.call(el.querySelectorAll('.chip'));
-    chips.forEach(function(c,i){ setTimeout(function(){c.classList.add('on')}, reduce?0:i*26); });
+  /* ================= toolkit blobs =================
+     Bodies are DOM elements with real text, moved by transform. Circle-circle
+     collision, cursor avoidance, spring back to a home slot. */
+  var field=document.getElementById('field');
+  var kitlist=document.getElementById('kitlist');
+  var bodies=[], openCat=-1, fW=0, fH=0, kRun=false, kPrev=0, kVisible=false;
+  var cats=[].slice.call(kitlist.querySelectorAll('.kitgrp')).map(function(g){
+    return {name:g.querySelector('b').textContent,
+            short:g.getAttribute('data-short')||g.querySelector('b').textContent,
+            skills:[].slice.call(g.querySelectorAll('li')).map(function(li){return li.textContent})};
+  });
+
+  function fieldShock(px,py,power){
+    for(var q=0;q<bodies.length;q++){
+      var b=bodies[q];
+      var dx=b.x-px, dy=b.y-py, d=Math.hypot(dx,dy)||1;
+      var f=(power||560)*(1-Math.min(1,d/480));
+      if(f<=0) continue;
+      b.vx+=dx/d*f; b.vy+=dy/d*f;
+    }
+    kKick();
   }
+  function shockFromEl(el,power){
+    for(var q=0;q<bodies.length;q++) if(bodies[q].el===el){
+      fieldShock(bodies[q].x,bodies[q].y,power); return;
+    }
+  }
+  function setBoost(node,px){
+    for(var q=0;q<bodies.length;q++) if(bodies[q].el===node){
+      var b=bodies[q];
+      if(b.baseHw===undefined){ b.baseHw=b.hw; b.baseHh=b.hh; }
+      b.hw=b.baseHw+px; b.hh=b.baseHh+px;
+    }
+    kKick();
+  }
+  function sparkBurst(el){
+    if(reduce) return;
+    var r=el.getBoundingClientRect();
+    var cx=r.left+r.width/2, cy=r.top+r.height/2;
+    for(var i=0;i<9;i++){
+      var s=document.createElement('span');
+      s.className='spark';
+      s.style.left=cx+'px'; s.style.top=cy+'px';
+      var a=(i/9)*6.2832+(i%2?.35:0), dist=32+(i%3)*14;
+      s.style.setProperty('--dx',(Math.cos(a)*dist).toFixed(1)+'px');
+      s.style.setProperty('--dy',(Math.sin(a)*dist).toFixed(1)+'px');
+      document.body.appendChild(s);
+      (function(node){
+        setTimeout(function(){ node.classList.add('fly'); },16);
+        setTimeout(function(){ if(node.parentNode) node.parentNode.removeChild(node); },780);
+      })(s);
+    }
+  }
+  function popIt(el){
+    el.classList.remove('pop');
+    void el.offsetWidth;           /* restart the animation on repeat clicks */
+    el.classList.add('pop');
+    setTimeout(function(){ el.classList.remove('pop'); },620);
+  }
+  function measure(txt,cls){
+    var probe=document.createElement('span');
+    probe.className=cls;
+    probe.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;border-radius:999px';
+    probe.textContent=txt;
+    field.appendChild(probe);
+    var w=probe.offsetWidth+22;
+    field.removeChild(probe);
+    return w;
+  }
+
+  /* fixed jitter table: organic-looking but identical every load, so the
+     layout never reshuffles on resize */
+  var JIT=[[.06,-.05],[-.05,.07],[.04,-.08],[-.07,.04],[-.04,.06],[.07,-.04],[-.06,-.06],[.05,.05]];
+  function homeSlots(n){
+    var cols=fW<430?2:4, rows=Math.ceil(n/cols), out=[];
+    for(var i=0;i<n;i++){
+      var c=i%cols, r=Math.floor(i/cols), j=JIT[i%JIT.length];
+      out.push({x:fW*(c+.5)/cols + fW*j[0]*.18, y:fH*(r+.5)/rows + fH*j[1]*.22});
+    }
+    return out;
+  }
+
+  function buildBlobs(){
+    field.innerHTML='';
+    bodies=[]; openCat=-1;
+    fW=field.clientWidth; fH=field.clientHeight;
+    if(!fW||!fH) return;
+    var slots=homeSlots(cats.length);
+    var rad=fW<430?36:56;
+    cats.forEach(function(cat,i){
+      var b=document.createElement('button');
+      b.type='button';
+      b.className='blob';
+      b.setAttribute('aria-expanded','false');
+      b.setAttribute('aria-label',cat.name+', '+cat.skills.length+' items');
+      b.innerHTML='<span>'+cat.short+'<span class="cnt">'+cat.skills.length+'</span></span>';
+      b.style.width=b.style.height=(rad*2)+'px';
+      field.appendChild(b);
+      bodies.push({el:b,kind:'blob',cat:i,r:rad,cr:rad,hw:rad+3,hh:rad+3,
+        x:slots[i].x,y:slots[i].y,bx:slots[i].x,by:slots[i].y,
+        hx:slots[i].x,hy:slots[i].y,vx:0,vy:0,ph:i*.83,amp:7+(i%3)*3});
+      b.addEventListener('click',function(ev){
+        ev.preventDefault(); popIt(b); sparkBurst(b);
+        toggleCat(i);
+        shockFromEl(b,520);
+      });
+    });
+    place();
+  }
+
+  function burst(ci){
+    var parent=null;
+    for(var i=0;i<bodies.length;i++) if(bodies[i].kind==='blob'&&bodies[i].cat===ci) parent=bodies[i];
+    if(!parent) return;
+    var list=cats[ci].skills, n=list.length;
+    var cx=parent.bx*.25+(fW/2)*.75, cy=parent.by*.25+(fH/2)*.75;
+    list.forEach(function(sk,k){
+      var el=document.createElement('span');
+      el.className='mote'; el.textContent=sk;
+      var w=Math.min(measure(sk,'mote'),Math.max(96,fW-16));
+      el.style.width=w+'px'; el.style.height='28px'; el.style.borderRadius='999px';
+      field.appendChild(el);
+      (function(node){
+        node.addEventListener('mouseenter',function(){ setBoost(node,15); });
+        node.addEventListener('mouseleave',function(){ setBoost(node,0); });
+        node.addEventListener('click',function(ev){
+          ev.stopPropagation(); popIt(node); sparkBurst(node);
+          shockFromEl(node,620);
+        });
+      })(el);
+      /* one ring up to 8 items, two beyond, so 15 pills still have room */
+      var two=n>8, ring=two?(k%2):0;
+      var inRing=two?Math.ceil(n/2):n, idx=two?Math.floor(k/2):k;
+      var ang=(idx/inRing)*6.2832+ci+(ring?.62:0);
+      var spread=parent.r+(ring?152:88);
+      bodies.push({el:el,kind:'mote',cat:ci,r:w/2,cr:w/2*.96,hw:w/2+4,hh:18,
+        x:parent.x,y:parent.y,
+        bx:Math.max(w/2+6,Math.min(fW-w/2-6,cx+Math.cos(ang)*spread)),
+        by:Math.max(22,Math.min(fH-22,cy+Math.sin(ang)*spread)),
+        hx:parent.x,hy:parent.y,ph:k*.7+ci,amp:4+(k%3)*2,
+        vx:Math.cos(ang)*170,vy:Math.sin(ang)*170});
+    });
+    parent.el.setAttribute('aria-expanded','true');
+    if(n>10) field.classList.add('wide');
+  }
+
+  function unburst(ci){
+    var keep=[],parent=null;
+    for(var i=0;i<bodies.length;i++) if(bodies[i].kind==='blob'&&bodies[i].cat===ci) parent=bodies[i];
+    bodies.forEach(function(b){
+      if(b.kind==='mote'&&b.cat===ci){
+        b.el.style.opacity='0';
+        if(parent){ b.hx=parent.x; b.hy=parent.y; }
+        var el=b.el;
+        setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); },340);
+      } else keep.push(b);
+    });
+    bodies=keep;
+    field.classList.remove('wide');
+    if(parent) parent.el.setAttribute('aria-expanded','false');
+  }
+
+  function toggleCat(ci){
+    if(openCat===ci){ unburst(ci); openCat=-1; }
+    else{
+      if(openCat>=0) unburst(openCat);
+      burst(ci); openCat=ci;
+    }
+    kKick();
+  }
+
+  function place(){
+    for(var i=0;i<bodies.length;i++){
+      var b=bodies[i];
+      b.el.style.transform='translate('+(b.x-b.r).toFixed(1)+'px,'+(b.y-(b.kind==='mote'?14:b.r)).toFixed(1)+'px)';
+    }
+  }
+
+  var kT=0;
+  function kTick(dt){
+    var i,j,moving=false;
+    kT+=dt;
+    fW=field.clientWidth||fW; fH=field.clientHeight||fH;
+    for(i=0;i<bodies.length;i++){
+      var b=bodies[i];
+      if(b.bx!==undefined){
+        b.hx=b.bx+Math.cos(kT*.5+b.ph)*b.amp;
+        b.hy=b.by+Math.sin(kT*.37+b.ph*1.7)*b.amp*.7;
+      }
+      var hk=(b.kind==='mote')?16:30;
+      var fx=-hk*(b.x-b.hx)-7.5*b.vx;
+      var fy=-hk*(b.y-b.hy)-7.5*b.vy;
+      if(fine&&kVisible){
+        var fr=field.getBoundingClientRect();
+        var lx=mx-fr.left, ly=my-fr.top;
+        var dx=b.x-lx, dy=b.y-ly, d2=dx*dx+dy*dy;
+        var reach=(b.cr+48);
+        if(d2<reach*reach&&d2>1){
+          var d=Math.sqrt(d2);
+          var push=(1-d/reach)*1050/d;
+          fx+=dx*push; fy+=dy*push;
+        }
+      }
+      b.vx+=fx*dt; b.vy+=fy*dt;
+    }
+    /* box separation, resolved along whichever axis is least penetrated */
+    for(var pass=0;pass<7;pass++){
+      for(i=0;i<bodies.length;i++){
+        for(j=i+1;j<bodies.length;j++){
+          var a=bodies[i], c=bodies[j];
+          var dx2=c.x-a.x, dy2=c.y-a.y;
+          var ox=(a.hw+c.hw)-Math.abs(dx2);
+          var oy=(a.hh+c.hh)-Math.abs(dy2);
+          if(ox>0&&oy>0){
+            if(ox<oy){
+              var sx=(dx2<0?-1:1)*ox*.5;
+              a.x-=sx; c.x+=sx;
+              var rvx=(c.vx-a.vx)*(dx2<0?-1:1);
+              if(rvx<0){ var ix=rvx*.5*(dx2<0?-1:1); a.vx+=ix; c.vx-=ix; }
+            } else {
+              var sy=(dy2<0?-1:1)*oy*.5;
+              a.y-=sy; c.y+=sy;
+              var rvy=(c.vy-a.vy)*(dy2<0?-1:1);
+              if(rvy<0){ var iy=rvy*.5*(dy2<0?-1:1); a.vy+=iy; c.vy-=iy; }
+            }
+            moving=true;
+          }
+        }
+      }
+    }
+    for(i=0;i<bodies.length;i++){
+      var b2=bodies[i];
+      b2.x+=b2.vx*dt; b2.y+=b2.vy*dt;
+      if(b2.x<b2.hw){ b2.x=b2.hw; b2.vx*=-.4 }
+      if(b2.x>fW-b2.hw){ b2.x=fW-b2.hw; b2.vx*=-.4 }
+      if(b2.y<b2.hh){ b2.y=b2.hh; b2.vy*=-.4 }
+      if(b2.y>fH-b2.hh){ b2.y=fH-b2.hh; b2.vy*=-.4 }
+      if(Math.abs(b2.vx)>.6||Math.abs(b2.vy)>.6) moving=true;
+    }
+    place();
+    return true;
+  }
+  function kLoop(now){
+    var dt=Math.min((now-kPrev)/1000,.032); kPrev=now;
+    var moving=kTick(dt);
+    if(moving&&kVisible&&document.visibilityState==='visible') requestAnimationFrame(kLoop);
+    else kRun=false;
+  }
+  function kKick(){
+    if(kRun||reduce||!bodies.length) return;
+    kRun=true; kPrev=performance.now(); requestAnimationFrame(kLoop);
+  }
+  /* deterministic handle so the physics can be stepped and inspected in tests */
+  window.__kitStep=function(n,dt){ for(var i=0;i<(n||1);i++) kTick(dt||.016); return bodies.length; };
+
+  [].slice.call(kitlist.querySelectorAll('.chips li')).forEach(function(li){
+    li.addEventListener('click',function(){ popIt(li); sparkBurst(li); });
+  });
+
+  var vb=document.getElementById('viewBlobs'), vl=document.getElementById('viewList');
+  function setView(mode){
+    var blobs=(mode==='blobs');
+    root.classList.toggle('blobmode',blobs);
+    vb.setAttribute('aria-pressed',blobs?'true':'false');
+    vl.setAttribute('aria-pressed',blobs?'false':'true');
+    if(blobs&&!bodies.length){ buildBlobs(); kKick(); }
+  }
+  vb.addEventListener('click',function(){setView('blobs')});
+  vl.addEventListener('click',function(){setView('list')});
+  setView(reduce?'list':'blobs');
+
+  if(field){
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){ kVisible=e.isIntersecting; if(kVisible) kKick(); });
+    },{threshold:.05}).observe(field);
+    if(fine) field.addEventListener('mousemove',kKick,{passive:true});
+  }
+
+  /* ================= reveal + fallbacks ================= */
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){
       if(!e.isIntersecting) return;
@@ -942,12 +1473,20 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
       if(!hasView) t.classList.add('in');
       if(t.classList.contains('job')) t.classList.add('on');
       if(t.id==='tl'&&!hasView) t.classList.add('drawn');
-      if(t.classList.contains('kitgrp')) stagger(t);
       io.unobserve(t);
     });
   },{threshold:.12,rootMargin:'0px 0px -4% 0px'});
-  document.querySelectorAll('.rv,.from-r,.from-l,.from-b,.emerge,.job,.kitgrp,#tl')
-    .forEach(function(el){io.observe(el)});
+  document.querySelectorAll('.rv,.cardturn,.job,#tl').forEach(function(el){io.observe(el)});
+
+  /* Only force the scroll-linked pieces when view() is missing. Adding .in while
+     the timeline works would pin everything and kill the staged entrances. */
+  setTimeout(function(){
+    if(!hasView){
+      document.querySelectorAll('.rv,.cardturn,.jin').forEach(function(el){el.classList.add('in')});
+      var tl=document.getElementById('tl'); if(tl) tl.classList.add('drawn');
+    }
+    document.querySelectorAll('.job').forEach(function(j){j.classList.add('on')});
+  },4200);
 
   if(!CSS.supports('animation-timeline: scroll(root block)')){
     var bar=document.querySelector('.rail span');
@@ -957,28 +1496,119 @@ footer a:hover{color:var(--turq);border-color:var(--turq)}
     },{passive:true});
   }
 
-  /* failsafe: nothing that starts at opacity 0 may stay invisible */
-  setTimeout(function(){
-    document.querySelectorAll(".rv,.from-r,.from-l,.from-b,.emerge").forEach(function(el){el.classList.add("in")});
-    document.querySelectorAll(".chip").forEach(function(c){c.classList.add("on")});
-    document.querySelectorAll(".job").forEach(function(j){j.classList.add("on")});
-    var tl=document.getElementById("tl"); if(tl) tl.classList.add("drawn");
-  },4200);
+  /* ================= gantry rig =================
+     One progress number per stage drives every part, so the clamp cannot drift
+     from the shaft, and the grip cannot slide off the middle of what it holds. */
+  var rigs=[].slice.call(document.querySelectorAll('.stage')).map(function(st){
+    var sv=st.querySelector('.prop');
+    if(!sv) return null;
+    return {st:st,sv:sv,dir:sv.classList.contains('gL')?-1:1,
+      carriage:sv.querySelector('.carriage'), item:sv.querySelector('.item'),
+      shaft:sv.querySelector('.shaft'),     lift:sv.querySelector('.lift'),
+      jawL:sv.querySelector('.jawL'),       jawR:sv.querySelector('.jawR'),
+      fanA:sv.querySelector('.fanA'),       fanB:sv.querySelector('.fanB')};
+  }).filter(Boolean);
 
-  /* ---------- dock: mark the section you are in ---------- */
-  var links=[].slice.call(document.querySelectorAll('.dock a'));
-  var targets=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
-  function markDock(){
-    var best=0, mid=innerHeight*.42;
-    targets.forEach(function(t,i){
-      if(!t) return;
-      var r=t.getBoundingClientRect();
-      if(r.top<=mid) best=i;
-    });
-    links.forEach(function(a,i){ a.classList.toggle('on',i===best) });
+  function seg(v,a,b){ return v<=a?0:(v>=b?1:(v-a)/(b-a)); }
+  function ez(x){ return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2; }
+
+  function setRig(r,p){
+    var off=242*r.dir;
+    var pin =ez(seg(p,.04,.30));   /* carriage rides in, shaft up      */
+    var pdn =ez(seg(p,.34,.54));   /* shaft lowers the item            */
+    var pjaw=ez(seg(p,.54,.64));   /* jaws release                     */
+    var pup =ez(seg(p,.66,.80));   /* shaft retracts, clamp comes home */
+    var pout=ez(seg(p,.84,1));     /* carriage rides out               */
+    var fan =ez(seg(p,.50,.76));
+
+    var ix=off*(1-pin);                    /* item x: arrives, then stays */
+    var iy=-52*(1-pdn);                    /* item y: lowers, then stays  */
+    var ly=iy*(1-pup)+(-52)*pup;           /* clamp follows down, then up */
+    var sc=(.2+.8*pdn)*(1-pup)+.2*pup;     /* shaft matches the clamp     */
+    var jw=5*pjaw;
+
+    r.carriage.style.transform='translateX('+(150+ix+off*pout).toFixed(2)+'px)';
+    r.item.style.transform='translate('+ix.toFixed(2)+'px,'+iy.toFixed(2)+'px)';
+    r.item.style.opacity=(.55+.45*Math.min(1,pin*2)).toFixed(3);
+    r.shaft.style.transform='scaleY('+sc.toFixed(4)+')';
+    r.lift.style.transform='translateY('+ly.toFixed(2)+'px)';
+    if(r.jawL) r.jawL.style.transform='translateX('+(-jw).toFixed(2)+'px)';
+    if(r.jawR) r.jawR.style.transform='translateX('+jw.toFixed(2)+'px)';
+    if(r.fanA) r.fanA.style.transform='rotate('+(7-13*fan).toFixed(2)+'deg) translate('+(5-12*fan).toFixed(2)+'px,'+(3-5*fan).toFixed(2)+'px)';
+    if(r.fanB) r.fanB.style.transform='rotate('+(14-27*fan).toFixed(2)+'deg) translate('+(10-26*fan).toFixed(2)+'px,'+(7-12*fan).toFixed(2)+'px)';
   }
-  addEventListener('scroll',markDock,{passive:true});
-  markDock();
+
+  function rigProgress(st){
+    var b=st.getBoundingClientRect();
+    var total=innerHeight+b.height;
+    return total<=0?0:Math.max(0,Math.min(1,(innerHeight-b.top)/total));
+  }
+  function updateRigs(){
+    if(reduce||!rigs.length) return;
+    var ps=[],i;
+    for(i=0;i<rigs.length;i++) ps.push(rigProgress(rigs[i].st));  /* read, then write */
+    for(i=0;i<rigs.length;i++) setRig(rigs[i],ps[i]);
+  }
+  if(!reduce&&rigs.length){
+    rigs.forEach(function(r){ r.sv.classList.add('rigged'); });
+    updateRigs();
+    /* deterministic handles so the choreography can be inspected at any progress */
+    window.__setRig=function(i,p){ if(!rigs[i]) return false; setRig(rigs[i],p); return true; };
+    window.__rigEl=function(sv,dir,p){
+      setRig({sv:sv,dir:dir,
+        carriage:sv.querySelector('.carriage'), item:sv.querySelector('.item'),
+        shaft:sv.querySelector('.shaft'),      lift:sv.querySelector('.lift'),
+        jawL:sv.querySelector('.jawL'),        jawR:sv.querySelector('.jawR'),
+        fanA:sv.querySelector('.fanA'),        fanB:sv.querySelector('.fanB')},p);
+      sv.classList.add('rigged');
+    };
+  }
+
+  /* ================= dock + hero parallax ================= */
+  var dockLinks=[].slice.call(document.querySelectorAll('.dock a'));
+  var ind=document.getElementById('ind');
+  var targets=dockLinks.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  var heroin=document.getElementById('heroin');
+  var lastBest=-1;
+  function onScroll(){
+    var best=0, mid=innerHeight*.42;
+    for(var i=0;i<targets.length;i++){
+      if(targets[i]&&targets[i].getBoundingClientRect().top<=mid) best=i;
+    }
+    var doc=document.documentElement;
+    if(innerHeight+scrollY>=doc.scrollHeight-6) best=targets.length-1;
+    if(best!==lastBest){
+      lastBest=best;
+      dockLinks.forEach(function(a,i){ a.classList.toggle('on',i===best) });
+      if(ind&&dockLinks[best]){
+        var idx=dockLinks[best], idy=dockLinks[0];
+        ind.style.transform='translate('+(idx.offsetLeft-idy.offsetLeft)+'px,'+(idx.offsetTop-idy.offsetTop)+'px)';
+      }
+    }
+    updateRigs();
+    if(heroin&&!reduce){
+      var y=Math.min(scrollY,640);
+      heroin.style.transform='translateY('+(-y*.16).toFixed(1)+'px)';
+      heroin.style.opacity=String(Math.max(0,1-y/560));
+    }
+  }
+  addEventListener('scroll',onScroll,{passive:true});
+  var rzT=0;
+  addEventListener('resize',function(){
+    layout(); draw(); paintGradient(); lastBest=-1; onScroll();
+    if(root.classList.contains('blobmode')){
+      clearTimeout(rzT);
+      rzT=setTimeout(function(){
+        /* rebuilding wipes the field, so remember what was open and restore it,
+           otherwise a resize or a phone rotation silently closes the category */
+        var wasOpen=openCat;
+        buildBlobs();
+        if(wasOpen>=0){ burst(wasOpen); openCat=wasOpen; }
+        kKick();
+      },160);
+    }
+  });
+  onScroll();
 })();
 </script>
 </body>
